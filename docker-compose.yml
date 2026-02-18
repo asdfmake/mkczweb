@@ -1,0 +1,10 @@
+services:
+
+  vica-bek:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vica-front-image
+    container_name: VicaFront  # Custom container name
+    ports:
+      - "3000:3000"

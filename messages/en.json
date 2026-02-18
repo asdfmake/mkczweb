@@ -1,0 +1,41 @@
+{
+    "Homepage": {
+        "Header":"engleski",
+        "hero_cta": "Learn more",
+        "header": "Foilists won second place at the European Championship",
+        "news": "NEWS",
+        "view_all_news": "View all news",
+        "info_title": "Commitment to success",
+        "info": "The Red Star Fencing Club was founded to promote and develop fencing in Serbia and quickly became the leading center for this sport. The club has produced many top athletes who have achieved significant results in national and international competitions, fostering team spirit, perseverance, and dedication to fencing.",
+        "explore_weapons": "Explore weapons",
+        "full_name": "Red Star Fencing Club",
+        "short_name": "RSFC",
+        "coaches": "Coaches"
+    },
+    "Organi": {
+        "members": "Members",
+        "bodies": "Governing bodies"
+    },
+    "Footer": {
+        "copyright": "Copyright © 2024 Red Star Fencing Club official portal. All rights reserved.",
+        "about us": "ABOUT US",
+        "news": "NEWS",
+        "organs": "GOVERNING BODIES",
+        "documents": "DOCUMENTS",
+        "contacts": "CONTACT"
+    },
+    "Navbar": {
+        "about us": "ABOUT US",
+        "news": "NEWS",
+        "organs": "GOVERNING BODIES",
+        "documents": "DOCUMENTS",
+        "contacts": "CONTACT"
+    },
+    "Vesti": {
+        "news": "NEWS"
+    },
+    "Kontakt": {
+        "contact": "Contact us",
+        "lokacija": "Belgrade"
+    }
+}

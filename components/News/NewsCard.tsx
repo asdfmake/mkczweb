@@ -1,0 +1,44 @@
+import { Link } from "@/i18n/routing";
+import Image from "next/image";
+import React from "react";
+
+interface NewsCardProps {
+  title: string;
+  bodyEng?: string;
+  bodySr: string;
+  date: string;
+  img: string;
+  className?: string;
+  id: number;
+}
+
+function NewsCard({ className, date, title, img, bodySr, id }: NewsCardProps) {
+  return (
+    <div
+      className={`rounded-[20px] p-[8px] bg-white w-[336px] border border-[#CDCDCD] ${className}`}
+    >
+      <Link href={`/vesti/${id}`} prefetch={true}>
+        <div className="h-[300px] w-full overflow-hidden rounded-[12px]">
+          <Image
+            src={`${process.env.BACKEND}api/getImage?imageName=${img}`}
+            alt="newsIMG"
+            width={480} // Original width (can be adjusted)
+            height={300} // Original height (can be adjusted)
+            className="w-full h-full object-cover" // Ensures the image covers the container
+          />
+        </div>
+      </Link>
+      <div className="text-[16px] font-body px-[16px] pt-[16px]">{date}</div>
+      <Link href={`/vesti/${id}`} prefetch={true}>
+        <div className="text-[20px] font-bold text-red font-body px-[16px]">
+          {title}
+        </div>
+      </Link>
+      <div className="text-[14px] font-body px-[16px] pt-[16px] mb-[16px] line-clamp-3 overflow-hidden text-ellipsis">
+        {bodySr}
+      </div>
+    </div>
+  );
+}
+
+export default NewsCard;

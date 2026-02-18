@@ -1,0 +1,40 @@
+{
+    "Homepage":{
+        "hero_cta":"Saznaj vise",
+        "header": "Floretasi osvojili drugo mesto na evropskom prvenstvo",
+        "news": "ВЕСТИ",
+        "view_all_news": "Pogledaj sve vesti",
+        "info_title": "Posvecenost uspehu",
+        "info": "Мачевалачки клуб Црвена звезда основан је ради промоције и развоја мачевања у Србији и брзо је постао водећи центар за овај спорт. Клуб је изнедрио многе врхунске спортисте који су остварили значајне резултате на домаћим и међународним такмичењима, негујући тимски дух, борбеност и посвећеност мачевању.",
+        "explore_weapons": "istrazite oruzja",
+        "full_name": "MK Crvena Zvezda",
+        "short_name": "MKCZ",
+        "coaches": "Treneri"
+    },
+    "Organi":{
+        "members":"clanovi",
+        "bodies": "organi saveza"
+    },
+    "Footer":{
+        "copyright":"Copyright ©  2024 MК Црвена звезда званични портал. Сва права задржана.",
+        "about us": "О НАМА",
+        "news": "ВЕСТИ",
+        "organs":"ОРГАНИ САВЕЗА",
+        "documents":"ДОКУМЕНТА",
+        "contacts":"КОНТАКТ"
+    },
+    "Navbar":{
+        "about us": "О НАМА",
+        "news": "ВЕСТИ",
+        "organs":"ОРГАНИ САВЕЗА",
+        "documents":"ДОКУМЕНТА",
+        "contacts":"КОНТАКТ"
+    },
+    "Vesti":{
+        "news": "VESTI"
+    },
+    "Kontakt":{
+        "contact": "Kontaktirajte nas",
+        "lokacija": "Beograd"
+    }
+}
