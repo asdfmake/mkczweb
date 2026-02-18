@@ -20,7 +20,7 @@ function NewsCard({ className, date, title, img, bodySr, id }: NewsCardProps) {
       <Link href={`/vesti/${id}`} prefetch={true}>
         <div className="h-[300px] w-full overflow-hidden rounded-[12px]">
           <Image
-            src={`${process.env.BACKEND}api/getImage?imageName=${img}`}
+            src={`/uploads/${img}`}
             alt="newsIMG"
             width={480} // Original width (can be adjusted)
             height={300} // Original height (can be adjusted)
