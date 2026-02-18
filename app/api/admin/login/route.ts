@@ -28,10 +28,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create a signed token
+    // Create a token that matches what the middleware expects
     const token = crypto
       .createHash("sha256")
-      .update(adminPassword + process.env.DATABASE_URL)
+      .update(adminPassword)
       .digest("hex");
 
     const response = NextResponse.json({ success: true });
