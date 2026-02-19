@@ -12,13 +12,13 @@ function Navbar() {
     <>
       <nav className="h-[139px] hidden absolute top-0 left-0 right-0 sm:grid px-[33px] sm:px-0 grid-cols-[76px_1fr_76px] sm:grid-cols-[1fr_64px_1fr] md:grid-cols-[1fr_94px_1fr] items-center lg:gap-[50px] md:gap-[3-px] z-50 font-body lg:text-[20px] md:text-[16px] sm:text-[14px]">
         <div className="hidden sm:flex gap-[40px] justify-end">
-          {NavLinksLeft.map((link) => {
+          {NavLinksLeft.map((link, index) => {
             return (
               <NavbarItem
                 icon={link.icon}
                 text={!!link.text ? t(link.text) : ""}
                 link={link.link}
-                key={link.text}
+                key={index}
               />
             );
           })}
@@ -31,13 +31,13 @@ function Navbar() {
           <Image alt="logo" src="/bars.svg" width={45} height={45} />
         </div>
         <div className="hidden sm:flex gap-[40px]">
-          {NavLinksRight.map((link) => {
+          {NavLinksRight.map((link, index) => {
             return (
               <NavbarItem
                 icon={link.icon}
                 text={!!link.text ? t(link.text) : ""}
                 link={link.link}
-                key={link.text}
+                key={index}
               />
             );
           })}
