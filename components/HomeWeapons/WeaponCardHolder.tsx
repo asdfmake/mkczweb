@@ -1,28 +1,31 @@
 "use client";
 import React, { useState } from "react";
-import ModelCard from "../ModelCard/ModelCard";
 import WeaponCard from "./WeaponCard";
+import { useTranslations } from "next-intl";
+
+const weapons = [
+  { slug: "saber", image: "/weapons/saber.jpg", translationKey: "saber" },
+  { slug: "epee", image: "/weapons/epee.jpg", translationKey: "epee" },
+  { slug: "foil", image: "/weapons/foil.jpg", translationKey: "foil" },
+] as const;
 
 function WeaponCardHolder() {
-  const [activeCard, setActiveCard] = useState(1);
+  const [activeCard, setActiveCard] = useState(0);
+  const t = useTranslations("Weapons");
 
   return (
-    <div className=" xl:mx-[264px] flex flex-col justify-between gap-[16px] h-[675px] sm:h-[520px] sm:flex-row">
-      <WeaponCard
-        item={1}
-        active={activeCard === 1}
-        setActiveCard={setActiveCard}
-      />
-      <WeaponCard
-        item={2}
-        active={activeCard === 2}
-        setActiveCard={setActiveCard}
-      />
-      <WeaponCard
-        item={3}
-        active={activeCard === 3}
-        setActiveCard={setActiveCard}
-      />
+    <div className="xl:mx-[264px] flex flex-col justify-between gap-4 h-[675px] sm:h-[520px] sm:flex-row">
+      {weapons.map((weapon, index) => (
+        <WeaponCard
+          key={weapon.slug}
+          item={index}
+          active={activeCard === index}
+          setActiveCard={setActiveCard}
+          name={t(weapon.translationKey)}
+          image={weapon.image}
+          slug={weapon.slug}
+        />
+      ))}
     </div>
   );
 }

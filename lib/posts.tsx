@@ -71,6 +71,29 @@ export async function getFeaturedNews(): Promise<NewsDetailResult[]> {
   }
 }
 
+export async function getLatestFeaturedArticle(): Promise<NewsDetailResult | null> {
+  try {
+    const article = await prisma.newsArticle.findFirst({
+      where: { featured: true },
+      include: { images: true },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!article) return null;
+
+    return {
+      newsId: article.id,
+      newsHeader: article.header,
+      newsText: article.text,
+      date: article.date,
+      images: article.images.map((img) => ({ name: img.filename })),
+    };
+  } catch (error) {
+    console.error("Error fetching latest featured article:", error);
+    return null;
+  }
+}
+
 export async function getNewsPaginated(
   page: number = 0,
   pageSize: number = 12

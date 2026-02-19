@@ -10,6 +10,7 @@ import Image from "next/image";
 import NavbarItem from "./NavbarItem";
 import { NavLinksLeft, NavLinksRight } from "@/constants/Navbar";
 import { useTranslations } from "next-intl";
+import ThemeToggle from "./ThemeToggle";
 
 function NavbarMobile() {
   const t = useTranslations("Navbar");
@@ -21,7 +22,7 @@ function NavbarMobile() {
           <Image alt="logo" src="/bars.svg" width={45} height={45} />
         </DrawerTrigger>
         <DrawerTitle></DrawerTitle>
-        <DrawerContent className="flex flex-col pb-3 z-10">
+        <DrawerContent className="flex flex-col pb-3 z-10 bg-background">
           <div className="h-full">
             <div className="flex justify-between w-full items-center px-3">
               <Image alt="logo" src="/logoRed.svg" width={94} height={94} />
@@ -29,7 +30,7 @@ function NavbarMobile() {
                 <Image alt="logo" src="/cross.svg" width={30} height={30} />
               </DrawerClose>
             </div>
-            <div className="h-full flex flex-col  mt-16 text-xl font-heading font-bold text-red">
+            <div className="h-full flex flex-col mt-16 text-xl font-heading font-bold text-red">
               {NavLinksLeft.concat(NavLinksRight).map((link, index) => {
                 return (
                   <NavbarItem
@@ -40,6 +41,9 @@ function NavbarMobile() {
                   />
                 );
               })}
+              <div className="mt-4 px-4">
+                <ThemeToggle variant="mobile" />
+              </div>
             </div>
           </div>
         </DrawerContent>

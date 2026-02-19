@@ -15,7 +15,7 @@ interface NewsCardProps {
 function NewsCard({ className, date, title, img, bodySr, id }: NewsCardProps) {
   return (
     <div
-      className={`rounded-[20px] p-[8px] bg-white w-[336px] border border-[#CDCDCD] ${className}`}
+      className={`rounded-[20px] p-[8px] bg-white dark:bg-card w-[336px] border border-[#CDCDCD] dark:border-border ${className}`}
     >
       <Link href={`/vesti/${id}`} prefetch={true}>
         <div className="h-[300px] w-full overflow-hidden rounded-[12px]">
@@ -28,13 +28,13 @@ function NewsCard({ className, date, title, img, bodySr, id }: NewsCardProps) {
           />
         </div>
       </Link>
-      <div className="text-[16px] font-body px-[16px] pt-[16px]">{date}</div>
+      <div className="text-[16px] font-body px-[16px] pt-[16px] text-foreground">{date}</div>
       <Link href={`/vesti/${id}`} prefetch={true}>
         <div className="text-[20px] font-bold text-red font-body px-[16px]">
           {title}
         </div>
       </Link>
-      <div className="text-[14px] font-body px-[16px] pt-[16px] mb-[16px] line-clamp-3 overflow-hidden text-ellipsis">
+      <div className="text-[14px] font-body px-[16px] pt-[16px] mb-[16px] line-clamp-3 overflow-hidden text-ellipsis text-foreground/80">
         {bodySr}
       </div>
     </div>

@@ -36,5 +36,25 @@
     "Kontakt":{
         "contact": "Kontaktirajte nas",
         "lokacija": "Beograd"
+    },
+    "Weapons": {
+        "saber": "Sablja",
+        "epee": "Macevanje",
+        "foil": "Floret",
+        "saber_description": "Sablja je oruzje za seckanje i ubadanje koje cilja celo telo iznad struka, ukljucujuci glavu i ruke. Sabljanje je najbrza od tri discipline, karakteristicno po eksplozivnim napadima, dinamicnom radu nogu i pravilima prednosti napada.",
+        "epee_description": "Macevanje je oruzje za ubadanje gde je celo telo vazeca meta. Nema pravila prednosti -- prvi macovalac koji pogodi osvaja poen. Macevanje nagraduje strpljenje, precizno tajmiranje i takticku odbranu.",
+        "foil_description": "Floret je oruzje za ubadanje koje cilja trup (napred i nazad). Floret koristi pravila prednosti, zahtevajuci od macovalaca da uspostave prioritet kroz napad pre osvajanja poena. Naglasava tehniku, rad ostrjem i strateske razmene.",
+        "target_area": "Ciljna zona",
+        "rules": "Pravila",
+        "saber_target": "Gornji deo tela iznad struka, ukljucujuci glavu i ruke",
+        "epee_target": "Celo telo od glave do pete",
+        "foil_target": "Trup (napred i nazad), iskljucujuci ruke, noge i glavu",
+        "saber_rules": "Pravilo prednosti se primenjuje. Dozvoljeno je i seckanje i ubadanje. Napadac ima prioritet -- branilac mora da parira pre kontranapada.",
+        "epee_rules": "Nema pravila prednosti. Dozvoljeno je samo ubadanje. Istovremeni pogoci rezultiraju poenom za oba macavaoca. Strpljenje i kontrola distance su kljucni.",
+        "foil_rules": "Pravilo prednosti se primenjuje. Dozvoljeno je samo ubadanje. Napadac koji prvi inicira ima prioritet. Rad ostrjem i tehnika odredjuju ko osvaja poen.",
+        "back_home": "Nazad na pocetnu",
+        "learn_more": "Saznaj vise o",
+        "featured_article": "Istaknuti clanak",
+        "read_more": "Procitaj vise"
     }
 }
