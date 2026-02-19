@@ -30,13 +30,13 @@ function NavbarMobile() {
               </DrawerClose>
             </div>
             <div className="h-full flex flex-col  mt-16 text-xl font-heading font-bold text-red">
-              {NavLinksLeft.concat(NavLinksRight).map((link) => {
+              {NavLinksLeft.concat(NavLinksRight).map((link, index) => {
                 return (
                   <NavbarItem
                     icon={link.icon}
                     text={link.text ? t(link.text) : ""}
                     link={link.link}
-                    key={link.text}
+                    key={link.text ?? `nav-item-${index}`}
                   />
                 );
               })}
