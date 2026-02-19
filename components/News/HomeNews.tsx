@@ -7,9 +7,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { getFeaturedNews } from "@/lib/posts";
+
 export interface News {
   newsId: number;
   newsHeader: string;
@@ -23,10 +23,9 @@ export interface Image {
 }
 
 async function HomeNews() {
-  console.log("1");
-  const featuredNews = getFeaturedNews();
+  const featuredNews = await getFeaturedNews();
 
-  if (!featuredNews) return <div></div>;
+  if (!featuredNews || featuredNews.length === 0) return <div></div>;
 
   return (
     <div className="py-[32px] px-[24px] bg-red">

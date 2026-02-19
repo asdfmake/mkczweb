@@ -1,6 +1,4 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import { Link } from "@/i18n/routing";
 import News from "@/components/News/News";
 import HomeNews from "@/components/News/HomeNews";
 import { getNewsDetail } from "@/lib/posts";
@@ -17,29 +15,31 @@ export interface NewsDetail {
 export default async function NewsDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>; // Correctly typed params
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const newsId = parseInt(id);
 
   if (isNaN(newsId)) {
-    notFound(); // Invalid ID, show 404 page
+    notFound();
   }
 
   const news = await getNewsDetail(newsId);
   if (!news) notFound();
 
   if (news?.message === "not found") {
-    notFound(); // News not found, show 404 page
+    notFound();
   }
 
   return (
     <>
       <main>
         <div
-          className="absolute top-0 left-0 right-0 overflow-hidden bg-cover bg-top bg-no-repeat p-12 text-center h-[846px] grid lg:grid-cols-2  md:px-56 lg:px-72 -z-10"
+          className="absolute top-0 left-0 right-0 overflow-hidden bg-cover bg-top bg-no-repeat p-12 text-center h-[846px] grid lg:grid-cols-2 md:px-56 lg:px-72 -z-10"
           style={{
-            backgroundImage: `url(${process.env.BACKEND}api/getImage?imageName=${news?.images[0]?.name})`,
+            backgroundImage: news?.images[0]?.name
+              ? `url(/uploads/${news.images[0].name})`
+              : undefined,
           }}
         ></div>
 

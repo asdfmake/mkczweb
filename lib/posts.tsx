@@ -1,39 +1,116 @@
-import { NewsDetail } from "@/app/[locale]/vesti/[id]/page";
+import { prisma } from "@/lib/prisma";
 
-export async function getNewsDetail(id: number): Promise<NewsDetail | null> {
+export interface NewsDetailResult {
+  newsId: number;
+  newsHeader: string;
+  newsText: string;
+  date: string;
+  images: { name: string }[];
+  message?: string;
+}
+
+export interface NewsPaginatedResult {
+  data: {
+    newsId: number;
+    newsHeader: string;
+    newsText: string;
+    date: string;
+    images: { name: string }[];
+  }[];
+  metadata: {
+    totalPages: number;
+    pageSize: number;
+    currentPage: number;
+    totalCount: number;
+  };
+}
+
+export async function getNewsDetail(
+  id: number
+): Promise<NewsDetailResult | null> {
   try {
-    const response = await fetch(
-      `${process.env.BACKEND}api/getNewsDetail?id=${id}`
-    );
+    const article = await prisma.newsArticle.findUnique({
+      where: { id },
+      include: { images: true },
+    });
 
-    const data = await response.json();
-    return data;
+    if (!article) return null;
+
+    return {
+      newsId: article.id,
+      newsHeader: article.header,
+      newsText: article.text,
+      date: article.date,
+      images: article.images.map((img) => ({ name: img.filename })),
+    };
   } catch (error) {
     console.error("Error fetching news detail:", error);
     return null;
   }
 }
 
-let featuredNews: NewsDetail[] | null = null;
-let lastFetchTime = null;
-
-async function fetchFeaturedNews() {
+export async function getFeaturedNews(): Promise<NewsDetailResult[]> {
   try {
-    const response = await fetch(`${process.env.BACKEND}api/getFeaturedNews`);
+    const articles = await prisma.newsArticle.findMany({
+      where: { featured: true },
+      include: { images: true },
+      orderBy: { createdAt: "desc" },
+      take: 10,
+    });
 
-    const data = await response.json();
-    featuredNews = data;
-    lastFetchTime = Date.now();
+    return articles.map((article) => ({
+      newsId: article.id,
+      newsHeader: article.header,
+      newsText: article.text,
+      date: article.date,
+      images: article.images.map((img) => ({ name: img.filename })),
+    }));
   } catch (error) {
     console.error("Error fetching featured news:", error);
+    return [];
   }
 }
-// Fetch data immediately when the server starts
-fetchFeaturedNews();
 
-// Refresh data every hour (3600000 milliseconds)
-setInterval(fetchFeaturedNews, 3600000);
+export async function getNewsPaginated(
+  page: number = 0,
+  pageSize: number = 12
+): Promise<NewsPaginatedResult> {
+  try {
+    const [articles, totalCount] = await Promise.all([
+      prisma.newsArticle.findMany({
+        include: { images: true },
+        orderBy: { createdAt: "desc" },
+        skip: page * pageSize,
+        take: pageSize,
+      }),
+      prisma.newsArticle.count(),
+    ]);
 
-export const getFeaturedNews = () => {
-  return featuredNews;
-};
+    return {
+      data: articles.map((article) => ({
+        newsId: article.id,
+        newsHeader: article.header,
+        newsText: article.text,
+        date: article.date,
+        images: article.images.map((img) => ({ name: img.filename })),
+      })),
+      metadata: {
+        totalPages: Math.ceil(totalCount / pageSize),
+        pageSize,
+        currentPage: page,
+        totalCount,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching paginated news:", error);
+    return {
+      data: [],
+      metadata: {
+        totalPages: 0,
+        pageSize,
+        currentPage: page,
+        totalCount: 0,
+      },
+    };
+  }
+}
