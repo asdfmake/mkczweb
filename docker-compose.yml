@@ -5,6 +5,9 @@ services:
       context: .
       dockerfile: Dockerfile
     image: vica-front-image
-    container_name: VicaFront  # Custom container name
+    container_name: VicaFront
+    environment:
+      - ADMIN_PASSWORD=pass
+      - DATABASE_URL=postgresql://user:pass@host.docker.internal:5432/database
     ports:
       - "3000:3000"

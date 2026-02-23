@@ -19,7 +19,7 @@ function Footer() {
             return (
               <NavbarItem
                 icon={link.icon}
-                text={t(link.text)}
+                text={link.text ? t(link.text) : undefined}
                 link={link.link}
                 key={link.text}
               />

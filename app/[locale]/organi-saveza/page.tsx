@@ -50,7 +50,7 @@ const categoryTitles: Record<string, { en: string; sr: string }> = {
 export default async function OrganiSavezaPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
   const t = await getTranslations("Organi");
   const members = getOrganiSavezaMembers();
