@@ -54,7 +54,7 @@ export default async function OrganiSavezaPage({
 }) {
   const t = await getTranslations("Organi");
   const members = getOrganiSavezaMembers();
-  const locale = params.locale;
+  const locale = (await params).locale;
 
   return (
     <main>
