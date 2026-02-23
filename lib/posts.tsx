@@ -71,6 +71,27 @@ export async function getFeaturedNews(): Promise<NewsDetailResult[]> {
   }
 }
 
+export async function getLatestNews(limit: number = 10): Promise<NewsDetailResult[]> {
+  try {
+    const articles = await prisma.newsArticle.findMany({
+      include: { images: true },
+      orderBy: { createdAt: "desc" },
+      take: limit,
+    });
+
+    return articles.map((article) => ({
+      newsId: article.id,
+      newsHeader: article.header,
+      newsText: article.text,
+      date: article.date,
+      images: article.images.map((img) => ({ name: img.filename })),
+    }));
+  } catch (error) {
+    console.error("Error fetching latest news:", error);
+    return [];
+  }
+}
+
 export async function getLatestFeaturedArticle(): Promise<NewsDetailResult | null> {
   try {
     const article = await prisma.newsArticle.findFirst({
