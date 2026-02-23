@@ -28,7 +28,7 @@ export default async function AdminDashboard() {
           </div>
           <Link
             href="/admin/news/new"
-            className="px-5 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors"
+            className="px-5 py-2.5 bg-green-600 font-medium rounded-lg hover:bg-green-700 transition-colors"
           >
             New Article
           </Link>

@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: "MK Crvena Zvezda - Red Star Fencing Club Belgrade",
   description:
     "Official website of the Red Star Fencing Club (Macevalacki Klub Crvena Zvezda) from Belgrade, Serbia. Saber, epee, and foil training for all ages.",
+  icons: {
+    icon: "/logoRed.svg",
+  },
 };
 
 export default async function RootLayout({

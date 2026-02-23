@@ -36,7 +36,7 @@ export default function DeleteArticleButton({
         <button
           onClick={handleDelete}
           disabled={deleting}
-          className="px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50 transition-colors"
+          className="px-3 py-1.5 text-xs font-medium bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50 transition-colors"
         >
           {deleting ? "..." : "Confirm"}
         </button>
@@ -53,7 +53,7 @@ export default function DeleteArticleButton({
   return (
     <button
       onClick={() => setConfirming(true)}
-      className="px-3 py-1.5 text-xs font-medium text-red-600 bg-white border border-red-200 rounded-md hover:bg-red-50 transition-colors"
+      className="px-3 py-1.5 text-xs font-medium bg-red-600 border border-red-700 rounded-md hover:bg-red-700 transition-colors"
     >
       Delete
     </button>
