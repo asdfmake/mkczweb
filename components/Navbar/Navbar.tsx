@@ -42,7 +42,7 @@ function Navbar() {
               />
             );
           })}
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
         </div>
       </nav>
       <NavbarMobile />

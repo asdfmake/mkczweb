@@ -10,7 +10,7 @@ export default function ThemeToggle({ variant = "desktop" }: { variant?: "deskto
   useEffect(() => {
     setMounted(true);
     const saved = localStorage.getItem("theme");
-    if (saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+    if (saved === "dark") { //|| (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)
       setDark(true);
       document.documentElement.classList.add("dark");
     }
