@@ -9,6 +9,13 @@ interface Member {
   category: string;
 }
 
+/**
+ * Builds a mapping from category folder names to arrays of Member objects by scanning the `public/organi_saveza` directory.
+ *
+ * Each Member contains `name` (filename without extension), `picture` (URL path under `/organi_saveza/{category}/{file}`), and `category` (the folder name).
+ *
+ * @returns A record whose keys are category names and whose values are arrays of Member objects. If filesystem read errors occur the function returns whatever was collected (which may be empty).
+ */
 function getOrganiSavezaMembers(): Record<string, Member[]> {
   const baseDir = path.join(process.cwd(), "public", "organi_saveza");
   const categories: Record<string, Member[]> = {};
@@ -47,6 +54,16 @@ const categoryTitles: Record<string, { en: string; sr: string }> = {
   "fie sudije": { en: "FIE Referees", sr: "FIE Sudije" },
 };
 
+/**
+ * Render the Organi Saveza page with categorized member cards.
+ *
+ * The component fetches translations for the "Organi" namespace, loads members
+ * grouped by category, and selects localized category titles using the
+ * provided locale.
+ *
+ * @param params - A promise resolving to an object with a `locale` string used to select translations and localized category titles
+ * @returns A JSX element representing the Organi Saveza page
+ */
 export default async function OrganiSavezaPage({
   params,
 }: {

@@ -7,6 +7,13 @@ import NavbarMobile from "./NavbarMobile";
 import ThemeToggle from "./ThemeToggle";
 import { useTranslations } from "next-intl";
 
+/**
+ * Render the site's responsive navigation bar, including desktop links, centered logo, and mobile navigation.
+ *
+ * Renders left and right navigation items (translated when text keys are present), a centered logo linking to the home route, and the mobile navigation component.
+ *
+ * @returns The JSX element for the Navbar component (desktop nav and mobile nav wrapper).
+ */
 function Navbar() {
   const t = useTranslations("Navbar");
   return (

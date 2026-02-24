@@ -4,6 +4,11 @@ import { getLatestFeaturedArticle } from "@/lib/posts";
 import { getTranslations } from "next-intl/server";
 import Button from "../Button";
 
+/**
+ * Render the homepage hero section with a background image, header text, and call-to-action.
+ *
+ * @returns A React element containing a two-column hero layout: a header that displays the latest featured article's `newsHeader` when available (falls back to the "Homepage" translation `header`), and a CTA button using the "hero_cta" translation that links to `/vesti/{newsId}` when an article exists.
+ */
 async function Hero() {
   const article = await getLatestFeaturedArticle();
   const t = await getTranslations("Homepage");

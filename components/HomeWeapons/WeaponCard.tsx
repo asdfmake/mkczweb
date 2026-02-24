@@ -12,6 +12,17 @@ interface WeaponCardProps {
   image: string;
   slug: string;
 }
+/**
+ * Render a clickable weapon card that expands when active, displays the weapon image and name, and links to the weapon detail page.
+ *
+ * @param active - Whether the card is active; controls expanded layout and CTA visibility
+ * @param item - Numeric identifier for this card; passed to `setActiveCard` when clicked
+ * @param setActiveCard - Callback invoked with `item` to mark this card active
+ * @param name - Weapon display name shown in the card and used as the image alt text
+ * @param image - Image source URL used as the card background
+ * @param slug - URL slug appended to `/oruzja/` for the detail page link
+ * @returns A JSX element representing the weapon card
+ */
 function WeaponCard({
   active,
   item,

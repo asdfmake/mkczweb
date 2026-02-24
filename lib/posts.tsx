@@ -49,6 +49,11 @@ export async function getNewsDetail(
   }
 }
 
+/**
+ * Retrieve up to ten most recent featured news articles, including their images.
+ *
+ * @returns An array of news items in `NewsDetailResult` shape; returns an empty array if none are found or on error.
+ */
 export async function getFeaturedNews(): Promise<NewsDetailResult[]> {
   try {
     const articles = await prisma.newsArticle.findMany({
@@ -71,6 +76,12 @@ export async function getFeaturedNews(): Promise<NewsDetailResult[]> {
   }
 }
 
+/**
+ * Fetches the most recent news articles up to the specified limit, including associated images.
+ *
+ * @param limit - Maximum number of articles to retrieve (defaults to 10)
+ * @returns An array of news items each containing `newsId`, `newsHeader`, `newsText`, `date`, and `images` (each image as `{ name: string }`); returns an empty array on error
+ */
 export async function getLatestNews(limit: number = 10): Promise<NewsDetailResult[]> {
   try {
     const articles = await prisma.newsArticle.findMany({
@@ -92,6 +103,13 @@ export async function getLatestNews(limit: number = 10): Promise<NewsDetailResul
   }
 }
 
+/**
+ * Retrieve the most recently created featured news article, including its images.
+ *
+ * Images are returned as objects with a `name` property (the image filename).
+ *
+ * @returns `NewsDetailResult` for the latest featured article, or `null` if none is found or an error occurs.
+ */
 export async function getLatestFeaturedArticle(): Promise<NewsDetailResult | null> {
   try {
     const article = await prisma.newsArticle.findFirst({
@@ -115,6 +133,13 @@ export async function getLatestFeaturedArticle(): Promise<NewsDetailResult | nul
   }
 }
 
+/**
+ * Fetches a page of news articles including their images and pagination metadata.
+ *
+ * @param page - Zero-based page index to retrieve
+ * @param pageSize - Number of articles per page
+ * @returns The paginated result containing `data` (news items with id, header, text, date, images) and `metadata` (`totalPages`, `pageSize`, `currentPage`, `totalCount`). On error, returns an empty `data` array and metadata with totals set to `0` while preserving the requested `page` and `pageSize`.
+ */
 export async function getNewsPaginated(
   page: number = 0,
   pageSize: number = 12

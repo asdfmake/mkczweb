@@ -21,6 +21,14 @@ interface NewsFormProps {
   };
 }
 
+/**
+ * Renders a form for creating or editing a news article, including title, date, featured flag, content, image management, and submission handling.
+ *
+ * @param props.mode - `"create"` to create a new article or `"edit"` to update an existing one
+ * @param props.articleId - The ID of the article being edited; required when `mode` is `"edit"`
+ * @param props.initialData - Optional initial values (`header`, `text`, `date`, `featured`) and existing images for edit mode
+ * @returns The React element for the news article form
+ */
 export default function NewsForm({
   mode,
   articleId,

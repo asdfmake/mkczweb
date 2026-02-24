@@ -22,6 +22,14 @@ export interface Image {
   name: string;
 }
 
+/**
+ * Render a carousel section showing the latest news for the home page.
+ *
+ * Fetches up to 10 most recent news items and displays each as a NewsCard inside a Carousel.
+ * If no news are available, renders an empty div.
+ *
+ * @returns A JSX element containing the news section with a carousel, or an empty `div` when there are no news items.
+ */
 async function HomeNews() {
   const latestNews = await getLatestNews(10);
 

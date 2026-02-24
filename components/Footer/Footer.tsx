@@ -5,6 +5,11 @@ import { NavLinksFooter } from "@/constants/Footer";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
+/**
+ * Renders the site's footer including logo, navigation links, social icons, and translated copyright text.
+ *
+ * @returns A JSX element representing the footer section.
+ */
 function Footer() {
   const t = useTranslations("Footer");
   return (

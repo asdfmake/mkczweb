@@ -12,6 +12,17 @@ interface NewsCardProps {
   id: number;
 }
 
+/**
+ * Render a news item card with image, date, title, and truncated body text.
+ *
+ * @param className - Optional additional CSS classes applied to the card container
+ * @param date - Display date string for the news item
+ * @param title - Headline text for the news item
+ * @param img - Filename of the image (used as `/uploads/${img}` source)
+ * @param bodySr - Body/summary text in Serbian shown with a 3-line clamp
+ * @param id - Numeric identifier used to build the news item links (`/vesti/${id}`)
+ * @returns A JSX element representing the news card, including linked image and title, date, and truncated body
+ */
 function NewsCard({ className, date, title, img, bodySr, id }: NewsCardProps) {
   return (
     <div

@@ -24,6 +24,13 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Root layout component that sets the document language, loads localization messages, and wraps page content with the internationalization provider and site chrome.
+ *
+ * @param children - The page content to render inside the layout
+ * @param params - A promise resolving to an object with a `locale` string used to set the HTML `lang` and validate available locales
+ * @returns The root HTML structure containing the internationalization provider, navbar, page children, and footer
+ */
 export default async function RootLayout({
   children,
   params,

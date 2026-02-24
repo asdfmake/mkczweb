@@ -3,6 +3,14 @@
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
 
+/**
+ * Toggle button that switches the document theme between light and dark.
+ *
+ * Renders a circular button that updates the `dark` class on the root document element and persists the chosen theme to `localStorage`.
+ *
+ * @param variant - Visual variant of the button; `"desktop"` (default) applies desktop styling, `"mobile"` applies mobile styling.
+ * @returns The theme toggle button element.
+ */
 export default function ThemeToggle({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) {
   const [dark, setDark] = useState(false);
   const [mounted, setMounted] = useState(false);

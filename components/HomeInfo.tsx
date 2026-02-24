@@ -3,6 +3,13 @@ import Image from "next/image";
 import React from "react";
 import ParalaxImage from "./ParalaxImage";
 
+/**
+ * Renders the homepage information section containing a translated title, body text, and a parallax image.
+ *
+ * Uses the "Homepage" translation namespace for content.
+ *
+ * @returns The JSX element for the homepage info section with translated title, body text, and a ParalaxImage component.
+ */
 function HomeInfo() {
   const t = useTranslations("Homepage");
   return (

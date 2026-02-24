@@ -3,6 +3,15 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+/**
+ * Renders a "Delete" control that toggles a confirmation UI and deletes the specified article.
+ *
+ * The component shows a single "Delete" button which, when clicked, reveals Confirm and Cancel controls.
+ * The Confirm control issues an HTTP DELETE to `/api/admin/news/{articleId}` and refreshes the current route on success.
+ *
+ * @param articleId - The numeric ID of the article to delete.
+ * @returns The button UI that manages confirmation and deletion of the article.
+ */
 export default function DeleteArticleButton({
   articleId,
 }: {

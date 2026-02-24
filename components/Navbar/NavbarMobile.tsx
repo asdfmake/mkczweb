@@ -12,6 +12,11 @@ import { NavLinksLeft, NavLinksRight } from "@/constants/Navbar";
 import { useTranslations } from "next-intl";
 import ThemeToggle from "./ThemeToggle";
 
+/**
+ * Renders the mobile top-down navigation drawer shown on small screens, including the logo trigger, navigation links, and a mobile theme toggle.
+ *
+ * @returns The JSX element for the mobile navigation bar
+ */
 function NavbarMobile() {
   const t = useTranslations("Navbar");
   return (

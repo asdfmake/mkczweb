@@ -4,6 +4,14 @@ import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { ArrowRight } from "lucide-react";
 
+/**
+ * Render a featured news hero card linking to the latest featured article.
+ *
+ * Renders a section with a label, hero image (or red fallback), gradient overlay,
+ * article date and title, and a "read more" affordance; returns `null` when no featured article exists.
+ *
+ * @returns The component's React node, or `null` if no featured article is available.
+ */
 export default async function FeaturedNews() {
   const article = await getLatestFeaturedArticle();
   const t = await getTranslations("Weapons");

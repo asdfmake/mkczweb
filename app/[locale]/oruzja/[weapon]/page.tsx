@@ -13,6 +13,14 @@ const weaponData: Record<WeaponSlug, { image: string }> = {
   foil: { image: "/weapons/foil.jpg" },
 };
 
+/**
+ * Renders the weapon detail page for a given weapon slug, including hero image, description, target area, rules, and links to other weapons.
+ *
+ * Triggers a 404 response when the provided weapon slug is not one of the valid weapons.
+ *
+ * @param params - A promise that resolves to route parameters containing `weapon` (the weapon slug) and `locale`.
+ * @returns The JSX element for the weapon detail page.
+ */
 export default async function WeaponPage({
   params,
 }: {

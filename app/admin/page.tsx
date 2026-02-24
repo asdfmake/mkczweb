@@ -6,6 +6,15 @@ import DeleteArticleButton from "@/components/admin/DeleteArticleButton";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * Renders the admin dashboard for managing news articles.
+ *
+ * Displays a header, article count, a "New Article" action, and either an empty-state prompt
+ * or a table listing articles with their image, title, date, featured status, image count,
+ * and edit/delete actions.
+ *
+ * @returns The React element for the admin news articles dashboard.
+ */
 export default async function AdminDashboard() {
   const articles = await prisma.newsArticle.findMany({
     include: { images: true },
