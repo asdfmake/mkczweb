@@ -6,6 +6,7 @@ import Image from "next/image";
 import NavbarMobile from "./NavbarMobile";
 import ThemeToggle from "./ThemeToggle";
 import { useTranslations } from "next-intl";
+import NavbarLogo from "./NavbarLogo";
 
 /**
  * Render the site's responsive navigation bar, including desktop links, centered logo, and mobile navigation.
@@ -31,9 +32,7 @@ function Navbar() {
             );
           })}
         </div>
-        <Link href={"/"}>
-          <Image alt="Red Star Fencing Club logo" src="/logoRed.svg" width={94} height={94} />
-        </Link>
+        <NavbarLogo />
         <div className="sm:hidden"></div>
         <div className="sm:hidden flex justify-end items-center">
           <Image alt="logo" src="/bars.svg" width={45} height={45} />

@@ -54,6 +54,8 @@ const categoryTitles: Record<string, { en: string; sr: string }> = {
   "fie sudije": { en: "FIE Referees", sr: "FIE Sudije" },
 };
 
+const categoryOrder = ["uprava", "treneri", "fie sudije"];
+
 /**
  * Render the Organi Saveza page with categorized member cards.
  *
@@ -86,7 +88,12 @@ export default async function OrganiSavezaPage({
           </p>
         </div>
 
-        {Object.entries(members).map(([categoryKey, categoryMembers]) => {
+        {Object.entries(members)
+          .sort(
+            ([keyA], [keyB]) =>
+              categoryOrder.indexOf(keyA) - categoryOrder.indexOf(keyB)
+          )
+          .map(([categoryKey, categoryMembers]) => {
           const categoryTitle =
             categoryTitles[categoryKey]?.[locale as "en" | "sr"] ||
             categoryKey;
