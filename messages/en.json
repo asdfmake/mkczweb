@@ -13,7 +13,7 @@
         "coaches": "Coaches"
     },
     "Organi": {
-        "members": "Members",
+        "members": "Meet the people who lead and represent the Red Star Fencing Club",
         "bodies": "Governing bodies"
     },
     "Footer": {
@@ -37,5 +37,25 @@
     "Kontakt": {
         "contact": "Contact us",
         "lokacija": "Belgrade"
+    },
+    "Weapons": {
+        "saber": "Saber",
+        "epee": "Epee",
+        "foil": "Foil",
+        "saber_description": "The saber is a cutting and thrusting weapon that targets the entire body above the waist, including the head and arms. Saber fencing is the fastest of the three disciplines, characterized by explosive attacks, dynamic footwork, and right-of-way rules that reward aggressive initiative.",
+        "epee_description": "The epee is a thrusting weapon where the entire body is the valid target area. There are no right-of-way rules -- the first fencer to land a touch scores. Epee fencing rewards patience, precise timing, and tactical defensive play.",
+        "foil_description": "The foil is a thrusting weapon that targets the torso (front and back). Foil fencing uses right-of-way rules, requiring fencers to establish priority through their attack before scoring. It emphasizes technique, blade work, and strategic exchanges.",
+        "target_area": "Target Area",
+        "rules": "Rules",
+        "saber_target": "Upper body above the waist, including head and arms",
+        "epee_target": "The entire body from head to toe",
+        "foil_target": "The torso (front and back), excluding arms, legs, and head",
+        "saber_rules": "Right-of-way applies. Both cutting and thrusting are allowed. The attacker has priority -- the defender must parry before riposting to score.",
+        "epee_rules": "No right-of-way rules. Only thrusting is allowed. Simultaneous touches result in a point for both fencers. Patience and distance control are key.",
+        "foil_rules": "Right-of-way applies. Only thrusting is allowed. The attacker who initiates first has priority. Blade work and technique determine who scores.",
+        "back_home": "Back to home",
+        "learn_more": "Learn more about",
+        "featured_article": "Featured Article",
+        "read_more": "Read more"
     }
 }

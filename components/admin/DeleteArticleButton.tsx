@@ -3,6 +3,15 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+/**
+ * Renders a "Delete" control that toggles a confirmation UI and deletes the specified article.
+ *
+ * The component shows a single "Delete" button which, when clicked, reveals Confirm and Cancel controls.
+ * The Confirm control issues an HTTP DELETE to `/api/admin/news/{articleId}` and refreshes the current route on success.
+ *
+ * @param articleId - The numeric ID of the article to delete.
+ * @returns The button UI that manages confirmation and deletion of the article.
+ */
 export default function DeleteArticleButton({
   articleId,
 }: {
@@ -36,7 +45,7 @@ export default function DeleteArticleButton({
         <button
           onClick={handleDelete}
           disabled={deleting}
-          className="px-3 py-1.5 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50 transition-colors"
+          className="px-3 py-1.5 text-xs font-medium bg-red-600 rounded-md hover:bg-red-700 disabled:opacity-50 transition-colors"
         >
           {deleting ? "..." : "Confirm"}
         </button>
@@ -53,7 +62,7 @@ export default function DeleteArticleButton({
   return (
     <button
       onClick={() => setConfirming(true)}
-      className="px-3 py-1.5 text-xs font-medium text-red-600 bg-white border border-red-200 rounded-md hover:bg-red-50 transition-colors"
+      className="px-3 py-1.5 text-xs font-medium bg-red-600 border border-red-700 rounded-md hover:bg-red-700 transition-colors"
     >
       Delete
     </button>

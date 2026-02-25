@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Link } from "@/i18n/routing";
-import { getFeaturedNews } from "@/lib/posts";
+import { getLatestNews } from "@/lib/posts";
 
 export interface News {
   newsId: number;
@@ -22,10 +22,18 @@ export interface Image {
   name: string;
 }
 
+/**
+ * Render a carousel section showing the latest news for the home page.
+ *
+ * Fetches up to 10 most recent news items and displays each as a NewsCard inside a Carousel.
+ * If no news are available, renders an empty div.
+ *
+ * @returns A JSX element containing the news section with a carousel, or an empty `div` when there are no news items.
+ */
 async function HomeNews() {
-  const featuredNews = await getFeaturedNews();
+  const latestNews = await getLatestNews(10);
 
-  if (!featuredNews || featuredNews.length === 0) return <div></div>;
+  if (!latestNews || latestNews.length === 0) return <div></div>;
 
   return (
     <div className="py-[32px] px-[24px] bg-red">
@@ -43,7 +51,7 @@ async function HomeNews() {
       </div>
       <Carousel>
         <CarouselContent>
-          {featuredNews.map((news) => {
+          {latestNews.map((news) => {
             let src = news.images[0]?.name;
             return (
               <CarouselItem className="pl-5" key={news.newsId}>
@@ -58,9 +66,9 @@ async function HomeNews() {
             );
           })}
 
-          {featuredNews.length === 0 && (
+          {latestNews.length === 0 && (
             <CarouselItem className="pl-5" key="no-news">
-              <p className="text-white">No featured news available.</p>
+              <p className="text-white">No news available.</p>
             </CarouselItem>
           )}
         </CarouselContent>

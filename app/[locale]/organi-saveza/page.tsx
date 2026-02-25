@@ -1,43 +1,117 @@
-import Hero from "@/components/Hero/Hero";
 import CoachCard from "@/components/HomeCoaches/CoachCard";
-import HomeCoaches from "@/components/HomeCoaches/HomeCoaches";
-import HomeInfo from "@/components/HomeInfo";
-import HomeLocation from "@/components/HomeLocation";
-import HomeWeapons from "@/components/HomeWeapons/HomeWeapons";
-import ModelCard from "@/components/ModelCard/ModelCard";
-import HomeNews from "@/components/News/HomeNews";
-import { members } from "@/constants/OrganiSaveza";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import fs from "fs";
+import path from "path";
 
-export default function OrganiSavezaPage() {
-  const t = useTranslations("Organi");
+interface Member {
+  name: string;
+  picture: string;
+  category: string;
+}
+
+/**
+ * Builds a mapping from category folder names to arrays of Member objects by scanning the `public/organi_saveza` directory.
+ *
+ * Each Member contains `name` (filename without extension), `picture` (URL path under `/organi_saveza/{category}/{file}`), and `category` (the folder name).
+ *
+ * @returns A record whose keys are category names and whose values are arrays of Member objects. If filesystem read errors occur the function returns whatever was collected (which may be empty).
+ */
+function getOrganiSavezaMembers(): Record<string, Member[]> {
+  const baseDir = path.join(process.cwd(), "public", "organi_saveza");
+  const categories: Record<string, Member[]> = {};
+
+  try {
+    const categoryFolders = fs.readdirSync(baseDir, { withFileTypes: true });
+
+    categoryFolders.forEach((folder) => {
+      if (folder.isDirectory()) {
+        const categoryName = folder.name;
+        const categoryPath = path.join(baseDir, categoryName);
+        const files = fs.readdirSync(categoryPath);
+
+        categories[categoryName] = files
+          .filter((file) => /\.(jpg|jpeg|png|webp)$/i.test(file))
+          .map((file) => {
+            const nameWithoutExt = path.parse(file).name;
+            return {
+              name: nameWithoutExt,
+              picture: `/organi_saveza/${categoryName}/${file}`,
+              category: categoryName,
+            };
+          });
+      }
+    });
+  } catch (error) {
+    console.error("Error reading organi_saveza directory:", error);
+  }
+
+  return categories;
+}
+
+const categoryTitles: Record<string, { en: string; sr: string }> = {
+  uprava: { en: "Management", sr: "Uprava" },
+  treneri: { en: "Coaches", sr: "Treneri" },
+  "fie sudije": { en: "FIE Referees", sr: "FIE Sudije" },
+};
+
+/**
+ * Render the Organi Saveza page with categorized member cards.
+ *
+ * The component fetches translations for the "Organi" namespace, loads members
+ * grouped by category, and selects localized category titles using the
+ * provided locale.
+ *
+ * @param params - A promise resolving to an object with a `locale` string used to select translations and localized category titles
+ * @returns A JSX element representing the Organi Saveza page
+ */
+export default async function OrganiSavezaPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const t = await getTranslations("Organi");
+  const members = getOrganiSavezaMembers();
+  const locale = (await params).locale;
+
   return (
     <main>
       <div className="h-[140px] bg-red"></div>
-      <div className="pt-[32px] -mb-10  bg-white">
-        <div className="w-full flex flex-col px-[4px] mb-7 sm:flex-row sm:justify-between sm:align-top">
-          <h2 className="text-[40px] font-[700] font-heading text-red uppercase sm:hidden">
+      <div className="pt-[32px] pb-16 bg-white dark:bg-background">
+        <div className="w-full flex flex-col px-6 mb-12 sm:px-16 lg:px-[264px]">
+          <h1 className="text-[48px] md:text-[64px] font-[700] font-heading text-red uppercase leading-tight mb-2">
             {t("bodies")}
-          </h2>
-          <h2 className="sm:text-[64px] lg:text-[86px] font-[700] font-heading text-red uppercase hidden sm:block sm:leading-none sm:pt-1 md:pt-5 mr-14">
-            {t("bodies")}
-          </h2>
-          <h2 className="text-[100px] leading-[100px] font-[700] font-heading text-red uppercase md:text-[160px] lg:text-[220px] sm:leading-none">
+          </h1>
+          <p className="text-[20px] font-body text-foreground/70">
             {t("members")}
-          </h2>
+          </p>
         </div>
-        <div className="flex flex-wrap">
-          {members.map((member) => (
-            <CoachCard
-              text={member.text}
-              name={member.name}
-              title={member.title}
-              picture={member.picture}
-              inverted={true}
-              className="mb-10"
-            />
-          ))}
-        </div>
+
+        {Object.entries(members).map(([categoryKey, categoryMembers]) => {
+          const categoryTitle =
+            categoryTitles[categoryKey]?.[locale as "en" | "sr"] ||
+            categoryKey;
+
+          return (
+            <div key={categoryKey} className="mb-16 px-6 sm:px-16 lg:px-[264px]">
+              <h2 className="text-[32px] md:text-[40px] font-heading font-semibold text-red uppercase mb-8">
+                {categoryTitle}
+              </h2>
+              <div className="flex flex-wrap gap-8">
+                {categoryMembers.map((member, index) => (
+                  <CoachCard
+                    key={`${member.name}-${index}`}
+                    text={member.name}
+                    name={member.name}
+                    title=""
+                    picture={member.picture}
+                    inverted={true}
+                    className="mb-10"
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </main>
   );

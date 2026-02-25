@@ -1,20 +1,52 @@
 import React from "react";
-import ModelCard from "../ModelCard/ModelCard";
+import Image from "next/image";
+import { Link } from "@/i18n/routing";
 import Button from "../Button";
+import { useTranslations } from "next-intl";
 
 interface WeaponCardProps {
   active: boolean;
   item: number;
   setActiveCard: (card: number) => void;
+  name: string;
+  image: string;
+  slug: string;
 }
-function WeaponCard({ active, item, setActiveCard }: WeaponCardProps) {
+/**
+ * Render a clickable weapon card that expands when active, displays the weapon image and name, and links to the weapon detail page.
+ *
+ * @param active - Whether the card is active; controls expanded layout and CTA visibility
+ * @param item - Numeric identifier for this card; passed to `setActiveCard` when clicked
+ * @param setActiveCard - Callback invoked with `item` to mark this card active
+ * @param name - Weapon display name shown in the card and used as the image alt text
+ * @param image - Image source URL used as the card background
+ * @param slug - URL slug appended to `/oruzja/` for the detail page link
+ * @returns A JSX element representing the weapon card
+ */
+function WeaponCard({
+  active,
+  item,
+  setActiveCard,
+  name,
+  image,
+  slug,
+}: WeaponCardProps) {
+  const t = useTranslations("Homepage");
   return (
     <div
-      className={`bg-slate-400 rounded-[20px] relative transition-all duration-300 ${
+      className={`rounded-[20px] relative overflow-hidden transition-all duration-300 cursor-pointer ${
         active ? "flex-grow-[2.5]" : "flex-grow"
       }`}
       onClick={() => setActiveCard(item)}
     >
+      <Image
+        src={image}
+        alt={name}
+        fill
+        className="object-cover"
+        sizes="(max-width: 640px) 100vw, 33vw"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
       <div
         className={`w-full absolute bottom-0 px-[28px] pb-[16px] flex ${
           active ? "justify-between" : "justify-start sm:justify-center"
@@ -25,12 +57,14 @@ function WeaponCard({ active, item, setActiveCard }: WeaponCardProps) {
             active ? "self-start" : "self-auto"
           } text-[40px] font-heading text-white uppercase sm:self-auto`}
         >
-          Name
+          {name}
         </h3>
-        <Button
-          text="saznaj vise"
-          className={`${active ? "block" : "hidden"}  self-end sm:self-auto`}
-        />
+        <Link href={`/oruzja/${slug}`}>
+          <Button
+            text={t("hero_cta")}
+            className={`${active ? "block" : "hidden"} self-end sm:self-auto`}
+          />
+        </Link>
       </div>
     </div>
   );
