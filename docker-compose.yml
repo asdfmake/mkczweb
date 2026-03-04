@@ -1,5 +1,17 @@
 services:
 
+  postgres:
+    image: postgres:16
+    container_name: VicaPostgres
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=database
+    ports:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   vica-bek:
     build:
       context: .
@@ -8,6 +20,11 @@ services:
     container_name: VicaFront
     environment:
       - ADMIN_PASSWORD=pass
-      - DATABASE_URL=postgresql://user:pass@host.docker.internal:5432/database
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/database
     ports:
       - "3000:3000"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
