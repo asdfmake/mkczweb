@@ -25,7 +25,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./public/uploads:/app/public/uploads
+      - uploads_data:/app/public/uploads
     depends_on:
       - postgres
     restart: unless-stopped
@@ -41,3 +41,4 @@ services:
 
 volumes:
   postgres_data:
+  uploads_data:
