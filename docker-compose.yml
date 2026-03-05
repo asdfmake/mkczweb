@@ -24,6 +24,8 @@ services:
       NODE_OPTIONS: --max-old-space-size=1024
     ports:
       - "3000:3000"
+    volumes:
+      - ./public/uploads:/app/public/uploads
     depends_on:
       - postgres
     restart: unless-stopped

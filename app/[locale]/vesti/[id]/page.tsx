@@ -38,7 +38,7 @@ export default async function NewsDetailPage({
           className="absolute top-0 left-0 right-0 overflow-hidden bg-cover bg-top bg-no-repeat p-12 text-center h-[846px] grid lg:grid-cols-2 md:px-56 lg:px-72 -z-10"
           style={{
             backgroundImage: news?.images[0]?.name
-              ? `url(/uploads/${news.images[0].name})`
+              ? `url(${encodeURI(`/uploads/${news.images[0].name}`)})`
               : undefined,
           }}
         ></div>
