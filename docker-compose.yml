@@ -1,16 +1,16 @@
 services:
-
   postgres:
     image: postgres:16
     container_name: VicaPostgres
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
-      - POSTGRES_DB=database
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: database
     ports:
       - "5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
   vica-bek:
     build:
@@ -19,12 +19,23 @@ services:
     image: vica-front-image
     container_name: VicaFront
     environment:
-      - ADMIN_PASSWORD=pass
-      - DATABASE_URL=postgresql://user:pass@postgres:5432/database
+      ADMIN_PASSWORD: pass
+      DATABASE_URL: postgresql://user:pass@postgres:5432/database
+      NODE_OPTIONS: --max-old-space-size=1024
     ports:
       - "3000:3000"
     depends_on:
       - postgres
+    restart: unless-stopped
+
+    command: sh -lc "
+      echo 'Pushing Prisma schema...';
+      until npx prisma db push; do
+        echo 'DB not ready yet, retrying in 2s...';
+        sleep 2;
+      done;
+      echo 'Starting Next.js...';
+      npm start"
 
 volumes:
   postgres_data:

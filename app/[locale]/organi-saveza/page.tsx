@@ -24,22 +24,29 @@ function getOrganiSavezaMembers(): Record<string, Member[]> {
     const categoryFolders = fs.readdirSync(baseDir, { withFileTypes: true });
 
     categoryFolders.forEach((folder) => {
-      if (folder.isDirectory()) {
-        const categoryName = folder.name;
-        const categoryPath = path.join(baseDir, categoryName);
-        const files = fs.readdirSync(categoryPath);
+      if (!folder.isDirectory()) return;
 
-        categories[categoryName] = files
-          .filter((file) => /\.(jpg|jpeg|png|webp)$/i.test(file))
-          .map((file) => {
-            const nameWithoutExt = path.parse(file).name;
-            return {
-              name: nameWithoutExt,
-              picture: `/organi_saveza/${categoryName}/${file}`,
-              category: categoryName,
-            };
-          });
-      }
+      const categoryName = folder.name;
+      const categoryPath = path.join(baseDir, categoryName);
+      const files = fs.readdirSync(categoryPath);
+
+      categories[categoryName] = files
+        .filter((file) => /\.(jpg|jpeg|png|webp)$/i.test(file))
+        .map((file) => {
+          const nameWithoutExt = path.parse(file).name;
+
+          // IMPORTANT:
+          // Encode exactly once so Next.js image optimizer doesn't choke on
+          // spaces / Cyrillic / special characters in file or folder names.
+          const urlPath = `/organi_saveza/${categoryName}/${file}`;
+          const encodedUrlPath = encodeURI(urlPath);
+
+          return {
+            name: nameWithoutExt,
+            picture: encodedUrlPath,
+            category: categoryName,
+          };
+        });
     });
   } catch (error) {
     console.error("Error reading organi_saveza directory:", error);
