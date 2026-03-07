@@ -23,7 +23,7 @@ services:
       DATABASE_URL: postgresql://user:pass@postgres:5432/database
       NODE_OPTIONS: --max-old-space-size=1024
     ports:
-      - "3000:3000"
+      - "3003:3000"
     volumes:
       - uploads_data:/app/public/uploads
     depends_on:

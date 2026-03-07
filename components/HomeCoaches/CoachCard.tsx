@@ -5,11 +5,11 @@ export interface CoachCardProps {
   picture: string;
   name: string;
   title: string;
-  description: string;
+  description?: string;
   className?: string;
 }
 
-function CoachCard({ picture, name, title, description, className }: CoachCardProps) {
+function CoachCard({ picture, name, title, description = "", className }: CoachCardProps) {
   return (
     <div
       className={`flex flex-col items-center bg-white border border-gray-100 shadow-sm overflow-hidden ${className}`}

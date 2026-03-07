@@ -114,11 +114,9 @@ export default async function OrganiSavezaPage({
                 {categoryMembers.map((member, index) => (
                   <CoachCard
                     key={`${member.name}-${index}`}
-                    text={member.name}
                     name={member.name}
                     title=""
                     picture={member.picture}
-                    inverted={true}
                     className="mb-10"
                   />
                 ))}
