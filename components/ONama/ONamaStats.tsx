@@ -1,10 +1,10 @@
 import React from "react";
 
 const stats = [
-  { value: "70+", label: "godina tradicije" },
-  { value: "∞", label: "državnih šampionata" },
-  { value: "100+", label: "reprezentativaca Srbije" },
-  { value: "4", label: "generacije vrhunskih takmičara" },
+  { value: "70+", label: "Godina tradicije" },
+  { value: "1946", label: "Godina osnivanja" },
+  { value: "3", label: "Mačevalačke discipline" },
+  { value: "100+", label: "Takmičara kroz generacije" },
 ];
 
 function ONamaStats() {
