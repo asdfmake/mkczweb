@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "O Nama | MK Crvena Zvezda",
   description:
-    "Мачевалачки клуб Crвена звезда — традиција шампиона од 1946. године. Сазнајте о историји, достигнућима и људима клуба.",
+    "Мачевалачки клуб Црвена звезда — традиција шампиона од 1946. године. Сазнајте о историји, достигнућима и људима клуба.",
 };
 
 export default function ONamaPage() {
