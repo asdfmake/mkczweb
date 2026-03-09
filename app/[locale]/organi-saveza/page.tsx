@@ -1,7 +1,5 @@
-import CoachCard from "@/components/HomeCoaches/CoachCard";
 import { getTranslations } from "next-intl/server";
-import fs from "fs";
-import path from "path";
+import OrganiSavezaPageContent from "@/components/OrganiSaveza/OrganiSavezaContent";
 
 interface Member {
   name: string;
@@ -10,49 +8,32 @@ interface Member {
 }
 
 /**
- * Builds a mapping from category folder names to arrays of Member objects by scanning the `public/organi_saveza` directory.
- *
- * Each Member contains `name` (filename without extension), `picture` (URL path under `/organi_saveza/{category}/{file}`), and `category` (the folder name).
- *
- * @returns A record whose keys are category names and whose values are arrays of Member objects. If filesystem read errors occur the function returns whatever was collected (which may be empty).
+ * Members organized by category.
+ * Each member has a name and picture URL.
  */
+const membersData: Record<string, Member[]> = {
+  uprava: [
+    { name: "Svetlana Višnjić Petronijević", picture: "/organi_saveza/uprava/Светлана%20Вишњић%20Петронијевић.jpg", category: "uprava" },
+    { name: "Zoran Timić", picture: "/organi_saveza/uprava/Зоран%20Тимић.jpg", category: "uprava" },
+    { name: "Danijela Ćosić", picture: "/organi_saveza/uprava/Данијела%20Ћосић.jpg", category: "uprava" },
+    { name: "Dragan Makević", picture: "/organi_saveza/uprava/Драган%20Макевић.jpg", category: "uprava" },
+    { name: "Lazar Mirčeta", picture: "/organi_saveza/uprava/Лазар%20Мирчета.jpg", category: "uprava" },
+  ],
+  treneri: [
+    { name: "Alim Kadirov", picture: "/organi_saveza/treneri/Алим%20Кадиров.jpg", category: "treneri" },
+    { name: "Ivica Subić", picture: "/organi_saveza/treneri/Ивица%20Субић.jpg", category: "treneri" },
+    { name: "Nemanja Đurđić", picture: "/organi_saveza/treneri/Немања%20Ђурђић.jpg", category: "treneri" },
+    { name: "Petar Volkonski", picture: "/organi_saveza/treneri/Петар%20Волконски.jpg", category: "treneri" },
+    { name: "Stepan Koliesov", picture: "/organi_saveza/treneri/Степан%20Колиесов.jpg", category: "treneri" },
+  ],
+  "fie sudije": [
+    { name: "Ana Kovrlija", picture: "/organi_saveza/fie%20sudije/Ана%20Коврлија.jpg", category: "fie sudije" },
+    { name: "Marija Kovačević", picture: "/organi_saveza/fie%20sudije/Марија%20Ковачевић.jpg", category: "fie sudije" },
+  ],
+};
+
 function getOrganiSavezaMembers(): Record<string, Member[]> {
-  const baseDir = path.join(process.cwd(), "public", "organi_saveza");
-  const categories: Record<string, Member[]> = {};
-
-  try {
-    const categoryFolders = fs.readdirSync(baseDir, { withFileTypes: true });
-
-    categoryFolders.forEach((folder) => {
-      if (!folder.isDirectory()) return;
-
-      const categoryName = folder.name;
-      const categoryPath = path.join(baseDir, categoryName);
-      const files = fs.readdirSync(categoryPath);
-
-      categories[categoryName] = files
-        .filter((file) => /\.(jpg|jpeg|png|webp)$/i.test(file))
-        .map((file) => {
-          const nameWithoutExt = path.parse(file).name;
-
-          // IMPORTANT:
-          // Encode exactly once so Next.js image optimizer doesn't choke on
-          // spaces / Cyrillic / special characters in file or folder names.
-          const urlPath = `/organi_saveza/${categoryName}/${file}`;
-          const encodedUrlPath = encodeURI(urlPath);
-
-          return {
-            name: nameWithoutExt,
-            picture: encodedUrlPath,
-            category: categoryName,
-          };
-        });
-    });
-  } catch (error) {
-    console.error("Error reading organi_saveza directory:", error);
-  }
-
-  return categories;
+  return membersData;
 }
 
 const categoryTitles: Record<string, { en: string; sr: string }> = {
@@ -83,48 +64,13 @@ export default async function OrganiSavezaPage({
   const locale = (await params).locale;
 
   return (
-    <main>
-      <div className="h-[140px] bg-red"></div>
-      <div className="pt-[32px] pb-16 bg-white dark:bg-background">
-        <div className="w-full flex flex-col px-6 mb-12 sm:px-16 lg:px-[264px]">
-          <h1 className="text-[48px] md:text-[64px] font-[700] font-heading text-red uppercase leading-tight mb-2">
-            {t("bodies")}
-          </h1>
-          <p className="text-[20px] font-body text-foreground/70">
-            {t("members")}
-          </p>
-        </div>
-
-        {Object.entries(members)
-          .sort(
-            ([keyA], [keyB]) =>
-              categoryOrder.indexOf(keyA) - categoryOrder.indexOf(keyB)
-          )
-          .map(([categoryKey, categoryMembers]) => {
-          const categoryTitle =
-            categoryTitles[categoryKey]?.[locale as "en" | "sr"] ||
-            categoryKey;
-
-          return (
-            <div key={categoryKey} className="mb-16 px-6 sm:px-16 lg:px-[264px]">
-              <h2 className="text-[32px] md:text-[40px] font-heading font-semibold text-red uppercase mb-8">
-                {categoryTitle}
-              </h2>
-              <div className="flex flex-wrap gap-8">
-                {categoryMembers.map((member, index) => (
-                  <CoachCard
-                    key={`${member.name}-${index}`}
-                    name={member.name}
-                    title=""
-                    picture={member.picture}
-                    className="mb-10"
-                  />
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </main>
+    <OrganiSavezaPageContent
+      members={members}
+      categoryTitles={categoryTitles}
+      categoryOrder={categoryOrder}
+      locale={locale}
+      bodyTitle={t("bodies")}
+      membersSubtitle={t("members")}
+    />
   );
 }
