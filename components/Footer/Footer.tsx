@@ -13,82 +13,53 @@ function Footer() {
   const t = useTranslations("Footer");
   return (
     <footer className="bg-red w-full flex flex-col font-body">
-      {/* Main footer content */}
-      <div className="w-full px-8 md:px-16 pt-12 pb-8">
-        <div className="flex flex-col md:flex-row justify-between gap-10">
-          {/* Logo & tagline */}
-          <div className="flex flex-col gap-4 max-w-xs">
-            <Image
-              alt="logo"
-              src="/logowithtext.svg"
-              width={140}
-              height={100}
-            />
-            <p className="text-white/70 text-sm leading-relaxed">
-              Official portal of Red Star Fencing Club
-            </p>
-            {/* Social icons */}
-            <div className="flex gap-4 mt-2">
-              <Link
-                href="http://facebook.com"
-                className="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2"
-                aria-label="Facebook"
-              >
-                <Image
-                  alt="facebook"
-                  src="/facebook.svg"
-                  width={18}
-                  height={18}
-                />
-              </Link>
-              <Link
-                href="http://youtube.com"
-                className="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2"
-                aria-label="YouTube"
-              >
-                <Image
-                  alt="youtube"
-                  src="/youtube.svg"
-                  width={18}
-                  height={18}
-                />
-              </Link>
-              <Link
-                href="http://instagram.com"
-                className="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2"
-                aria-label="Instagram"
-              >
-                <Image
-                  alt="instagram"
-                  src="/instagram.svg"
-                  width={18}
-                  height={18}
-                />
-              </Link>
-            </div>
-          </div>
+      {/* Main footer row */}
+      <div className="w-full px-8 md:px-16 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* Logo */}
+        <Image alt="logo" src="/logowithtext.svg" width={120} height={86} />
 
-          {/* Navigation links */}
-          <div className="flex flex-col gap-2">
-            <p className="text-white/50 text-xs font-heading tracking-widest uppercase mb-2">
-              Navigation
-            </p>
-            {NavLinksFooter.map((link) => (
-              <Link
-                href={link.link ?? "/"}
-                key={link.text}
-                className="text-white/80 hover:text-white text-sm transition-colors py-1 border-b border-white/10 hover:border-white/30"
-              >
-                {link.text ? t(link.text) : ""}
-              </Link>
-            ))}
-          </div>
+        {/* Navigation links — horizontal */}
+        <nav className="flex flex-row flex-wrap justify-center gap-x-6 gap-y-1">
+          {NavLinksFooter.map((link) => (
+            <Link
+              href={link.link ?? "/"}
+              key={link.text}
+              className="text-white/80 hover:text-white text-sm font-body transition-colors"
+            >
+              {link.text ? t(link.text) : ""}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Social icons */}
+        <div className="flex gap-3">
+          <Link
+            href="http://facebook.com"
+            className="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2"
+            aria-label="Facebook"
+          >
+            <Image alt="facebook" src="/facebook.svg" width={16} height={16} />
+          </Link>
+          <Link
+            href="http://youtube.com"
+            className="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2"
+            aria-label="YouTube"
+          >
+            <Image alt="youtube" src="/youtube.svg" width={16} height={16} />
+          </Link>
+          <Link
+            href="http://instagram.com"
+            className="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2"
+            aria-label="Instagram"
+          >
+            <Image alt="instagram" src="/instagram.svg" width={16} height={16} />
+          </Link>
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div className="bg-darkred w-full mt-2">
-        <div className="w-full px-8 md:px-16 py-3 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div className="bg-darkred w-full">
+        <div className="w-full px-8 md:px-16 py-2.5 flex flex-col sm:flex-row items-center justify-between gap-1">
           <p className="text-white/60 text-xs text-center sm:text-left">
             {t("copyright")}
           </p>
