@@ -15,7 +15,7 @@ function ONamaCTA() {
       <Link href="/kontakt">
         <Button
           text="Pridruži se klubu"
-          className="bg-white text-[#000000] hover:bg-white/90"
+          className="bg-white !text-black hover:bg-white/90"
         />
       </Link>
     </section>
