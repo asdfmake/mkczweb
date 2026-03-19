@@ -9,31 +9,35 @@ interface Member {
 
 /**
  * Members organized by category.
- * Each member has a name and picture URL.
+ * Each member has a name and picture file name.
+ * Picture file names will be properly URL-encoded when used.
  */
 const membersData: Record<string, Member[]> = {
   uprava: [
-    { name: "Svetlana Višnjić Petronijević", picture: "/organi_saveza/uprava/Светлана%20Вишњић%20Петронијевић.jpg", category: "uprava" },
-    { name: "Zoran Timić", picture: "/organi_saveza/uprava/Зоран%20Тимић.jpg", category: "uprava" },
-    { name: "Danijela Ćosić", picture: "/organi_saveza/uprava/Данијела%20Ћосић.jpg", category: "uprava" },
-    { name: "Dragan Makević", picture: "/organi_saveza/uprava/Драган%20Макевић.jpg", category: "uprava" },
-    { name: "Lazar Mirčeta", picture: "/organi_saveza/uprava/Лазар%20Мирчета.jpg", category: "uprava" },
+    { name: "Svetlana Višnjić Petronijević", picture: "Светлана Вишњић Петронијевић.jpg", category: "uprava" },
+    { name: "Zoran Timić", picture: "Зоран Тимић.jpg", category: "uprava" },
+    { name: "Danijela Ćosić", picture: "Данијела Ћосић.jpg", category: "uprava" },
+    { name: "Dragan Makević", picture: "Драган Макевић.jpg", category: "uprava" },
+    { name: "Lazar Mirčeta", picture: "Лазар Мирчета.jpg", category: "uprava" },
   ],
   treneri: [
-    { name: "Alim Kadirov", picture: "/organi_saveza/treneri/Алим%20Кадиров.jpg", category: "treneri" },
-    { name: "Ivica Subić", picture: "/organi_saveza/treneri/Ивица%20Субић.jpg", category: "treneri" },
-    { name: "Nemanja Đurđić", picture: "/organi_saveza/treneri/Немања%20Ђурђић.jpg", category: "treneri" },
-    { name: "Petar Volkonski", picture: "/organi_saveza/treneri/Петар%20Волконски.jpg", category: "treneri" },
-    { name: "Stepan Koliesov", picture: "/organi_saveza/treneri/Степан%20Колиесов.jpg", category: "treneri" },
+    { name: "Alim Kadirov", picture: "Алим Кадиров.jpg", category: "treneri" },
+    { name: "Ivica Subić", picture: "Ивица Субић.jpg", category: "treneri" },
+    { name: "Nemanja Đurđić", picture: "Немања Ђурђић.jpg", category: "treneri" },
+    { name: "Petar Volkonski", picture: "Петар Волконски.jpg", category: "treneri" },
+    { name: "Stepan Koliesov", picture: "Степан Колиесов.jpg", category: "treneri" },
   ],
   "fie sudije": [
-    { name: "Ana Kovrlija", picture: "/organi_saveza/fie%20sudije/Ана%20Коврлија.jpg", category: "fie sudije" },
-    { name: "Marija Kovačević", picture: "/organi_saveza/fie%20sudije/Марија%20Ковачевић.jpg", category: "fie sudije" },
+    { name: "Ana Kovrlija", picture: "Ана Коврлија.jpg", category: "fie sudije" },
+    { name: "Marija Kovačević", picture: "Марија Ковачевић.jpg", category: "fie sudije" },
   ],
 };
 
-function getOrganiSavezaMembers(): Record<string, Member[]> {
-  return membersData;
+/**
+ * Helper function to build URL-encoded picture path
+ */
+function getPictureUrl(category: string, fileName: string): string {
+  return `/organi_saveza/${encodeURIComponent(category)}/${encodeURIComponent(fileName)}`;
 }
 
 const categoryTitles: Record<string, { en: string; sr: string }> = {
@@ -44,24 +48,24 @@ const categoryTitles: Record<string, { en: string; sr: string }> = {
 
 const categoryOrder = ["uprava", "treneri", "fie sudije"];
 
-/**
- * Render the Organi Saveza page with categorized member cards.
- *
- * The component fetches translations for the "Organi" namespace, loads members
- * grouped by category, and selects localized category titles using the
- * provided locale.
- *
- * @param params - A promise resolving to an object with a `locale` string used to select translations and localized category titles
- * @returns A JSX element representing the Organi Saveza page
- */
 export default async function OrganiSavezaPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const t = await getTranslations("Organi");
-  const members = getOrganiSavezaMembers();
   const locale = (await params).locale;
+  
+  // Build members with properly URL-encoded picture paths
+  const members = Object.fromEntries(
+    Object.entries(membersData).map(([category, categoryMembers]) => [
+      category,
+      categoryMembers.map(member => ({
+        ...member,
+        picture: getPictureUrl(member.category, member.picture)
+      }))
+    ])
+  );
 
   return (
     <OrganiSavezaPageContent
