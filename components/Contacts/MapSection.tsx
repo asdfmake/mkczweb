@@ -1,14 +1,18 @@
+"use client";
+
 import React from "react";
+import { useTranslations } from "next-intl";
 import Map from "./Map/Map";
 
 function MapSection() {
+  const t = useTranslations("Kontakt");
   return (
     <section className="mx-auto px-6 md:px-10 max-w-[1250px] mb-14">
       <p className="font-heading text-red text-[13px] uppercase tracking-widest mb-3">
-        Lokacija
+        {t("location_title")}
       </p>
       <h2 className="font-heading text-[42px] md:text-[56px] uppercase text-foreground font-semibold mb-6 text-balance">
-        Beograd
+        {t("location_head")}
       </h2>
 
       <div className="flex flex-col md:flex-row gap-8 mb-8">
@@ -32,17 +36,16 @@ function MapSection() {
           </span>
           <div>
             <p className="font-body text-[11px] uppercase tracking-wider text-muted-foreground mb-1">
-              Adresa
+              {t("address")}
             </p>
             <p className="font-body text-foreground text-[15px] font-semibold">
-              Stadion Rajko Mitić (Marakana)
+              {t("address_venue")}
             </p>
             <p className="font-body text-muted-foreground text-[14px]">
-              Ljutice Bogdana 1a, Beograd 11000
+              {t("address_street")}
             </p>
             <p className="font-body text-muted-foreground text-[13px] mt-2 max-w-sm">
-              Treninzi mačevanja održavaju se u tunelu ispod stadiona Marakana,
-              gde je smeštena i streljana.
+              {t("address_description")}
             </p>
           </div>
         </div>

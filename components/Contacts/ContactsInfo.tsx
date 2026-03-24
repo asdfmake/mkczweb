@@ -1,45 +1,49 @@
-import React from "react";
+"use client";
 
-const contacts = [
+import React from "react";
+import { useTranslations } from "next-intl";
+
+const contactKeys = [
   {
-    section: "Sekretarijat",
+    sectionKey: "sekretarijat",
     phone: "+381 69 690-6969",
     email: "sekretarijat@mkcrvenazvezda.rs",
   },
   {
-    section: "Marketing",
+    sectionKey: "marketing",
     phone: "+381 69 690-6970",
     email: "marketing@mkcrvenazvezda.rs",
   },
   {
-    section: "Članstvo",
+    sectionKey: "clanstvo",
     phone: "+381 69 690-6971",
     email: "clanstvo@mkcrvenazvezda.rs",
   },
 ];
 
 function ContactsInfo() {
+  const t = useTranslations("Kontakt");
   return (
     <div className="mx-auto px-6 md:px-10 max-w-[1250px] mb-14">
       <p className="font-heading text-red text-[13px] uppercase tracking-widest mb-3">
-        Kontakt
+        {t("section_title")}
       </p>
       <h2 className="font-heading text-[42px] md:text-[56px] uppercase text-foreground font-semibold mb-10 text-balance">
-        Kontaktirajte nas
+        {t("head_contact")}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border">
-        {contacts.map((c, i) => (
+        {contactKeys.map((c, i) => (
           <div
-            key={c.section}
+            key={c.sectionKey}
             className={`p-8 flex flex-col gap-6 ${
-              i < contacts.length - 1
+              i < contactKeys.length - 1
                 ? "border-b md:border-b-0 md:border-r border-border"
                 : ""
             }`}
           >
             <h3 className="font-heading text-[18px] uppercase font-semibold text-red tracking-widest">
-              {c.section}
+              {t(c.sectionKey)}
             </h3>
 
             <div className="flex flex-col gap-5">
@@ -62,7 +66,7 @@ function ContactsInfo() {
                 </span>
                 <div>
                   <p className="font-body text-[11px] uppercase tracking-wider text-muted-foreground mb-1">
-                    Telefon
+                    {t("phone")}
                   </p>
                   <a
                     href={`tel:${c.phone.replace(/[\s-]/g, "")}`}
@@ -93,7 +97,7 @@ function ContactsInfo() {
                 </span>
                 <div>
                   <p className="font-body text-[11px] uppercase tracking-wider text-muted-foreground mb-1">
-                    Imejl
+                    {t("email")}
                   </p>
                   <a
                     href={`mailto:${c.email}`}
