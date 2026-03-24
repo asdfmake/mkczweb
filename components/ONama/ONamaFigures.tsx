@@ -1,10 +1,12 @@
-import React from "react";
+"use client";
 
-const values = [
+import React from "react";
+import { useTranslations } from "next-intl";
+
+const valueKeys = [
   {
-    title: "Disciplina",
-    description:
-      "Mačevanje zahteva koncentraciju, kontrolu i posvećenost. U Crvenoj zvezdi razvijamo disciplinu koja se prenosi i van sporta.",
+    titleKey: "value_discipline",
+    descKey: "value_discipline_desc",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +25,8 @@ const values = [
     ),
   },
   {
-    title: "Sportski duh",
-    description:
-      "Poštovanje protivnika, fer-plej i čast deo su tradicije mačevanja koju negujemo kroz sve generacije.",
+    titleKey: "value_spirit",
+    descKey: "value_spirit_desc",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -48,9 +49,8 @@ const values = [
     ),
   },
   {
-    title: "Posvećenost",
-    description:
-      "Kontinuiran rad i trud ključ su napretka svakog takmičara. Naši treninzi grade upornost i mentalnu snagu.",
+    titleKey: "value_dedication",
+    descKey: "value_dedication_desc",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -70,9 +70,8 @@ const values = [
     ),
   },
   {
-    title: "Tradicija šampiona",
-    description:
-      "Više od sedam decenija klub razvija vrhunske mačevaoce i nastavlja bogatu sportsku istoriju Crvene zvezde.",
+    titleKey: "value_champions",
+    descKey: "value_champions_desc",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -95,32 +94,33 @@ const values = [
 ];
 
 function ONamaFigures() {
+  const t = useTranslations("ONama");
   return (
     <section className="py-16 md:py-24 px-6 md:px-16 xl:px-72 bg-background">
       <p className="font-heading text-[#D50000] text-[13px] uppercase tracking-widest mb-3">
-        Ko smo mi
+        {t("values_title")}
       </p>
       <h2 className="font-heading text-[36px] md:text-[52px] uppercase font-semibold text-foreground mb-4 text-balance">
-        Tradicija i vrednosti
+        {t("values_subtitle")}
       </h2>
       <p className="font-body text-foreground/60 text-[16px] md:text-[18px] leading-relaxed mb-14 max-w-2xl">
-        Vrednosti koje oblikuju generacije mačevalaca Crvene zvezde.
+        {t("values_description")}
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {values.map((val) => (
+        {valueKeys.map((val) => (
           <div
-            key={val.title}
+            key={val.titleKey}
             className="group border border-border rounded-lg p-8 flex flex-col gap-5 transition-all duration-300 hover:border-[#D50000]/50 hover:shadow-lg hover:-translate-y-1 bg-background"
           >
             <span className="text-[#D50000] transition-transform duration-300 group-hover:scale-110 w-fit">
               {val.icon}
             </span>
             <h3 className="font-heading text-[20px] uppercase font-semibold text-foreground">
-              {val.title}
+              {t(val.titleKey)}
             </h3>
             <p className="font-body text-foreground/65 text-[15px] leading-relaxed">
-              {val.description}
+              {t(val.descKey)}
             </p>
           </div>
         ))}

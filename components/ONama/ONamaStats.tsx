@@ -1,23 +1,27 @@
-import React from "react";
+"use client";
 
-const stats = [
-  { value: "70+", label: "Godina tradicije" },
-  { value: "1946", label: "Godina osnivanja" },
-  { value: "3", label: "Mačevalačke discipline" },
-  { value: "100+", label: "Takmičara kroz generacije" },
+import React from "react";
+import { useTranslations } from "next-intl";
+
+const statsKeys = [
+  { valueKey: "stats_70", labelKey: "stats_tradition" },
+  { valueKey: "stats_1946", labelKey: "stats_founded" },
+  { valueKey: "stats_3", labelKey: "stats_disciplines" },
+  { valueKey: "stats_100", labelKey: "stats_athletes" },
 ];
 
 function ONamaStats() {
+  const t = useTranslations("ONama");
   return (
     <section className="bg-[#D50000] py-16 md:py-20 px-6 md:px-16 xl:px-72">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
-        {stats.map((stat) => (
-          <div key={stat.label} className="text-center">
+        {statsKeys.map((stat) => (
+          <div key={stat.labelKey} className="text-center">
             <p className="font-heading text-white text-[52px] md:text-[64px] font-semibold leading-none mb-2">
-              {stat.value}
+              {t(stat.valueKey)}
             </p>
             <p className="font-body text-white/80 text-[14px] md:text-[16px] uppercase tracking-wide">
-              {stat.label}
+              {t(stat.labelKey)}
             </p>
           </div>
         ))}
