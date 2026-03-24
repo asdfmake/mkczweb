@@ -1,22 +1,22 @@
 {
     "Homepage":{
-        "hero_cta":"Saznaj vise",
-        "header": "Floretasi osvojili drugo mesto na evropskom prvenstvo",
+        "hero_cta":"Сазнај више",
+        "header": "Флореташи освојили друго место на европском првенству",
         "news": "ВЕСТИ",
-        "view_all_news": "Pogledaj sve vesti",
-        "info_title": "Posvecenost uspehu",
+        "view_all_news": "Погледај све вести",
+        "info_title": "Посвећеност успеху",
         "info": "Мачевалачки клуб Црвена звезда основан је ради промоције и развоја мачевања у Србији и брзо је постао водећи центар за овај спорт. Клуб је изнедрио многе врхунске спортисте који су остварили значајне резултате на домаћим и међународним такмичењима, негујући тимски дух, борбеност и посвећеност мачевању.",
-        "explore_weapons": "istrazite oruzja",
-        "full_name": "MK Crvena Zvezda",
-        "short_name": "MKCZ",
-        "coaches": "Treneri"
+        "explore_weapons": "Истражите оружја",
+        "full_name": "МК Црвена звезда",
+        "short_name": "МКСЗ",
+        "coaches": "Тренери"
     },
     "Organi":{
-        "members":"Upoznajte ljude koji vode i predstavljaju Macevalacki Klub Crvena Zvezda",
-        "bodies": "organi saveza"
+        "members":"Упознајте људе који воде и представљају Мачевалачки клуб Црвена звезда",
+        "bodies": "Органи савеза"
     },
     "Footer":{
-        "copyright":"Copyright ©  2024 MК Црвена звезда званични портал. Сва права задржана.",
+        "copyright":"Copyright ©  2024 МК Црвена звезда званични портал. Сва права задржана.",
         "about us": "О НАМА",
         "news": "ВЕСТИ",
         "organs":"ОРГАНИ САВЕЗА",
@@ -31,30 +31,56 @@
         "contacts":"КОНТАКТ"
     },
     "Vesti":{
-        "news": "VESTI"
+        "news": "ВЕСТИ"
     },
     "Kontakt":{
-        "contact": "Kontaktirajte nas",
-        "lokacija": "Beograd"
+        "contact": "Контактирајте нас",
+        "lokacija": "Београд",
+        "section_title": "Контакт",
+        "head_contact": "Контактирајте нас",
+        "sekretarijat": "Секретаријат",
+        "marketing": "Маркетинг",
+        "clanstvo": "Чланство",
+        "phone": "Телефон",
+        "email": "Имејл",
+        "schedule_title": "Распоред",
+        "schedule_head": "Распоред тренинга",
+        "group": "Група",
+        "pioneers": "Пионири (8–12 год.)",
+        "cadets": "Кадети (13–16 год.)",
+        "juniors_seniors": "Јуниори & Сениори",
+        "monday": "Пон",
+        "tuesday": "Уто",
+        "wednesday": "Сре",
+        "thursday": "Чет",
+        "friday": "Пет",
+        "saturday": "Суб",
+        "schedule_note": "* Распоред је подложан изменама. Контактирајте нас за најновије информације.",
+        "location_title": "Локација",
+        "location_head": "Београд",
+        "address": "Адреса",
+        "address_venue": "Стадион Рајко Митић (Маракана)",
+        "address_street": "Љутице Богдана 1а, Београд 11000",
+        "address_description": "Тренинзи мачевања одржавају се у тунелу испод стадиона Маракана, где је смештена и стрељана."
     },
     "Weapons": {
-        "saber": "Sablja",
-        "epee": "Mač",
-        "foil": "Floret",
-        "saber_description": "Sablja je oruzje za seckanje i ubadanje koje cilja celo telo iznad struka, ukljucujuci glavu i ruke. Sabljanje je najbrza od tri discipline, karakteristicno po eksplozivnim napadima, dinamicnom radu nogu i pravilima prednosti napada.",
-        "epee_description": "Macevanje je oruzje za ubadanje gde je celo telo vazeca meta. Nema pravila prednosti -- prvi macovalac koji pogodi osvaja poen. Macevanje nagraduje strpljenje, precizno tajmiranje i takticku odbranu.",
-        "foil_description": "Floret je oruzje za ubadanje koje cilja trup (napred i nazad). Floret koristi pravila prednosti, zahtevajuci od macovalaca da uspostave prioritet kroz napad pre osvajanja poena. Naglasava tehniku, rad ostrjem i strateske razmene.",
-        "target_area": "Ciljna zona",
-        "rules": "Pravila",
-        "saber_target": "Gornji deo tela iznad struka, ukljucujuci glavu i ruke",
-        "epee_target": "Celo telo od glave do pete",
-        "foil_target": "Trup (napred i nazad), iskljucujuci ruke, noge i glavu",
-        "saber_rules": "Pravilo prednosti se primenjuje. Dozvoljeno je i seckanje i ubadanje. Napadac ima prioritet -- branilac mora da parira pre kontranapada.",
-        "epee_rules": "Nema pravila prednosti. Dozvoljeno je samo ubadanje. Istovremeni pogoci rezultiraju poenom za oba macavaoca. Strpljenje i kontrola distance su kljucni.",
-        "foil_rules": "Pravilo prednosti se primenjuje. Dozvoljeno je samo ubadanje. Napadac koji prvi inicira ima prioritet. Rad ostrjem i tehnika odredjuju ko osvaja poen.",
-        "back_home": "Nazad na pocetnu",
-        "learn_more": "Saznaj vise o",
-        "featured_article": "Istaknuti clanak",
-        "read_more": "Procitaj vise"
+        "saber": "Сабља",
+        "epee": "Мач",
+        "foil": "Флорет",
+        "saber_description": "Сабља је оружје за сечање и убадање које циља цело тело изнад струка, укључујући главу и руке. Сабљање је најбржа од три дисциплине, карактеристично по експлозивним нападима, динамичном раду ногу и правилима предности напада.",
+        "epee_description": "Мачевање је оружје за убадање где је цело тело важећа мета. Нема правила предности -- први мачовалац који погоди осваја поен. Мачевање награђује стрпљење, прецизно тајмирање и тактичку одбрану.",
+        "foil_description": "Флорет је оружје за убадање које циља труп (напред и назад). Флорет користи правила предности, захтевајући од мачовалаца да установе приоритет кроз напад пре освајања поена. Наглашава технику, рад оштрјем и стратешке размене.",
+        "target_area": "Циљна зона",
+        "rules": "Правила",
+        "saber_target": "Горњи део тела изнад струка, укључујући главу и руке",
+        "epee_target": "Цело тело од главе до пете",
+        "foil_target": "Труп (напред и назад), искључујући руке, ноге и главу",
+        "saber_rules": "Правило предности се примењује. Дозвољено је и сечање и убадање. Нападач има приоритет -- браниоц мора да парира пре контранапада.",
+        "epee_rules": "Нема правила предности. Дозвољено је само убадање. Истовремени погоци резултирају поеном за оба мачоваоца. Стрпљење и контрола дистанце су кључни.",
+        "foil_rules": "Правило предности се примењује. Дозвољено је само убадање. Нападач који први иницира има приоритет. Рад оштрјем и техника одређују ко осваја поен.",
+        "back_home": "Назад на почетну",
+        "learn_more": "Сазнај више о",
+        "featured_article": "Истакнути чланак",
+        "read_more": "Прочитај више"
     }
 }
