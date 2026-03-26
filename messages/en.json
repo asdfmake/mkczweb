@@ -14,7 +14,29 @@
     },
     "Organi": {
         "members": "Meet the people who lead and represent the Red Star Fencing Club",
-        "bodies": "Governing bodies"
+        "bodies": "Governing bodies",
+        "descriptions": {
+            "uprava": {
+                "svetlana": "President",
+                "zoran": "General Secretary",
+                "dragan": "Board Member",
+                "marija": "Board Member",
+                "dalibor": "Assembly President",
+                "lazar": "Physician"
+            },
+            "treneri": {
+                "alim": "",
+                "ivica": "",
+                "nemanja": "",
+                "petar": "",
+                "stepan": "",
+                "veljko": ""
+            },
+            "fie_sudije": {
+                "ana": "",
+                "marija": ""
+            }
+        }
     },
     "Footer": {
         "copyright": "Copyright © 2024 Red Star Fencing Club official portal. All rights reserved.",
