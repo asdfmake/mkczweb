@@ -5,7 +5,7 @@ export interface CoachCardProps {
   picture: string;
   name: string;
   title: string;
-  description?: string;
+  description: string;
   className?: string;
 }
 

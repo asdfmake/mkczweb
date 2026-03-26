@@ -3,6 +3,7 @@ import CoachCard from "@/components/HomeCoaches/CoachCard";
 interface Member {
   name: string;
   picture: string;
+  description: string;
 }
 
 interface OrganiSavezaContentProps {
@@ -60,6 +61,7 @@ export default function OrganiSavezaPageContent({
                         name={member.name}
                         title=""
                         picture={member.picture}
+                        description={member.description}
                         className="w-full max-w-xs"
                       />
                     </div>

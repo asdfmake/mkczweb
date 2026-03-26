@@ -14,7 +14,31 @@
     },
     "Organi": {
         "members": "Meet the people who lead and represent the Red Star Fencing Club",
-        "bodies": "Governing bodies"
+        "bodies": "Governing bodies",
+        "descriptions": {
+            "uprava": {
+                "svetlana": "President",
+                "zoran": "General Secretary",
+                "dragan": "Board Member",
+                "marija": "Board Member",
+                "dalibor": "Assembly President",
+                "lazar": "Physician"
+            },
+            "treneri": {
+                "alim": "Fencing Coach",
+                "ivica": "Operative Fencing Coach",
+                "nemanja": "Operative Fencing Coach",
+                "petar": "Fencing Coach, \"Lesgraf National State Institute for Physical Education, Sports and Health, St. Petersburg\"",
+                "stepan": "Fencing Coach, \"National University of Physical Culture and Sports, Ukraine\"",
+                "veljko": "Fencing Coach",
+                "petar_k": "Fencing Coach"
+            },
+            "fie sudije": {
+                "ana": "FIE Referee - epee, foil",
+                "marija": "FIE Referee - epee, foil",
+                "petar_k": "FIE Referee - saber"
+            }
+        }
     },
     "Footer": {
         "copyright": "Copyright © 2024 Red Star Fencing Club official portal. All rights reserved.",
