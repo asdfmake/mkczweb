@@ -30,6 +30,7 @@ const membersData: Record<string, Member[]> = {
     { name: "Petar Volkonski", picture: "Петар Волконски.jpg", category: "treneri", descriptionKey: "petar" },
     { name: "Stepan Koliesov", picture: "Степан Колиесов.jpg", category: "treneri", descriptionKey: "stepan" },
     { name: "Veljko Ćuk", picture: "Veljko Cuk.jpg", category: "treneri", descriptionKey: "veljko" },
+    { name: "Petar Kostadinović", picture: "Petar Kostadinovic.jpg", category: "fie sudije", descriptionKey: "petar_k" },
   ],
   "fie sudije": [
     { name: "Ana Kovrlija", picture: "Ана Коврлија.jpg", category: "fie sudije", descriptionKey: "ana" },

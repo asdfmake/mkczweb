@@ -13,7 +13,7 @@
     },
     "Organi":{
         "members":"Упознајте људе који воде и представљају Мачевалачки клуб Црвена звезда",
-        "bodies": "Органи савеза",
+        "bodies": "Органи клуба",
         "descriptions": {
             "uprava": {
                 "svetlana": "председница",
@@ -29,7 +29,8 @@
                 "nemanja": "Operativni trener mačevanja",
                 "petar": "Mačevalački trener, \"Lesgraf nacionalni državni institut za fizičko vaspitanje, sport i zdravlje St. Petersburg\"",
                 "stepan": "Mačevalački trener, \"Nacionalni univerzitet fizičke kulture i sporta Ukraine\"",
-                "veljko": "Mačevalački trener"
+                "veljko": "Mačevalački trener",
+                "petar_k": "Mačevalački trener"
             },
             "fie sudije": {
                 "ana": "FIE судија - мач, флорет",
@@ -42,14 +43,14 @@
         "copyright":"Copyright ©  2024 МК Црвена звезда званични портал. Сва права задржана.",
         "about us": "О НАМА",
         "news": "ВЕСТИ",
-        "organs":"ОРГАНИ САВЕЗА",
+        "organs":"ОРГАНИ КЛУБА",
         "documents":"ДОКУМЕНТА",
         "contacts":"КОНТАКТ"
     },
     "Navbar":{
         "about us": "О НАМА",
         "news": "ВЕСТИ",
-        "organs":"ОРГАНИ САВЕЗА",
+        "organs":"ОРГАНИ КЛУБА",
         "documents":"ДОКУМЕНТА",
         "contacts":"КОНТАКТ"
     },
