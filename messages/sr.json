@@ -24,16 +24,17 @@
                 "lazar": "лекар"
             },
             "treneri": {
-                "alim": "",
-                "ivica": "",
-                "nemanja": "",
-                "petar": "",
-                "stepan": "",
-                "veljko": ""
+                "alim": "Mačevalački trener",
+                "ivica": "Operativni trener mačevanja",
+                "nemanja": "Operativni trener mačevanja",
+                "petar": "Mačevalački trener, \"Lesgraf nacionalni državni institut za fizičko vaspitanje, sport i zdravlje St. Petersburg\"",
+                "stepan": "Mačevalački trener, \"Nacionalni univerzitet fizičke kulture i sporta Ukraine\"",
+                "veljko": "Mačevalački trener"
             },
-            "fie_sudije": {
-                "ana": "",
-                "marija": ""
+            "fie sudije": {
+                "ana": "FIE судија - мач, флорет",
+                "marija": "FIE судија - мач, флорет",
+                "petar_k": "FIE судија - сабља"
             }
         }
     },

@@ -16,7 +16,7 @@ interface Member {
  */
 const membersData: Record<string, Member[]> = {
   uprava: [
-    { name: "Svetlana Petronijević", picture: "Светлана Вишњић Петронијевић.jpg", category: "uprava", descriptionKey: "svetlana" },
+    { name: "prof.dr Svetlana Petronijević", picture: "Светлана Вишњић Петронијевић.jpg", category: "uprava", descriptionKey: "svetlana" },
     { name: "Zoran Timić", picture: "Зоран Тимић.jpg", category: "uprava", descriptionKey: "zoran" },
     { name: "Dragan Makević", picture: "Драган Макевић.jpg", category: "uprava", descriptionKey: "dragan" },
     { name: "Marija Djukic", picture: "mirjana djukic.JPG", category: "uprava", descriptionKey: "marija" },

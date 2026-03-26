@@ -25,16 +25,17 @@
                 "lazar": "Physician"
             },
             "treneri": {
-                "alim": "",
-                "ivica": "",
-                "nemanja": "",
-                "petar": "",
-                "stepan": "",
-                "veljko": ""
+                "alim": "Fencing Coach",
+                "ivica": "Operative Fencing Coach",
+                "nemanja": "Operative Fencing Coach",
+                "petar": "Fencing Coach, \"Lesgraf National State Institute for Physical Education, Sports and Health, St. Petersburg\"",
+                "stepan": "Fencing Coach, \"National University of Physical Culture and Sports, Ukraine\"",
+                "veljko": "Fencing Coach"
             },
-            "fie_sudije": {
-                "ana": "",
-                "marija": ""
+            "fie sudije": {
+                "ana": "FIE Referee - epee, foil",
+                "marija": "FIE Referee - epee, foil",
+                "petar_k": "FIE Referee - saber"
             }
         }
     },
