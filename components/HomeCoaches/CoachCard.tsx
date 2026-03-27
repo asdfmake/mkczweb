@@ -30,7 +30,7 @@ function CoachCard({ picture, name, title, description = "", className }: CoachC
         <p className="font-heading text-[13px] font-medium text-gray-500 uppercase tracking-widest mb-3">
           {title}
         </p>
-        <p className="font-body text-[14px] text-gray-700 leading-relaxed">
+        <p className="font-body text-[14px] text-gray-700 leading-relaxed whitespace-pre-wrap">
           {description}
         </p>
       </div>

@@ -19,9 +19,9 @@ const membersData: Record<string, Member[]> = {
     { name: "prof.dr Svetlana Petronijević", picture: "Светлана Вишњић Петронијевић.jpg", category: "uprava", descriptionKey: "svetlana" },
     { name: "Zoran Timić", picture: "Зоран Тимић.jpg", category: "uprava", descriptionKey: "zoran" },
     { name: "Dragan Makević", picture: "Драган Макевић.jpg", category: "uprava", descriptionKey: "dragan" },
-    { name: "Marija Djukic", picture: "mirjana djukic.JPG", category: "uprava", descriptionKey: "marija" },
+    { name: "Mirjana Djukić", picture: "mirjana djukic.JPG", category: "uprava", descriptionKey: "marija" },
     { name: "Dalibor Arbutina", picture: "Dalibor Arbutina.jpg", category: "uprava", descriptionKey: "dalibor" },
-    { name: "Lazar Mirčeta", picture: "Лазар Мирчета.jpg", category: "uprava", descriptionKey: "lazar" },
+    { name: "Lazar Mičeta", picture: "Лазар Мирчета.jpg", category: "uprava", descriptionKey: "lazar" },
   ],
   treneri: [
     { name: "Alim Kadirov", picture: "Алим Кадиров.jpg", category: "treneri", descriptionKey: "alim" },
@@ -30,29 +30,38 @@ const membersData: Record<string, Member[]> = {
     { name: "Petar Volkonski", picture: "Петар Волконски.jpg", category: "treneri", descriptionKey: "petar" },
     { name: "Stepan Koliesov", picture: "Степан Колиесов.jpg", category: "treneri", descriptionKey: "stepan" },
     { name: "Veljko Ćuk", picture: "Veljko Cuk.jpg", category: "treneri", descriptionKey: "veljko" },
-    { name: "Petar Kostadinović", picture: "Petar Kostadinovic.jpg", category: "fie sudije", descriptionKey: "petar_k" },
+    { name: "Petar Kostadinović", picture: "Petar Kostadinovic trener.jpg", category: "fie sudije", descriptionKey: "petar_k" },
   ],
   "fie sudije": [
     { name: "Ana Kovrlija", picture: "Ана Коврлија.jpg", category: "fie sudije", descriptionKey: "ana" },
     { name: "Marija Kovačević", picture: "Марија Ковачевић.jpg", category: "fie sudije", descriptionKey: "marija" },
     { name: "Petar Kostadinović", picture: "Petar Kostadinovic.jpg", category: "fie sudije", descriptionKey: "petar_k" },
   ],
+  "governing_officials": [
+    { name: "Ana Kovrlija", picture: "Ана Коврлија.jpg", category: "governing_officials", descriptionKey: "ana_k" },
+    { name: "Lazar Mičeta", picture: "Лазар Мичета.jpg", category: "governing_officials", descriptionKey: "lazar_m" },
+    { name: "Daniela Ćosić", picture: "Danijela Ćosić.png", category: "governing_officials", descriptionKey: "daniela" },
+    { name: "Petar Kostadinović", picture: "Petar Kostadinovic.jpg", category: "governing_officials", descriptionKey: "petar_gov" },
+    { name: "Alim Kadirov", picture: "Алим Кадиров.jpg", category: "governing_officials", descriptionKey: "alim_sel" },
+    { name: "Teodora Višnjić", picture: "Teodora Višnjić.jpeg", category: "governing_officials", descriptionKey: "teodora" },
+  ]
 };
 
 /**
  * Helper function to build URL-encoded picture path
  */
 function getPictureUrl(category: string, fileName: string): string {
-  return `/organi_saveza/${encodeURIComponent(category)}/${encodeURIComponent(fileName)}`;
+  return `/organi_saveza/${encodeURIComponent(fileName)}`;
 }
 
 const categoryTitles: Record<string, { en: string; sr: string }> = {
-  uprava: { en: "Management", sr: "Uprava" },
-  treneri: { en: "Coaches", sr: "Treneri" },
-  "fie sudije": { en: "FIE Referees", sr: "FIE Sudije" },
+  uprava: { en: "Management", sr: "Управа" },
+  treneri: { en: "Coaches", sr: "Тренери" },
+  "fie sudije": { en: "FIE Referees", sr: "Фие судије" },
+  "governing_officials": { en: "Officials - MSS, MSB and FIE", sr: "Функционери МСС, МСБ и ФИЕ" },
 };
 
-const categoryOrder = ["uprava", "treneri", "fie sudije"];
+const categoryOrder = ["uprava", "treneri", "fie sudije", "governing_officials"];
 
 export default async function OrganiSavezaPage({
   params,
