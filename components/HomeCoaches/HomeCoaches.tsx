@@ -10,31 +10,31 @@ const coaches = [
     name: "Алим Кадиров",
     title: "Trener",
     description: "Opis",
-    picture: encodeURI("/organi_saveza/treneri/Алим Кадиров.jpg"),
+    picture: encodeURI("/organi_saveza/Алим Кадиров.jpg"),
   },
   {
     name: "Ивица Субић",
     title: "Trener",
     description: "Opis",
-    picture: encodeURI("/organi_saveza/treneri/Ивица Субић.jpg"),
+    picture: encodeURI("/organi_saveza/Ивица Субић.jpg"),
   },
   {
     name: "Немања Ђурђић",
     title: "Trener",
     description: "Opis",
-    picture: encodeURI("/organi_saveza/treneri/Немања Ђурђић.jpg"),
+    picture: encodeURI("/organi_saveza/Немања Ђурђић.jpg"),
   },
   {
     name: "Петар Волконски",
     title: "Trener",
     description: "Opis",
-    picture: encodeURI("/organi_saveza/treneri/Петар Волконски.jpg"),
+    picture: encodeURI("/organi_saveza/Петар Волконски.jpg"),
   },
   {
     name: "Степан Колиесов",
     title: "Trener",
     description: "Opis",
-    picture: encodeURI("/organi_saveza/treneri/Степан Колиесов.jpg"),
+    picture: encodeURI("/organi_saveza/Степан Колиесов.jpg"),
   },
 ];
 
