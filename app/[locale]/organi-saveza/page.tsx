@@ -3,6 +3,7 @@ import OrganiSavezaPageContent from "@/components/OrganiSaveza/OrganiSavezaConte
 
 interface Member {
   name: string;
+  nameSr?: string;
   picture: string;
   category: string;
   descriptionKey: string;
@@ -16,34 +17,34 @@ interface Member {
  */
 const membersData: Record<string, Member[]> = {
   uprava: [
-    { name: "prof.dr Svetlana Petronijević", picture: "Светлана Вишњић Петронијевић.jpg", category: "uprava", descriptionKey: "svetlana" },
-    { name: "Zoran Timić", picture: "Зоран Тимић.jpg", category: "uprava", descriptionKey: "zoran" },
-    { name: "Dragan Makević", picture: "Драган Макевић.jpg", category: "uprava", descriptionKey: "dragan" },
-    { name: "Mirjana Djukić", picture: "mirjana djukic.JPG", category: "uprava", descriptionKey: "marija" },
-    { name: "Dalibor Arbutina", picture: "Dalibor Arbutina.jpg", category: "uprava", descriptionKey: "dalibor" },
-    { name: "Lazar Mičeta", picture: "Лазар Мирчета.jpg", category: "uprava", descriptionKey: "lazar" },
+    { name: "prof.dr Svetlana Petronijević", nameSr: "проф.др Светлана Петронијевић", picture: "Светлана Вишњић Петронијевић.jpg", category: "uprava", descriptionKey: "svetlana" },
+    { name: "Zoran Timić", nameSr: "Зоран Тимић", picture: "Зоран Тимић.jpg", category: "uprava", descriptionKey: "zoran" },
+    { name: "Dragan Makević", nameSr: "Драган Макевић", picture: "Драган Макевић.jpg", category: "uprava", descriptionKey: "dragan" },
+    { name: "Mirjana Djukić", nameSr: "Мирјана Ђукић", picture: "mirjana djukic.JPG", category: "uprava", descriptionKey: "marija" },
+    { name: "Dalibor Arbutina", nameSr: "Далибор Арбутина", picture: "Dalibor Arbutina.jpg", category: "uprava", descriptionKey: "dalibor" },
+    { name: "Lazar Mičeta", nameSr: "Лазар Мичета", picture: "Лазар Мирчета.jpg", category: "uprava", descriptionKey: "lazar" },
   ],
   treneri: [
-    { name: "Alim Kadirov", picture: "Алим Кадиров.jpg", category: "treneri", descriptionKey: "alim" },
-    { name: "Ivica Subić", picture: "Ивица Субић.jpg", category: "treneri", descriptionKey: "ivica" },
-    { name: "Nemanja Đurđić", picture: "Немања Ђурђић.jpg", category: "treneri", descriptionKey: "nemanja" },
-    { name: "Petar Volkonski", picture: "Петар Волконски.jpg", category: "treneri", descriptionKey: "petar" },
-    { name: "Stepan Koliesov", picture: "Степан Колиесов.jpg", category: "treneri", descriptionKey: "stepan" },
-    { name: "Veljko Ćuk", picture: "Veljko Cuk.jpg", category: "treneri", descriptionKey: "veljko" },
-    { name: "Petar Kostadinović", picture: "Petar Kostadinovic trener.jpg", category: "fie sudije", descriptionKey: "petar_k" },
+    { name: "Alim Kadirov", nameSr: "Алим Кадиров", picture: "Алим Кадиров.jpg", category: "treneri", descriptionKey: "alim" },
+    { name: "Ivica Subić", nameSr: "Ивица Субић", picture: "Ивица Субић.jpg", category: "treneri", descriptionKey: "ivica" },
+    { name: "Nemanja Đurđić", nameSr: "Немања Ђурђић", picture: "Немања Ђурђић.jpg", category: "treneri", descriptionKey: "nemanja" },
+    { name: "Petar Volkonski", nameSr: "Петар Волконски", picture: "Петар Волконски.jpg", category: "treneri", descriptionKey: "petar" },
+    { name: "Stepan Koliesov", nameSr: "Степан Колиесов", picture: "Степан Колиесов.jpg", category: "treneri", descriptionKey: "stepan" },
+    { name: "Veljko Ćuk", nameSr: "Вељко Ћук", picture: "Veljko Cuk.jpg", category: "treneri", descriptionKey: "veljko" },
+    { name: "Petar Kostadinović", nameSr: "Петар Костадиновић", picture: "Petar Kostadinovic trener.jpg", category: "fie sudije", descriptionKey: "petar_k" },
   ],
   "fie sudije": [
-    { name: "Ana Kovrlija", picture: "Ана Коврлија.jpg", category: "fie sudije", descriptionKey: "ana" },
-    { name: "Marija Kovačević", picture: "Марија Ковачевић.jpg", category: "fie sudije", descriptionKey: "marija" },
-    { name: "Petar Kostadinović", picture: "Petar Kostadinovic.jpg", category: "fie sudije", descriptionKey: "petar_k" },
+    { name: "Ana Kovrlija", nameSr: "Ана Коврлија", picture: "Ана Коврлија.jpg", category: "fie sudije", descriptionKey: "ana" },
+    { name: "Marija Kovačević", nameSr: "Марија Ковачевић", picture: "Марија Ковачевић.jpg", category: "fie sudije", descriptionKey: "marija" },
+    { name: "Petar Kostadinović", nameSr: "Петар Костадиновић", picture: "Petar Kostadinovic.jpg", category: "fie sudije", descriptionKey: "petar_k" },
   ],
   "governing_officials": [
-    { name: "Ana Kovrlija", picture: "Ана Коврлија.jpg", category: "governing_officials", descriptionKey: "ana_k" },
-    { name: "Lazar Mičeta", picture: "Лазар Мичета.jpg", category: "governing_officials", descriptionKey: "lazar_m" },
-    { name: "Daniela Ćosić", picture: "Danijela Ćosić.png", category: "governing_officials", descriptionKey: "daniela" },
-    { name: "Petar Kostadinović", picture: "Petar Kostadinovic.jpg", category: "governing_officials", descriptionKey: "petar_gov" },
-    { name: "Alim Kadirov", picture: "Алим Кадиров.jpg", category: "governing_officials", descriptionKey: "alim_sel" },
-    { name: "Teodora Višnjić", picture: "Teodora Višnjić.jpeg", category: "governing_officials", descriptionKey: "teodora" },
+    { name: "Ana Kovrlija", nameSr: "Ана Коврлија", picture: "Ана Коврлија.jpg", category: "governing_officials", descriptionKey: "ana_k" },
+    { name: "Lazar Mičeta", nameSr: "Лазар Мичета", picture: "Лазар Мичета.jpg", category: "governing_officials", descriptionKey: "lazar_m" },
+    { name: "Daniela Ćosić", nameSr: "Данијела Ћосић", picture: "Danijela Ćosić.png", category: "governing_officials", descriptionKey: "daniela" },
+    { name: "Petar Kostadinović", nameSr: "Петар Костадиновић", picture: "Petar Kostadinovic.jpg", category: "governing_officials", descriptionKey: "petar_gov" },
+    { name: "Alim Kadirov", nameSr: "Алим Кадиров", picture: "Алим Кадиров.jpg", category: "governing_officials", descriptionKey: "alim_sel" },
+    { name: "Teodora Višnjić", nameSr: "Теодора Вишњић", picture: "Teodora Višnjić.jpeg", category: "governing_officials", descriptionKey: "teodora" },
   ]
 };
 
@@ -75,8 +76,9 @@ export default async function OrganiSavezaPage({
   const members = Object.fromEntries(
     Object.entries(membersData).map(([category, categoryMembers]) => [
       category,
-      categoryMembers.map(({ descriptionKey, ...member }) => ({
+      categoryMembers.map(({ descriptionKey, nameSr, ...member }) => ({
         ...member,
+        name: locale === "sr" && nameSr ? nameSr : member.name,
         picture: getPictureUrl(member.category, member.picture),
         description: t(`descriptions.${category}.${descriptionKey}`)
       }))
