@@ -22,7 +22,7 @@ const membersData: Record<string, Member[]> = {
     { name: "Dragan Makević", nameSr: "Драган Макевић", picture: "Драган Макевић.jpg", category: "uprava", descriptionKey: "dragan" },
     { name: "Mirjana Djukić", nameSr: "Мирјана Ђукић", picture: "mirjana djukic.JPG", category: "uprava", descriptionKey: "marija" },
     { name: "Dalibor Arbutina", nameSr: "Далибор Арбутина", picture: "Dalibor Arbutina.jpg", category: "uprava", descriptionKey: "dalibor" },
-    { name: "Lazar Mičeta", nameSr: "Лазар Мичета", picture: "Лазар Мирчета.jpg", category: "uprava", descriptionKey: "lazar" },
+    { name: "Lazar Mičeta", nameSr: "Лазар Мичета", picture: "Лазар Мичета.jpg", category: "uprava", descriptionKey: "lazar" },
   ],
   treneri: [
     { name: "Alim Kadirov", nameSr: "Алим Кадиров", picture: "Алим Кадиров.jpg", category: "treneri", descriptionKey: "alim" },
@@ -31,7 +31,7 @@ const membersData: Record<string, Member[]> = {
     { name: "Petar Volkonski", nameSr: "Петар Волконски", picture: "Петар Волконски.jpg", category: "treneri", descriptionKey: "petar" },
     { name: "Stepan Koliesov", nameSr: "Степан Колиесов", picture: "Степан Колиесов.jpg", category: "treneri", descriptionKey: "stepan" },
     { name: "Veljko Ćuk", nameSr: "Вељко Ћук", picture: "Veljko Cuk.jpg", category: "treneri", descriptionKey: "veljko" },
-    { name: "Petar Kostadinović", nameSr: "Петар Костадиновић", picture: "Petar Kostadinovic trener.jpg", category: "fie sudije", descriptionKey: "petar_k" },
+    { name: "Petar Kostadinović", nameSr: "Петар Костадиновић", picture: "Petar Kostadinovic trener.jpg", category: "treneri", descriptionKey: "petar_k" },
   ],
   "fie sudije": [
     { name: "Ana Kovrlija", nameSr: "Ана Коврлија", picture: "Ана Коврлија.jpg", category: "fie sudije", descriptionKey: "ana" },
@@ -48,10 +48,11 @@ const membersData: Record<string, Member[]> = {
   ]
 };
 
+
 /**
  * Helper function to build URL-encoded picture path
  */
-function getPictureUrl(category: string, fileName: string): string {
+function getPictureUrl(fileName: string): string {
   return `/organi_saveza/${encodeURIComponent(fileName)}`;
 }
 
@@ -79,7 +80,7 @@ export default async function OrganiSavezaPage({
       categoryMembers.map(({ descriptionKey, nameSr, ...member }) => ({
         ...member,
         name: locale === "sr" && nameSr ? nameSr : member.name,
-        picture: getPictureUrl(member.category, member.picture),
+        picture: getPictureUrl(member.picture),
         description: t(`descriptions.${category}.${descriptionKey}`)
       }))
     ])
