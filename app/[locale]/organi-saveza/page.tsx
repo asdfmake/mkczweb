@@ -22,7 +22,7 @@ const membersData: Record<string, Member[]> = {
     { name: "Dragan Makević", nameSr: "Драган Макевић", picture: "Драган Макевић.jpg", category: "uprava", descriptionKey: "dragan" },
     { name: "Mirjana Djukić", nameSr: "Мирјана Ђукић", picture: "mirjana djukic.JPG", category: "uprava", descriptionKey: "marija" },
     { name: "Dalibor Arbutina", nameSr: "Далибор Арбутина", picture: "Dalibor Arbutina.jpg", category: "uprava", descriptionKey: "dalibor" },
-    { name: "Lazar Mičeta", nameSr: "Лазар Мичета", picture: "Лазар Мичета.jpg", category: "uprava", descriptionKey: "lazar" },
+    { name: "Lazar Mičeta", nameSr: "Лазар Мичета", picture: "Lazar Miceta doktor.jpeg", category: "uprava", descriptionKey: "lazar" },
   ],
   treneri: [
     { name: "Alim Kadirov", nameSr: "Алим Кадиров", picture: "Алим Кадиров.jpg", category: "treneri", descriptionKey: "alim" },
@@ -34,12 +34,12 @@ const membersData: Record<string, Member[]> = {
     { name: "Petar Kostadinović", nameSr: "Петар Костадиновић", picture: "Petar Kostadinovic trener.jpg", category: "treneri", descriptionKey: "petar_k" },
   ],
   "fie sudije": [
-    { name: "Ana Kovrlija", nameSr: "Ана Коврлија", picture: "Ана Коврлија.jpg", category: "fie sudije", descriptionKey: "ana" },
-    { name: "Marija Kovačević", nameSr: "Марија Ковачевић", picture: "Марија Ковачевић.jpg", category: "fie sudije", descriptionKey: "marija" },
+    { name: "Ana Kovrlija", nameSr: "Ана Коврлија", picture: "Ana Kovrlija sudija.jpeg", category: "fie sudije", descriptionKey: "ana" },
+    { name: "Marija Kovačević", nameSr: "Марија Ковачевић", picture: "Marija Kovacevic sudija.jpeg", category: "fie sudije", descriptionKey: "marija" },
     { name: "Petar Kostadinović", nameSr: "Петар Костадиновић", picture: "Petar Kostadinovic.jpg", category: "fie sudije", descriptionKey: "petar_k" },
   ],
   "governing_officials": [
-    { name: "Ana Kovrlija", nameSr: "Ана Коврлија", picture: "Ана Коврлија.jpg", category: "governing_officials", descriptionKey: "ana_k" },
+    { name: "Ana Kovrlija", nameSr: "Ана Коврлија", picture: "Ana Kovrlija fie komisija.jpeg", category: "governing_officials", descriptionKey: "ana_k" },
     { name: "Lazar Mičeta", nameSr: "Лазар Мичета", picture: "Лазар Мичета.jpg", category: "governing_officials", descriptionKey: "lazar_m" },
     { name: "Daniela Ćosić", nameSr: "Данијела Ћосић", picture: "Danijela Ćosić.png", category: "governing_officials", descriptionKey: "daniela" },
     { name: "Petar Kostadinović", nameSr: "Петар Костадиновић", picture: "Petar Kostadinovic.jpg", category: "governing_officials", descriptionKey: "petar_gov" },
