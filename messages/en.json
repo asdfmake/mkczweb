@@ -45,6 +45,13 @@
                 "petar_gov": "Sports Director of MSS",
                 "alim_sel": "National Foil Selector",
                 "teodora": "Member of IOC Safety Officers Board\nFIE Safeguarding and Welfare Officer\nEFC Safeguarding Commission member\nEFC Safeguarding Officer"
+            },
+            "clanovi_upravnog_odbora": {
+                "dragan": "Board Member",
+                "marija": "Board Member"
+            },
+            "doktor": {
+                "lazar": "Physician"
             }
         }
     },
