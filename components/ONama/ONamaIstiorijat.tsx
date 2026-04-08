@@ -237,24 +237,23 @@ function ONamaIstiorijat() {
           onClick={() => setZoomedImage(null)}
         >
           <div
-            className="relative w-full max-w-4xl"
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
-            style={{ maxHeight: "90vh", height: "auto" }}
           >
-            <button
-              onClick={() => setZoomedImage(null)}
-              className="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors z-10"
-              aria-label="Close zoom"
-            >
-              <X size={32} />
-            </button>
-            <div className="relative w-full bg-white rounded-lg overflow-hidden" style={{ position: "relative", height: "auto" }}>
+            <div className="relative w-full h-full bg-white rounded-lg overflow-hidden flex items-center justify-center">
+              <button
+                onClick={() => setZoomedImage(null)}
+                className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors z-10"
+                aria-label="Close zoom"
+              >
+                <X size={24} />
+              </button>
               <Image
                 src={`/history/${zoomedImage}`}
                 alt="Zoomed image"
                 width={1200}
                 height={800}
-                className="w-full h-auto object-contain"
+                className="w-full max-h-[85vh] h-auto object-contain"
                 priority
               />
             </div>
