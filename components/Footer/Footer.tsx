@@ -34,21 +34,14 @@ function Footer() {
         {/* Social icons */}
         <div className="flex gap-3">
           <Link
-            href="http://facebook.com"
+            href="https://www.facebook.com/macevanjebg/"
             className="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2"
             aria-label="Facebook"
           >
             <Image alt="facebook" src="/facebook.svg" width={16} height={16} />
           </Link>
           <Link
-            href="http://youtube.com"
-            className="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2"
-            aria-label="YouTube"
-          >
-            <Image alt="youtube" src="/youtube.svg" width={16} height={16} />
-          </Link>
-          <Link
-            href="http://instagram.com"
+            href="https://www.instagram.com/mkcrvenazvezda/"
             className="bg-white/10 hover:bg-white/20 transition-colors rounded-full p-2"
             aria-label="Instagram"
           >

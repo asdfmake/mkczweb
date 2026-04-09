@@ -6,19 +6,19 @@ import { useTranslations } from "next-intl";
 const contactKeys = [
   {
     sectionKey: "sekretarijat",
-    phone: "+381 69 690-6969",
-    email: "sekretarijat@mkcrvenazvezda.rs",
+    phone: "+381 63 211036",
+    email: "redstarfencingclub@gmail.com",
   },
-  {
-    sectionKey: "marketing",
-    phone: "+381 69 690-6970",
-    email: "marketing@mkcrvenazvezda.rs",
-  },
-  {
-    sectionKey: "clanstvo",
-    phone: "+381 69 690-6971",
-    email: "clanstvo@mkcrvenazvezda.rs",
-  },
+  // {
+  //   sectionKey: "marketing",
+  //   phone: "+381 69 690-6970",
+  //   email: "redstarfencingclub@gmail.com",
+  // },
+  // {
+  //   sectionKey: "clanstvo",
+  //   phone: "+381 69 690-6971",
+  //   email: "redstarfencingclub@gmail.com",
+  // },
 ];
 
 function ContactsInfo() {
@@ -32,15 +32,11 @@ function ContactsInfo() {
         {t("head_contact")}
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border">
+      <div className="grid grid-cols-1 gap-0 border border-border">
         {contactKeys.map((c, i) => (
           <div
             key={c.sectionKey}
-            className={`p-8 flex flex-col gap-6 ${
-              i < contactKeys.length - 1
-                ? "border-b md:border-b-0 md:border-r border-border"
-                : ""
-            }`}
+            className="p-12 md:p-16 flex flex-col gap-6"
           >
             <h3 className="font-heading text-[18px] uppercase font-semibold text-red tracking-widest">
               {t(c.sectionKey)}
