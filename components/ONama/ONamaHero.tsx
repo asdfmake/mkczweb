@@ -21,7 +21,7 @@ function ONamaHero() {
 
       {/* Content */}
       <div className="relative z-10 w-full px-6 md:px-16 xl:px-72 pb-14 md:pb-20">
-        <p className="font-heading text-[#D50000] text-[14px] md:text-[16px] uppercase tracking-widest mb-3">
+        <p className="font-heading text-white text-[14px] md:text-[16px] uppercase tracking-widest mb-3">
           {t("hero_badge")}
         </p>
         <h1 className="font-heading text-white text-[40px] md:text-[64px] uppercase font-semibold leading-tight text-balance mb-4">
