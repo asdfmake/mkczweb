@@ -36,7 +36,7 @@ function ONamaHero() {
           <Link href="/kontakt">
             <Button text={t("hero_join")} className="bg-[#D50000] hover:bg-[#AF0000]" />
           </Link>
-          <Link href="/vesti">
+          <Link href="/kontakt#schedule">
             <Button
               text={t("hero_trainings")}
               className="bg-transparent border-2 border-white hover:bg-white/10"
