@@ -106,7 +106,7 @@ function TrainingSchedule() {
   };
 
   return (
-    <section className="mx-auto px-6 md:px-10 max-w-[1250px] mb-14">
+    <section className="mx-auto px-6 md:px-10 max-w-[1250px] mb-14" id="schedule">
       <p className="font-heading text-red text-[13px] uppercase tracking-widest mb-3">
         {t("schedule_title")}
       </p>
