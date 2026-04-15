@@ -1,14 +1,54 @@
-import { NewsDetail } from "@/app/[locale]/vesti/[id]/page";
-import React from "react";
+"use client";
+
+import type { NewsDetail } from "@/app/[locale]/vesti/[id]/page";
+import React, { useEffect, useState } from "react";
+import { X } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
 interface NewsProps {
   news: NewsDetail;
 }
+
 const News = ({ news }: NewsProps) => {
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
+
+  const images = news.images ?? [];
+  const normalizeImageSrc = (name: string) => {
+    if (!name) return "";
+    if (/^https?:\/\//i.test(name)) return encodeURI(name);
+    if (name.startsWith("/uploads/")) return encodeURI(name);
+    if (name.startsWith("uploads/")) return encodeURI(`/${name}`);
+    return encodeURI(`/uploads/${name}`);
+  };
+
+  useEffect(() => {
+    if (!zoomedImage) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setZoomedImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [zoomedImage]);
+
   return (
     <div>
       <div className="w-full h-[300px]"></div>
       <div className="w-full bg-white rounded-lg shadow-lg p-8 mx-auto max-w-[1400px]">
-        {/* Back Navigation */}
         <div className="mb-6">
           <a
             href="../vesti"
@@ -27,19 +67,14 @@ const News = ({ news }: NewsProps) => {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-            Погледај све вести
+            Pogledaj sve vesti
           </a>
         </div>
 
-        {/* Title */}
-        <h1 className="text-4xl font-bold text-red-600 mb-4">
-          {news.newsHeader}
-        </h1>
+        <h1 className="text-4xl font-bold text-red-600 mb-4">{news.newsHeader}</h1>
 
-        {/* Date */}
         <div className="text-gray-600 mb-4">{news.date}</div>
 
-        {/* Social Share Buttons */}
         <div className="flex gap-2 mb-8">
           <button className="bg-orange-400 text-white p-2 rounded">
             <span className="sr-only">Copy link</span>
@@ -68,11 +103,74 @@ const News = ({ news }: NewsProps) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="space-y-4 text-gray-700">
           <p>{news.newsText}</p>
         </div>
+
+        {images.length > 0 && (
+          <div className="mt-8 px-2 md:px-10">
+            <Carousel opts={{ align: "start", loop: images.length > 1 }}>
+              <CarouselContent className="xl:justify-start">
+                {images.map((image, idx) => {
+                  const src = normalizeImageSrc(image.name);
+
+                  return (
+                    <CarouselItem
+                      key={`${image.name}-${idx}`}
+                      className="basis-full min-w-full"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setZoomedImage(src)}
+                        className="relative block w-full h-[280px] md:h-[460px] rounded-lg overflow-hidden bg-gray-100"
+                        aria-label={`Open image ${idx + 1} in zoom mode`}
+                      >
+                        <img
+                          src={src}
+                          alt={`${news.newsHeader} image ${idx + 1}`}
+                          className="w-full h-full object-contain"
+                          loading="lazy"
+                        />
+                      </button>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+              {images.length > 1 && (
+                <>
+                  <CarouselPrevious className="left-4 bg-white/90 hover:bg-white border-[#D50000] text-[#D50000]" />
+                  <CarouselNext className="right-4 bg-white/90 hover:bg-white border-[#D50000] text-[#D50000]" />
+                </>
+              )}
+            </Carousel>
+          </div>
+        )}
       </div>
+
+      {zoomedImage && (
+        <div
+          className="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4"
+          onClick={() => setZoomedImage(null)}
+        >
+          <div
+            className="relative w-full max-w-6xl max-h-[92vh]"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              onClick={() => setZoomedImage(null)}
+              className="absolute top-3 right-3 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors z-10"
+              aria-label="Close zoom"
+            >
+              <X size={22} />
+            </button>
+            <img
+              src={zoomedImage}
+              alt="Zoomed news image"
+              className="w-full max-h-[90vh] h-auto object-contain rounded-lg"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
