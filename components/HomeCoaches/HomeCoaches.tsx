@@ -9,33 +9,39 @@ const coaches = [
   {
     name: "Алим Кадиров",
     title: "Trener",
-    description: "Opis",
+    descriptionKey: "Organi.descriptions.treneri.alim",
     picture: encodeURI("/organi_saveza/Алим Кадиров.jpg"),
   },
   {
     name: "Ивица Субић",
     title: "Trener",
-    description: "Opis",
+    descriptionKey: "Organi.descriptions.treneri.ivica",
     picture: encodeURI("/organi_saveza/Ивица Субић.jpg"),
   },
   {
     name: "Немања Ђурђић",
     title: "Trener",
-    description: "Opis",
+    descriptionKey: "Organi.descriptions.treneri.nemanja",
     picture: encodeURI("/organi_saveza/Немања Ђурђић.jpg"),
   },
   {
     name: "Петар Волконски",
     title: "Trener",
-    description: "Opis",
+    descriptionKey: "Organi.descriptions.treneri.petar",
     picture: encodeURI("/organi_saveza/Петар Волконски.jpg"),
   },
   {
     name: "Степан Колиесов",
     title: "Trener",
-    description: "Opis",
+    descriptionKey: "Organi.descriptions.treneri.stepan",
     picture: encodeURI("/organi_saveza/Степан Колиесов.jpg"),
   },
+  {
+    name: "Петар Костадиновић",
+    title: "Trener",
+    descriptionKey: "Organi.descriptions.treneri.petar_k",
+    picture: encodeURI("/organi_saveza/Petar Kostadinovic trener.jpg"),
+  }
 ];
 
 function HomeCoaches() {
@@ -68,7 +74,7 @@ function HomeCoaches() {
                 picture={coach.picture}
                 name={coach.name}
                 title={coach.title}
-                description={coach.description}
+                descriptionKey={coach.descriptionKey}
               />
             </div>
           ))}
