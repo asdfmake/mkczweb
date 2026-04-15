@@ -201,7 +201,7 @@ function ONamaIstiorijat() {
                   {item.images.map((image, idx) => (
                     <div
                       key={idx}
-                      className="relative h-48 md:h-56 overflow-hidden rounded-lg bg-gray-200 cursor-pointer hover:opacity-80 transition-opacity"
+                      className="relative h-48 md:h-56 overflow-hidden rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
                       onClick={() => setZoomedImage(image)}
                     >
                       <Image
