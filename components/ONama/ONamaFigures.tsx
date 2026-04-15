@@ -20,7 +20,13 @@ const valueKeys = [
         strokeLinejoin="round"
         aria-hidden="true"
       >
-        <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="12" r="5" />
+        <circle cx="12" cy="12" r="1.5" />
+        <line x1="12" y1="2.5" x2="12" y2="6" />
+        <line x1="12" y1="18" x2="12" y2="21.5" />
+        <line x1="2.5" y1="12" x2="6" y2="12" />
+        <line x1="18" y1="12" x2="21.5" y2="12" />
       </svg>
     ),
   },
@@ -40,11 +46,8 @@ const valueKeys = [
         strokeLinejoin="round"
         aria-hidden="true"
       >
-        <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
-        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
-        <line x1="6" y1="1" x2="6" y2="4" />
-        <line x1="10" y1="1" x2="10" y2="4" />
-        <line x1="14" y1="1" x2="14" y2="4" />
+        <path d="M12 3l7 3v5c0 5-3.1 8.1-7 10-3.9-1.9-7-5-7-10V6l7-3z" />
+        <polyline points="9 12 11.3 14.3 15.5 10.1" />
       </svg>
     ),
   },
@@ -64,8 +67,11 @@ const valueKeys = [
         strokeLinejoin="round"
         aria-hidden="true"
       >
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
+        <rect x="3" y="5" width="18" height="16" rx="2" ry="2" />
+        <line x1="8" y1="3" x2="8" y2="7" />
+        <line x1="16" y1="3" x2="16" y2="7" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+        <polyline points="9 15 11 17 15 13" />
       </svg>
     ),
   },
@@ -85,9 +91,12 @@ const valueKeys = [
         strokeLinejoin="round"
         aria-hidden="true"
       >
-        <polyline points="8 6 2 12 8 18" />
-        <polyline points="16 6 22 12 16 18" />
-        <line x1="12" y1="2" x2="12" y2="22" />
+        <path d="M8 4h8v2a4 4 0 0 1-4 4 4 4 0 0 1-4-4V4z" />
+        <path d="M16 6h3a2 2 0 0 1-2 2h-1" />
+        <path d="M8 6H5a2 2 0 0 0 2 2h1" />
+        <line x1="12" y1="10" x2="12" y2="16" />
+        <rect x="9" y="16" width="6" height="2" rx="1" />
+        <line x1="7" y1="20" x2="17" y2="20" />
       </svg>
     ),
   },
