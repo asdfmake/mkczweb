@@ -101,7 +101,7 @@ function TrainingSchedule() {
 
   const getSlotColor = (location: Location) => {
     return location === "red_star_building" 
-      ? "bg-blue-100 text-blue-900" 
+      ? "bg-red/50 text-red-900" 
       : "bg-green-100 text-green-900";
   };
 
@@ -234,7 +234,7 @@ function TrainingSchedule() {
       {/* Legend */}
       <div className="mt-8 flex flex-col md:flex-row gap-6 md:gap-12 pt-6 border-t border-border">
         <div className="flex items-center gap-3">
-          <div className="w-6 h-6 bg-blue-100 border border-blue-300 rounded"></div>
+          <div className="w-6 h-6 bg-red/50 rounded"></div>
           <span className="font-body text-[13px] text-foreground">
             у згради СД Црвена звезда (Red Star Building)
           </span>

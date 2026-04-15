@@ -1,15 +1,21 @@
 import Image from "next/image";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export interface CoachCardProps {
   picture: string;
   name: string;
   title: string;
-  description: string;
+  description?: string;
+  descriptionKey?: string;
   className?: string;
 }
 
-function CoachCard({ picture, name, title, description = "", className }: CoachCardProps) {
+function CoachCard({ picture, name, title, description = "", descriptionKey, className }: CoachCardProps) {
+  const t = useTranslations();
+  
+  const displayDescription = descriptionKey ? t(descriptionKey) : description;
+
   return (
     <div
       className={`flex flex-col items-center bg-white border border-gray-100 shadow-sm overflow-hidden ${className}`}
@@ -31,7 +37,7 @@ function CoachCard({ picture, name, title, description = "", className }: CoachC
           {title}
         </p>
         <p className="font-body text-[14px] text-gray-700 leading-relaxed whitespace-pre-wrap">
-          {description}
+          {displayDescription}
         </p>
       </div>
     </div>
