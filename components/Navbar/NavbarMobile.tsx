@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useTransition } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -19,9 +21,21 @@ import ThemeToggle from "./ThemeToggle";
  */
 function NavbarMobile() {
   const t = useTranslations("Navbar");
+  const [open, setOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const handleLinkClick = () => {
+    startTransition(() => {
+      // Add a small delay to let navigation start before closing menu
+      setTimeout(() => {
+        setOpen(false);
+      }, 100);
+    });
+  };
+
   return (
     <nav className="sm:hidden">
-      <Drawer direction="top">
+      <Drawer direction="top" open={open} onOpenChange={setOpen}>
         <DrawerTrigger className="flex justify-between absolute t-0 z-10 w-full items-center pr-4">
           <Image alt="logo" src="/logo.svg" width={94} height={94} />
           <Image alt="logo" src="/bars.svg" width={45} height={45} />
@@ -35,7 +49,7 @@ function NavbarMobile() {
                 <Image alt="logo" src="/cross.svg" width={30} height={30} />
               </DrawerClose>
             </div>
-            <div className="h-full flex flex-col mt-16 text-xl font-heading font-bold text-red">
+            <div className="h-full flex flex-col mt-16 text-xl font-heading font-bold text-red" onClick={handleLinkClick}>
               {NavLinksLeft.concat(NavLinksRight).map((link, index) => {
                 return (
                   <NavbarItem
