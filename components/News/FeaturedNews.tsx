@@ -31,7 +31,7 @@ export default async function FeaturedNews() {
       >
         {heroImage ? (
           <Image
-            src={`/uploads/${heroImage}`}
+            src={encodeURI(`/uploads/${heroImage}`)}
             alt={article.newsHeader}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"

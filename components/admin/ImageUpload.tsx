@@ -61,7 +61,7 @@ export default function ImageUpload({
                   }`}
                 >
                   <Image
-                    src={`/uploads/${img.filename}`}
+                    src={encodeURI(`/uploads/${img.filename}`)}
                     alt="Article image"
                     width={120}
                     height={80}
