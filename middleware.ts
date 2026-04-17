@@ -24,6 +24,11 @@ async function isValidAdminToken(token: string): Promise<boolean> {
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Skip static files and uploads directory
+  if (pathname.startsWith("/uploads") || pathname.startsWith("/public")) {
+    return NextResponse.next();
+  }
+
   // Handle admin API routes - require authentication
   if (pathname.startsWith("/api/admin")) {
     const token = request.cookies.get("admin-token")?.value;
