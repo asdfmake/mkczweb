@@ -41,6 +41,9 @@ export async function POST(request: NextRequest) {
     const imageFiles = formData.getAll("images") as File[];
     const uploadDir = path.join(process.cwd(), "public", "uploads");
 
+    console.log(`[NEWS API] Upload directory: ${uploadDir}`);
+    console.log(`[NEWS API] Received ${imageFiles.length} image files`);
+
     // Ensure upload directory exists
     await mkdir(uploadDir, { recursive: true });
 
@@ -49,15 +52,21 @@ export async function POST(request: NextRequest) {
     for (const file of imageFiles) {
       if (file.size === 0) continue;
 
-      const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
+      try {
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
 
-      const ext = path.extname(file.name) || ".jpg";
-      const filename = `${crypto.randomUUID()}${ext}`;
-      const filepath = path.join(uploadDir, filename);
+        const ext = path.extname(file.name) || ".jpg";
+        const filename = `${crypto.randomUUID()}${ext}`;
+        const filepath = path.join(uploadDir, filename);
 
-      await writeFile(filepath, buffer);
-      imageFilenames.push(filename);
+        await writeFile(filepath, buffer);
+        console.log(`[NEWS API] Successfully saved image: ${filename}`);
+        imageFilenames.push(filename);
+      } catch (fileError) {
+        console.error(`[NEWS API] Failed to save file ${file.name}:`, fileError);
+        throw new Error(`Failed to save image ${file.name}: ${fileError instanceof Error ? fileError.message : String(fileError)}`);
+      }
     }
 
     // Create article with images in a transaction
@@ -74,11 +83,13 @@ export async function POST(request: NextRequest) {
       include: { images: true },
     });
 
+    console.log(`[NEWS API] Article created successfully with ID: ${article.id}`);
     return NextResponse.json(article, { status: 201 });
   } catch (error) {
-    console.error("Error creating article:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("[NEWS API] Error creating article:", errorMessage);
     return NextResponse.json(
-      { error: "Failed to create article" },
+      { error: errorMessage || "Failed to create article" },
       { status: 500 }
     );
   }

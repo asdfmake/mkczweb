@@ -21,10 +21,10 @@ const News = ({ news }: NewsProps) => {
   const images = news.images ?? [];
   const normalizeImageSrc = (name: string) => {
     if (!name) return "";
-    if (/^https?:\/\//i.test(name)) return encodeURI(name);
-    if (name.startsWith("/uploads/")) return encodeURI(name);
-    if (name.startsWith("uploads/")) return encodeURI(`/${name}`);
-    return encodeURI(`/uploads/${name}`);
+    if (/^https?:\/\//i.test(name)) return name;
+    if (name.startsWith("/uploads/")) return name;
+    if (name.startsWith("uploads/")) return `/${name}`;
+    return `/uploads/${name}`;
   };
 
   useEffect(() => {
