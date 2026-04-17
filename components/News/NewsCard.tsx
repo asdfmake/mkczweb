@@ -35,6 +35,7 @@ function NewsCard({ className, date, title, img, bodySr, id }: NewsCardProps) {
             alt="newsIMG"
             width={480} // Original width (can be adjusted)
             height={300} // Original height (can be adjusted)
+            unoptimized
             className="w-full h-full object-cover" // Ensures the image covers the container
           />
         </div>

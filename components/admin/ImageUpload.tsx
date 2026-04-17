@@ -80,6 +80,7 @@ export default function ImageUpload({
                     alt="Article image"
                     width={120}
                     height={80}
+                    unoptimized
                     className="w-[120px] h-[80px] object-cover"
                   />
                   <button
