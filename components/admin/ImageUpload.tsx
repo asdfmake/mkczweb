@@ -32,7 +32,22 @@ export default function ImageUpload({
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files || []);
     if (files.length > 0) {
-      onFilesAdd(files);
+      // Validate file sizes
+      const validFiles = files.filter((file) => {
+        if (file.size === 0) {
+          console.warn(`[ImageUpload] Skipping empty file: ${file.name}`);
+          return false;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          console.warn(`[ImageUpload] File too large (>10MB): ${file.name}`);
+          return false;
+        }
+        return true;
+      });
+      if (validFiles.length > 0) {
+        console.log(`[ImageUpload] Adding ${validFiles.length} valid image files`);
+        onFilesAdd(validFiles);
+      }
     }
     // Reset input so the same file can be selected again
     if (fileInputRef.current) {
@@ -65,6 +80,7 @@ export default function ImageUpload({
                     alt="Article image"
                     width={120}
                     height={80}
+                    unoptimized
                     className="w-[120px] h-[80px] object-cover"
                   />
                   <button

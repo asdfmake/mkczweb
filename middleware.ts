@@ -24,9 +24,28 @@ async function isValidAdminToken(token: string): Promise<boolean> {
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Skip static files and uploads directory
+  if (pathname.startsWith("/uploads") || pathname.startsWith("/public")) {
+    return NextResponse.next();
+  }
+
+  // Handle admin API routes - require authentication
+  if (pathname.startsWith("/api/admin")) {
+    const token = request.cookies.get("admin-token")?.value;
+
+    if (!token || !(await isValidAdminToken(token))) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    return NextResponse.next();
+  }
+
   // Handle admin routes
   if (pathname.startsWith("/admin")) {
-    // Allow the login page and API routes without auth
+    // Allow the login page without auth
     if (pathname === "/admin/login") {
       return NextResponse.next();
     }
@@ -42,7 +61,7 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Handle API routes - pass through
+  // Handle other API routes - pass through
   if (pathname.startsWith("/api")) {
     return NextResponse.next();
   }

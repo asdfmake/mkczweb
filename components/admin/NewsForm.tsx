@@ -72,7 +72,9 @@ export default function NewsForm({
       formData.append("date", date);
       formData.append("featured", String(featured));
 
+      console.log(`[NewsForm] Submitting ${newFiles.length} image files`);
       for (const file of newFiles) {
+        console.log(`[NewsForm] Adding file: ${file.name} (${file.size} bytes)`);
         formData.append("images", file);
       }
 
@@ -88,20 +90,26 @@ export default function NewsForm({
           : `/api/admin/news/${articleId}`;
       const method = mode === "create" ? "POST" : "PUT";
 
+      console.log(`[NewsForm] Sending request to ${method} ${url}`);
       const res = await fetch(url, {
         method,
         body: formData,
       });
 
+      const responseData = await res.json();
+      console.log(`[NewsForm] Response status: ${res.status}`, responseData);
+
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to save article");
+        throw new Error(responseData.error || "Failed to save article");
       }
 
+      console.log(`[NewsForm] Article saved successfully`);
       router.push("/admin");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      const errorMsg = err instanceof Error ? err.message : "Something went wrong";
+      console.error("[NewsForm] Error:", errorMsg);
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }

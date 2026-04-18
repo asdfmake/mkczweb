@@ -84,7 +84,7 @@ export default async function AdminDashboard() {
                     <td className="px-6 py-4">
                       {article.images[0] ? (
                         <Image
-                          src={`/uploads/${article.images[0].filename}`}
+                          src={encodeURI(`/uploads/${article.images[0].filename}`)}
                           alt=""
                           width={64}
                           height={44}
