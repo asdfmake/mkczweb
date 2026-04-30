@@ -1,5 +1,5 @@
 import { getLatestFeaturedArticle } from "@/lib/posts";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { ArrowRight } from "lucide-react";
@@ -13,7 +13,8 @@ import { ArrowRight } from "lucide-react";
  * @returns The component's React node, or `null` if no featured article is available.
  */
 export default async function FeaturedNews() {
-  const article = await getLatestFeaturedArticle();
+  const locale = await getLocale();
+  const article = await getLatestFeaturedArticle(locale);
   const t = await getTranslations("Weapons");
 
   if (!article) return null;

@@ -1,5 +1,37 @@
 import { prisma } from "@/lib/prisma";
 
+// Helper function to get localized content
+function getLocalizedContent(
+  article: {
+    header: string;
+    text: string;
+    header_sr: string | null;
+    header_en: string | null;
+    header_ru: string | null;
+    text_sr: string | null;
+    text_en: string | null;
+    text_ru: string | null;
+  },
+  locale: string = "sr"
+) {
+  let header = article.header;
+  let text = article.text;
+
+  if (locale === "en") {
+    header = article.header_en || article.header;
+    text = article.text_en || article.text;
+  } else if (locale === "ru") {
+    header = article.header_ru || article.header;
+    text = article.text_ru || article.text;
+  } else {
+    // Default to Serbian
+    header = article.header_sr || article.header;
+    text = article.text_sr || article.text;
+  }
+
+  return { header, text };
+}
+
 export interface NewsDetailResult {
   newsId: number;
   newsHeader: string;
@@ -26,7 +58,8 @@ export interface NewsPaginatedResult {
 }
 
 export async function getNewsDetail(
-  id: number
+  id: number,
+  locale: string = "sr"
 ): Promise<NewsDetailResult | null> {
   try {
     const article = await prisma.newsArticle.findUnique({
@@ -36,10 +69,12 @@ export async function getNewsDetail(
 
     if (!article) return null;
 
+    const { header, text } = getLocalizedContent(article, locale);
+
     return {
       newsId: article.id,
-      newsHeader: article.header,
-      newsText: article.text,
+      newsHeader: header,
+      newsText: text,
       date: article.date,
       images: article.images.map((img) => ({ name: img.filename })),
     };
@@ -52,9 +87,10 @@ export async function getNewsDetail(
 /**
  * Retrieve up to ten most recent featured news articles, including their images.
  *
+ * @param locale - Language locale (en, sr, ru) - defaults to "sr"
  * @returns An array of news items in `NewsDetailResult` shape; returns an empty array if none are found or on error.
  */
-export async function getFeaturedNews(): Promise<NewsDetailResult[]> {
+export async function getFeaturedNews(locale: string = "sr"): Promise<NewsDetailResult[]> {
   try {
     const articles = await prisma.newsArticle.findMany({
       where: { featured: true },
@@ -63,13 +99,16 @@ export async function getFeaturedNews(): Promise<NewsDetailResult[]> {
       take: 10,
     });
 
-    return articles.map((article) => ({
-      newsId: article.id,
-      newsHeader: article.header,
-      newsText: article.text,
-      date: article.date,
-      images: article.images.map((img) => ({ name: img.filename })),
-    }));
+    return articles.map((article) => {
+      const { header, text } = getLocalizedContent(article, locale);
+      return {
+        newsId: article.id,
+        newsHeader: header,
+        newsText: text,
+        date: article.date,
+        images: article.images.map((img) => ({ name: img.filename })),
+      };
+    });
   } catch (error) {
     console.error("Error fetching featured news:", error);
     return [];
@@ -80,9 +119,10 @@ export async function getFeaturedNews(): Promise<NewsDetailResult[]> {
  * Fetches the most recent news articles up to the specified limit, including associated images.
  *
  * @param limit - Maximum number of articles to retrieve (defaults to 10)
+ * @param locale - Language locale (en, sr, ru) - defaults to "sr"
  * @returns An array of news items each containing `newsId`, `newsHeader`, `newsText`, `date`, and `images` (each image as `{ name: string }`); returns an empty array on error
  */
-export async function getLatestNews(limit: number = 10): Promise<NewsDetailResult[]> {
+export async function getLatestNews(limit: number = 10, locale: string = "sr"): Promise<NewsDetailResult[]> {
   try {
     const articles = await prisma.newsArticle.findMany({
       include: { images: true },
@@ -90,13 +130,16 @@ export async function getLatestNews(limit: number = 10): Promise<NewsDetailResul
       take: limit,
     });
 
-    return articles.map((article) => ({
-      newsId: article.id,
-      newsHeader: article.header,
-      newsText: article.text,
-      date: article.date,
-      images: article.images.map((img) => ({ name: img.filename })),
-    }));
+    return articles.map((article) => {
+      const { header, text } = getLocalizedContent(article, locale);
+      return {
+        newsId: article.id,
+        newsHeader: header,
+        newsText: text,
+        date: article.date,
+        images: article.images.map((img) => ({ name: img.filename })),
+      };
+    });
   } catch (error) {
     console.error("Error fetching latest news:", error);
     return [];
@@ -108,9 +151,10 @@ export async function getLatestNews(limit: number = 10): Promise<NewsDetailResul
  *
  * Images are returned as objects with a `name` property (the image filename).
  *
+ * @param locale - Language locale (en, sr, ru) - defaults to "sr"
  * @returns `NewsDetailResult` for the latest featured article, or `null` if none is found or an error occurs.
  */
-export async function getLatestFeaturedArticle(): Promise<NewsDetailResult | null> {
+export async function getLatestFeaturedArticle(locale: string = "sr"): Promise<NewsDetailResult | null> {
   try {
     const article = await prisma.newsArticle.findFirst({
       where: { featured: true },
@@ -120,10 +164,12 @@ export async function getLatestFeaturedArticle(): Promise<NewsDetailResult | nul
 
     if (!article) return null;
 
+    const { header, text } = getLocalizedContent(article, locale);
+
     return {
       newsId: article.id,
-      newsHeader: article.header,
-      newsText: article.text,
+      newsHeader: header,
+      newsText: text,
       date: article.date,
       images: article.images.map((img) => ({ name: img.filename })),
     };
