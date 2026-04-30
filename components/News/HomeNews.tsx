@@ -9,7 +9,7 @@ import {
 } from "../ui/carousel";
 import { Link } from "@/i18n/routing";
 import { getLatestNews } from "@/lib/posts";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export interface News {
   newsId: number;
@@ -33,6 +33,7 @@ export interface Image {
  */
 async function HomeNews() {
   const locale = await getLocale();
+  const t = await getTranslations("Homepage");
   const latestNews = await getLatestNews(10, locale);
 
   if (!latestNews || latestNews.length === 0) return <div></div>;
@@ -41,13 +42,13 @@ async function HomeNews() {
     <div className="py-[32px] px-[24px] bg-red">
       <div className="w-full flex justify-between items-center mb-4 xl:px-[264px]">
         <h2 className="text-[48px] font-[500] font-heading text-white uppercase">
-          Vesti
+          {t("news")}
         </h2>
         <Link
           href="/vesti"
           className="text-white text-[20px] font-body font-bold underline-effect"
         >
-          Pogledaj sve vesti
+          {t("view_all_news")}
           {"  "}→
         </Link>
       </div>

@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import { useTranslations } from "next-intl";
 import CoachCard from "./CoachCard";
 
 const coaches = [
@@ -45,6 +46,7 @@ const coaches = [
 ];
 
 function HomeCoaches() {
+  const t = useTranslations("Homepage");
   const autoplay = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
@@ -58,7 +60,7 @@ function HomeCoaches() {
     <section className="py-16 bg-white">
       <div className="px-6 mb-10">
         <h2 className="font-heading text-[56px] md:text-[80px] font-bold uppercase leading-none text-red">
-          Treneri
+          {t("coaches")}
         </h2>
         <div className="w-16 h-1 bg-red mt-2" />
       </div>
