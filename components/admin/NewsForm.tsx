@@ -56,6 +56,8 @@ export default function NewsForm({
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [translatingTitles, setTranslatingTitles] = useState(false);
+  const [translatingContent, setTranslatingContent] = useState(false);
 
   function handleFilesAdd(files: File[]) {
     setNewFiles((prev) => [...prev, ...files]);
@@ -71,6 +73,114 @@ export default function NewsForm({
 
   function handleExistingImageRestore(id: number) {
     setDeletedImageIds((prev) => prev.filter((imgId) => imgId !== id));
+  }
+
+  async function translateTitles() {
+    if (!headerSr.trim()) {
+      setError("Please enter a Serbian title before translating");
+      return;
+    }
+
+    setTranslatingTitles(true);
+    setError("");
+
+    try {
+      // Translate to English
+      const enResponse = await fetch("/api/admin/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: headerSr,
+          sourceLanguage: "sr",
+          targetLanguage: "en",
+        }),
+      });
+
+      if (!enResponse.ok) {
+        throw new Error("Failed to translate to English");
+      }
+
+      const enData = await enResponse.json();
+      setHeaderEn(enData.translatedText);
+
+      // Translate to Russian
+      const ruResponse = await fetch("/api/admin/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: headerSr,
+          sourceLanguage: "sr",
+          targetLanguage: "ru",
+        }),
+      });
+
+      if (!ruResponse.ok) {
+        throw new Error("Failed to translate to Russian");
+      }
+
+      const ruData = await ruResponse.json();
+      setHeaderRu(ruData.translatedText);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Translation failed";
+      setError(errorMsg);
+      console.error("Translation error:", errorMsg);
+    } finally {
+      setTranslatingTitles(false);
+    }
+  }
+
+  async function translateContent() {
+    if (!textSr.trim()) {
+      setError("Please enter Serbian content before translating");
+      return;
+    }
+
+    setTranslatingContent(true);
+    setError("");
+
+    try {
+      // Translate to English
+      const enResponse = await fetch("/api/admin/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: textSr,
+          sourceLanguage: "sr",
+          targetLanguage: "en",
+        }),
+      });
+
+      if (!enResponse.ok) {
+        throw new Error("Failed to translate to English");
+      }
+
+      const enData = await enResponse.json();
+      setTextEn(enData.translatedText);
+
+      // Translate to Russian
+      const ruResponse = await fetch("/api/admin/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: textSr,
+          sourceLanguage: "sr",
+          targetLanguage: "ru",
+        }),
+      });
+
+      if (!ruResponse.ok) {
+        throw new Error("Failed to translate to Russian");
+      }
+
+      const ruData = await ruResponse.json();
+      setTextRu(ruData.translatedText);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Translation failed";
+      setError(errorMsg);
+      console.error("Translation error:", errorMsg);
+    } finally {
+      setTranslatingContent(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -171,7 +281,17 @@ export default function NewsForm({
 
       {/* Titles Section */}
       <div className="border-t pt-4">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Titles</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold text-neutral-900">Titles</h3>
+          <button
+            type="button"
+            onClick={translateTitles}
+            disabled={translatingTitles || !headerSr.trim()}
+            className="px-3 py-1 text-xs font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {translatingTitles ? "Translating..." : "Translate All"}
+          </button>
+        </div>
         
         {/* Title - Serbian */}
         <div className="flex flex-col gap-2 mb-4">
@@ -219,7 +339,17 @@ export default function NewsForm({
 
       {/* Content Section */}
       <div className="border-t pt-4">
-        <h3 className="text-sm font-semibold text-neutral-900 mb-4">Content</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold text-neutral-900">Content</h3>
+          <button
+            type="button"
+            onClick={translateContent}
+            disabled={translatingContent || !textSr.trim()}
+            className="px-3 py-1 text-xs font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {translatingContent ? "Translating..." : "Translate All"}
+          </button>
+        </div>
         
         {/* Content - Serbian */}
         <div className="flex flex-col gap-2 mb-4">
