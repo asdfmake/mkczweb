@@ -6,15 +6,19 @@ interface BlogPageProps {
   searchParams: Promise<{
     page?: string;
   }>;
+  params: Promise<{
+    locale: string;
+  }>;
 }
 
-export default async function BlogPage({ searchParams }: BlogPageProps) {
+export default async function BlogPage({ searchParams, params }: BlogPageProps) {
+  const { locale } = await params;
   let { page } = await searchParams;
   if (page === undefined) page = "1";
   if (parseInt(page) < 1) page = "1";
   const pageNum = parseInt(page) - 1;
 
-  const { data, metadata } = await getNewsPaginated(pageNum);
+  const { data, metadata } = await getNewsPaginated(pageNum, 12, locale);
 
   return (
     <main>

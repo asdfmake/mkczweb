@@ -188,7 +188,8 @@ export async function getLatestFeaturedArticle(locale: string = "sr"): Promise<N
  */
 export async function getNewsPaginated(
   page: number = 0,
-  pageSize: number = 12
+  pageSize: number = 12,
+  locale: string = "sr"
 ): Promise<NewsPaginatedResult> {
   try {
     const [articles, totalCount] = await Promise.all([
@@ -202,13 +203,16 @@ export async function getNewsPaginated(
     ]);
 
     return {
-      data: articles.map((article) => ({
-        newsId: article.id,
-        newsHeader: article.header,
-        newsText: article.text,
-        date: article.date,
-        images: article.images.map((img) => ({ name: img.filename })),
-      })),
+      data: articles.map((article) => {
+        const { header, text } = getLocalizedContent(article, locale);
+        return {
+          newsId: article.id,
+          newsHeader: header,
+          newsText: text,
+          date: article.date,
+          images: article.images.map((img) => ({ name: img.filename })),
+        };
+      }),
       metadata: {
         totalPages: Math.ceil(totalCount / pageSize),
         pageSize,
