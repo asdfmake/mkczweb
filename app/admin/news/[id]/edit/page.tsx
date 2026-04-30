@@ -51,6 +51,12 @@ export default async function EditArticlePage({
                 id: img.id,
                 filename: img.filename,
               })),
+              header_sr: article.header_sr || undefined,
+              header_en: article.header_en || undefined,
+              header_ru: article.header_ru || undefined,
+              text_sr: article.text_sr || undefined,
+              text_en: article.text_en || undefined,
+              text_ru: article.text_ru || undefined,
             }}
           />
         </div>

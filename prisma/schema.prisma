@@ -13,6 +13,14 @@ model NewsArticle {
   text      String
   date      String
   featured  Boolean     @default(false)
+  // Multilingual titles
+  header_sr String?
+  header_en String?
+  header_ru String?
+  // Multilingual content
+  text_sr   String?
+  text_en   String?
+  text_ru   String?
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   images    NewsImage[]
