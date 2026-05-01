@@ -38,6 +38,17 @@ function LanguageSwitcher() {
         }`}
       >
         EN
+      </span>{" "}
+      /{" "}
+      <span
+        onClick={() => {
+          onLocaleChange("ru");
+        }}
+        className={`cursor-pointer underline-effect ${
+          params.locale === "ru" ? "font-bold" : ""
+        }`}
+      >
+        RU
       </span>
     </div>
   );

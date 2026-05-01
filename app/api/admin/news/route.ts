@@ -29,6 +29,14 @@ export async function POST(request: NextRequest) {
     const text = formData.get("text") as string;
     const date = formData.get("date") as string;
     const featured = formData.get("featured") === "true";
+    
+    // Multilingual fields
+    const header_sr = formData.get("header_sr") as string | null;
+    const header_en = formData.get("header_en") as string | null;
+    const header_ru = formData.get("header_ru") as string | null;
+    const text_sr = formData.get("text_sr") as string | null;
+    const text_en = formData.get("text_en") as string | null;
+    const text_ru = formData.get("text_ru") as string | null;
 
     if (!header || !text || !date) {
       return NextResponse.json(
@@ -76,6 +84,12 @@ export async function POST(request: NextRequest) {
         text,
         date,
         featured,
+        header_sr: header_sr || null,
+        header_en: header_en || null,
+        header_ru: header_ru || null,
+        text_sr: text_sr || null,
+        text_en: text_en || null,
+        text_ru: text_ru || null,
         images: {
           create: imageFilenames.map((filename) => ({ filename })),
         },

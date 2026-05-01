@@ -55,6 +55,15 @@ export async function PUT(
     const text = formData.get("text") as string;
     const date = formData.get("date") as string;
     const featured = formData.get("featured") === "true";
+    
+    // Multilingual fields
+    const header_sr = formData.get("header_sr") as string | null;
+    const header_en = formData.get("header_en") as string | null;
+    const header_ru = formData.get("header_ru") as string | null;
+    const text_sr = formData.get("text_sr") as string | null;
+    const text_en = formData.get("text_en") as string | null;
+    const text_ru = formData.get("text_ru") as string | null;
+    
     const deleteImageIds = formData.getAll("deleteImageIds") as string[];
 
     // Delete specified images
@@ -109,6 +118,14 @@ export async function PUT(
     if (text) updateData.text = text;
     if (date) updateData.date = date;
     updateData.featured = featured;
+    
+    // Add multilingual fields
+    if (header_sr) updateData.header_sr = header_sr;
+    if (header_en) updateData.header_en = header_en;
+    if (header_ru) updateData.header_ru = header_ru;
+    if (text_sr) updateData.text_sr = text_sr;
+    if (text_en) updateData.text_en = text_en;
+    if (text_ru) updateData.text_ru = text_ru;
 
     const article = await prisma.newsArticle.update({
       where: { id: articleId },

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@/i18n/routing";
 import { getLatestFeaturedArticle } from "@/lib/posts";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import Button from "../Button";
 
 /**
@@ -10,7 +10,8 @@ import Button from "../Button";
  * @returns A React element containing a two-column hero layout: a header that displays the latest featured article's `newsHeader` when available (falls back to the "Homepage" translation `header`), and a CTA button using the "hero_cta" translation that links to `/vesti/{newsId}` when an article exists.
  */
 async function Hero() {
-  const article = await getLatestFeaturedArticle();
+  const locale = await getLocale();
+  const article = await getLatestFeaturedArticle(locale);
   const t = await getTranslations("Homepage");
 
   return (

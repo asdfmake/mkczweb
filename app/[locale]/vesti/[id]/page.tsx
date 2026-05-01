@@ -15,16 +15,16 @@ export interface NewsDetail {
 export default async function NewsDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 }) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const newsId = parseInt(id);
 
   if (isNaN(newsId)) {
     notFound();
   }
 
-  const news = await getNewsDetail(newsId);
+  const news = await getNewsDetail(newsId, locale);
   if (!news) notFound();
 
   if (news?.message === "not found") {

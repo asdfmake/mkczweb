@@ -18,6 +18,12 @@ interface NewsFormProps {
     date: string;
     featured: boolean;
     images: ExistingImage[];
+    header_sr?: string;
+    header_en?: string;
+    header_ru?: string;
+    text_sr?: string;
+    text_en?: string;
+    text_ru?: string;
   };
 }
 
@@ -35,14 +41,23 @@ export default function NewsForm({
   initialData,
 }: NewsFormProps) {
   const router = useRouter();
-  const [header, setHeader] = useState(initialData?.header || "");
-  const [text, setText] = useState(initialData?.text || "");
   const [date, setDate] = useState(initialData?.date || "");
   const [featured, setFeatured] = useState(initialData?.featured || false);
+  
+  // Multilingual fields
+  const [headerSr, setHeaderSr] = useState(initialData?.header_sr || initialData?.header || "");
+  const [headerEn, setHeaderEn] = useState(initialData?.header_en || "");
+  const [headerRu, setHeaderRu] = useState(initialData?.header_ru || "");
+  const [textSr, setTextSr] = useState(initialData?.text_sr || initialData?.text || "");
+  const [textEn, setTextEn] = useState(initialData?.text_en || "");
+  const [textRu, setTextRu] = useState(initialData?.text_ru || "");
+  
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [translatingTitles, setTranslatingTitles] = useState(false);
+  const [translatingContent, setTranslatingContent] = useState(false);
 
   function handleFilesAdd(files: File[]) {
     setNewFiles((prev) => [...prev, ...files]);
@@ -60,6 +75,114 @@ export default function NewsForm({
     setDeletedImageIds((prev) => prev.filter((imgId) => imgId !== id));
   }
 
+  async function translateTitles() {
+    if (!headerSr.trim()) {
+      setError("Please enter a Serbian title before translating");
+      return;
+    }
+
+    setTranslatingTitles(true);
+    setError("");
+
+    try {
+      // Translate to English
+      const enResponse = await fetch("/api/admin/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: headerSr,
+          sourceLanguage: "sr",
+          targetLanguage: "en",
+        }),
+      });
+
+      if (!enResponse.ok) {
+        throw new Error("Failed to translate to English");
+      }
+
+      const enData = await enResponse.json();
+      setHeaderEn(enData.translatedText);
+
+      // Translate to Russian
+      const ruResponse = await fetch("/api/admin/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: headerSr,
+          sourceLanguage: "sr",
+          targetLanguage: "ru",
+        }),
+      });
+
+      if (!ruResponse.ok) {
+        throw new Error("Failed to translate to Russian");
+      }
+
+      const ruData = await ruResponse.json();
+      setHeaderRu(ruData.translatedText);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Translation failed";
+      setError(errorMsg);
+      console.error("Translation error:", errorMsg);
+    } finally {
+      setTranslatingTitles(false);
+    }
+  }
+
+  async function translateContent() {
+    if (!textSr.trim()) {
+      setError("Please enter Serbian content before translating");
+      return;
+    }
+
+    setTranslatingContent(true);
+    setError("");
+
+    try {
+      // Translate to English
+      const enResponse = await fetch("/api/admin/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: textSr,
+          sourceLanguage: "sr",
+          targetLanguage: "en",
+        }),
+      });
+
+      if (!enResponse.ok) {
+        throw new Error("Failed to translate to English");
+      }
+
+      const enData = await enResponse.json();
+      setTextEn(enData.translatedText);
+
+      // Translate to Russian
+      const ruResponse = await fetch("/api/admin/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: textSr,
+          sourceLanguage: "sr",
+          targetLanguage: "ru",
+        }),
+      });
+
+      if (!ruResponse.ok) {
+        throw new Error("Failed to translate to Russian");
+      }
+
+      const ruData = await ruResponse.json();
+      setTextRu(ruData.translatedText);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Translation failed";
+      setError(errorMsg);
+      console.error("Translation error:", errorMsg);
+    } finally {
+      setTranslatingContent(false);
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
@@ -67,10 +190,19 @@ export default function NewsForm({
 
     try {
       const formData = new FormData();
-      formData.append("header", header);
-      formData.append("text", text);
+      // Use Serbian as default for backward compatibility
+      formData.append("header", headerSr);
+      formData.append("text", textSr);
       formData.append("date", date);
       formData.append("featured", String(featured));
+      
+      // Add multilingual fields
+      formData.append("header_sr", headerSr);
+      formData.append("header_en", headerEn);
+      formData.append("header_ru", headerRu);
+      formData.append("text_sr", textSr);
+      formData.append("text_en", textEn);
+      formData.append("text_ru", textRu);
 
       console.log(`[NewsForm] Submitting ${newFiles.length} image files`);
       for (const file of newFiles) {
@@ -117,25 +249,6 @@ export default function NewsForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-3xl">
-      {/* Header */}
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="header"
-          className="text-sm font-medium text-neutral-700"
-        >
-          Title
-        </label>
-        <input
-          id="header"
-          type="text"
-          value={header}
-          onChange={(e) => setHeader(e.target.value)}
-          placeholder="Article title"
-          className="w-full px-4 py-3 rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-          required
-        />
-      </div>
-
       {/* Date */}
       <div className="flex flex-col gap-2">
         <label htmlFor="date" className="text-sm font-medium text-neutral-700">
@@ -166,20 +279,120 @@ export default function NewsForm({
         </label>
       </div>
 
-      {/* Text */}
-      <div className="flex flex-col gap-2">
-        <label htmlFor="text" className="text-sm font-medium text-neutral-700">
-          Content
-        </label>
-        <textarea
-          id="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Article content..."
-          rows={12}
-          className="w-full px-4 py-3 rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-y"
-          required
-        />
+      {/* Titles Section */}
+      <div className="border-t pt-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold text-neutral-900">Titles</h3>
+          <button
+            type="button"
+            onClick={translateTitles}
+            disabled={translatingTitles || !headerSr.trim()}
+            className="px-3 py-1 text-xs font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {translatingTitles ? "Translating..." : "Translate All"}
+          </button>
+        </div>
+        
+        {/* Title - Serbian */}
+        <div className="flex flex-col gap-2 mb-4">
+          <label className="text-sm font-medium text-neutral-700">
+            Title (Српски - Serbian)
+          </label>
+          <input
+            type="text"
+            value={headerSr}
+            onChange={(e) => setHeaderSr(e.target.value)}
+            placeholder="Article title in Serbian"
+            className="w-full px-4 py-3 rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            required
+          />
+        </div>
+
+        {/* Title - English */}
+        <div className="flex flex-col gap-2 mb-4">
+          <label className="text-sm font-medium text-neutral-700">
+            Title (English)
+          </label>
+          <input
+            type="text"
+            value={headerEn}
+            onChange={(e) => setHeaderEn(e.target.value)}
+            placeholder="Article title in English"
+            className="w-full px-4 py-3 rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          />
+        </div>
+
+        {/* Title - Russian */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-neutral-700">
+            Title (Русский - Russian)
+          </label>
+          <input
+            type="text"
+            value={headerRu}
+            onChange={(e) => setHeaderRu(e.target.value)}
+            placeholder="Article title in Russian"
+            className="w-full px-4 py-3 rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          />
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="border-t pt-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold text-neutral-900">Content</h3>
+          <button
+            type="button"
+            onClick={translateContent}
+            disabled={translatingContent || !textSr.trim()}
+            className="px-3 py-1 text-xs font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {translatingContent ? "Translating..." : "Translate All"}
+          </button>
+        </div>
+        
+        {/* Content - Serbian */}
+        <div className="flex flex-col gap-2 mb-4">
+          <label className="text-sm font-medium text-neutral-700">
+            Content (Српски - Serbian)
+          </label>
+          <textarea
+            value={textSr}
+            onChange={(e) => setTextSr(e.target.value)}
+            placeholder="Article content in Serbian"
+            rows={10}
+            className="w-full px-4 py-3 rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-y"
+            required
+          />
+        </div>
+
+        {/* Content - English */}
+        <div className="flex flex-col gap-2 mb-4">
+          <label className="text-sm font-medium text-neutral-700">
+            Content (English)
+          </label>
+          <textarea
+            value={textEn}
+            onChange={(e) => setTextEn(e.target.value)}
+            placeholder="Article content in English"
+            rows={10}
+            className="w-full px-4 py-3 rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-y"
+          />
+        </div>
+
+        {/* Content - Russian */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-neutral-700">
+            Content (Русский - Russian)
+          </label>
+          <textarea
+            value={textRu}
+            onChange={(e) => setTextRu(e.target.value)}
+            placeholder="Article content in Russian"
+            rows={10}
+            className="w-full px-4 py-3 rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-y"
+          />
+        </div>
       </div>
 
       {/* Images */}
