@@ -7,9 +7,38 @@ import { NextRequest, NextResponse } from "next/server";
  * - text: string to translate
  * - targetLanguage: target language code (en, sr, ru)
  * - sourceLanguage: source language code (defaults to "sr" for Serbian)
+ * 
+ * Requires admin authentication via admin-token cookie.
  */
+
+async function isValidAdminToken(token: string): Promise<boolean> {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!adminPassword) return false;
+
+  const encoder = new TextEncoder();
+  const data = encoder.encode(adminPassword);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const expectedToken = hashArray
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  return token === expectedToken;
+}
+
 export async function POST(request: NextRequest) {
   try {
+    // Admin authorization check - verify admin token
+    const token = request.cookies.get("admin-token")?.value;
+
+    if (!token || !(await isValidAdminToken(token))) {
+      return NextResponse.json(
+        { error: "Unauthorized - admin token required" },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const { text, targetLanguage, sourceLanguage = "sr" } = body;
 
