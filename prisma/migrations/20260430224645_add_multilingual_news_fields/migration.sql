@@ -1,24 +1,13 @@
--- CreateTable
-CREATE TABLE "NewsArticle" (
-    "id" SERIAL NOT NULL,
-    "header" TEXT NOT NULL,
-    "text" TEXT NOT NULL,
-    "date" TEXT NOT NULL,
-    "featured" BOOLEAN NOT NULL DEFAULT false,
-    "header_sr" TEXT,
-    "header_en" TEXT,
-    "header_ru" TEXT,
-    "text_sr" TEXT,
-    "text_en" TEXT,
-    "text_ru" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+-- AlterTable - Add multilingual columns to NewsArticle
+ALTER TABLE "NewsArticle" ADD COLUMN "header_sr" TEXT;
+ALTER TABLE "NewsArticle" ADD COLUMN "header_en" TEXT;
+ALTER TABLE "NewsArticle" ADD COLUMN "header_ru" TEXT;
+ALTER TABLE "NewsArticle" ADD COLUMN "text_sr" TEXT;
+ALTER TABLE "NewsArticle" ADD COLUMN "text_en" TEXT;
+ALTER TABLE "NewsArticle" ADD COLUMN "text_ru" TEXT;
 
-    CONSTRAINT "NewsArticle_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "NewsImage" (
+-- CreateTable - NewsImage (if not exists)
+CREATE TABLE IF NOT EXISTS "NewsImage" (
     "id" SERIAL NOT NULL,
     "filename" TEXT NOT NULL,
     "articleId" INTEGER NOT NULL,
@@ -26,5 +15,14 @@ CREATE TABLE "NewsImage" (
     CONSTRAINT "NewsImage_pkey" PRIMARY KEY ("id")
 );
 
--- AddForeignKey
-ALTER TABLE "NewsImage" ADD CONSTRAINT "NewsImage_articleId_fkey" FOREIGN KEY ("articleId") REFERENCES "NewsArticle"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+-- AddForeignKey - if constraint doesn't exist, add it
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.table_constraints 
+        WHERE constraint_name = 'NewsImage_articleId_fkey'
+    ) THEN
+        ALTER TABLE "NewsImage" ADD CONSTRAINT "NewsImage_articleId_fkey" 
+        FOREIGN KEY ("articleId") REFERENCES "NewsArticle"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+    END IF;
+END $$;
