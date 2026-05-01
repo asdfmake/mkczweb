@@ -29,8 +29,13 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Handle admin API routes - require authentication
+  // Handle admin API routes - require authentication (except login)
   if (pathname.startsWith("/api/admin")) {
+    // Allow login endpoint without auth
+    if (pathname === "/api/admin/login") {
+      return NextResponse.next();
+    }
+
     const token = request.cookies.get("admin-token")?.value;
 
     if (!token || !(await isValidAdminToken(token))) {
