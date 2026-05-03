@@ -60,13 +60,13 @@ function getPictureUrl(fileName: string): string {
   return `/organi_saveza/${encodeURIComponent(fileName)}`;
 }
 
-const categoryTitles: Record<string, { en: string; sr: string }> = {
-  uprava: { en: "Management", sr: "Управа" },
-  clanovi_upravnog_odbora: { en: "Board Members", sr: "Чланови управног одбора" },
-  treneri: { en: "Coaches", sr: "Тренери" },
-  doktor: { en: "Doctor", sr: "Доктор" },
-  "fie sudije": { en: "FIE Referees", sr: "Фие судије" },
-  "governing_officials": { en: "Officials - MSS, MSB and FIE", sr: "Функционери МСС, МСБ и ФИЕ" },
+const categoryTitles: Record<string, { en: string; sr: string; ru: string }> = {
+  uprava: { en: "Management", sr: "Управа", ru: "Управление" },
+  clanovi_upravnog_odbora: { en: "Board Members", sr: "Чланови управног одбора", ru: "Члены совета" },
+  treneri: { en: "Coaches", sr: "Тренери", ru: "Тренеры" },
+  doktor: { en: "Doctor", sr: "Доктор", ru: "Доктор" },
+  "fie sudije": { en: "FIE Referees", sr: "Фие судије", ru: "Судьи ФИЕ" },
+  "governing_officials": { en: "Officials - MSS, MSB and FIE", sr: "Функционери МСС, МСБ и ФИЕ", ru: "Официалы — МСС, МСБ и ФИЕ" },
 };
 
 const categoryOrder = ["uprava", "clanovi_upravnog_odbora", "treneri", "doktor", "fie sudije", "governing_officials"];
@@ -85,7 +85,7 @@ export default async function OrganiSavezaPage({
       category,
       categoryMembers.map(({ descriptionKey, nameSr, ...member }) => ({
         ...member,
-        name: locale === "sr" && nameSr ? nameSr : member.name,
+        name: (locale === "sr" || locale === "ru") && nameSr ? nameSr : member.name,
         picture: getPictureUrl(member.picture),
         description: t(`descriptions.${category}.${descriptionKey}`)
       }))
