@@ -51,6 +51,7 @@ export default function NewsForm({
   const [textSr, setTextSr] = useState(initialData?.text_sr || initialData?.text || "");
   const [textEn, setTextEn] = useState(initialData?.text_en || "");
   const [textRu, setTextRu] = useState(initialData?.text_ru || "");
+  const [postToInstagram, setPostToInstagram] = useState(false);
   
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
@@ -195,6 +196,7 @@ export default function NewsForm({
       formData.append("text", textSr);
       formData.append("date", date);
       formData.append("featured", String(featured));
+      formData.append("postToInstagram", String(postToInstagram));
       
       // Add multilingual fields
       formData.append("header_sr", headerSr);
@@ -233,6 +235,11 @@ export default function NewsForm({
 
       if (!res.ok) {
         throw new Error(responseData.error || "Failed to save article");
+      }
+
+      if (mode === "create" && postToInstagram && responseData.instagramError) {
+        setError(`Article was created, but Instagram posting failed: ${responseData.instagramError}`);
+        return;
       }
 
       console.log(`[NewsForm] Article saved successfully`);
@@ -405,6 +412,21 @@ export default function NewsForm({
         onExistingImageDelete={handleExistingImageDelete}
         onExistingImageRestore={handleExistingImageRestore}
       />
+
+      {mode === "create" && (
+        <div className="flex items-center gap-3 border-t pt-4">
+          <input
+            id="postToInstagram"
+            type="checkbox"
+            checked={postToInstagram}
+            onChange={(e) => setPostToInstagram(e.target.checked)}
+            className="w-4 h-4 accent-red-600 rounded"
+          />
+          <label htmlFor="postToInstagram" className="text-sm text-neutral-700">
+            Add post on Instagram
+          </label>
+        </div>
+      )}
 
       {/* Error */}
       {error && (

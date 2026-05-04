@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { writeFile, mkdir } from "fs/promises";
+import { publishNewsToInstagram } from "@/lib/instagram";
 import path from "path";
 import crypto from "crypto";
 
@@ -29,6 +30,7 @@ export async function POST(request: NextRequest) {
     const text = formData.get("text") as string;
     const date = formData.get("date") as string;
     const featured = formData.get("featured") === "true";
+    const postToInstagram = formData.get("postToInstagram") === "true";
     
     // Multilingual fields
     const header_sr = formData.get("header_sr") as string | null;
@@ -97,8 +99,39 @@ export async function POST(request: NextRequest) {
       include: { images: true },
     });
 
+    let instagramPost: Awaited<ReturnType<typeof publishNewsToInstagram>> | null = null;
+    let instagramError: string | null = null;
+
+    if (postToInstagram) {
+      try {
+        const imageUrls = imageFilenames.map(
+          (filename) => `${request.nextUrl.origin}/uploads/${filename}`
+        );
+        const caption = `${header}\n\n${text}`;
+
+        if (imageUrls.length > 0) {
+          instagramPost = await publishNewsToInstagram({ imageUrls, caption });
+        } else {
+          instagramError = "Instagram post skipped: at least one image is required.";
+        }
+      } catch (instagramPublishError) {
+        instagramError =
+          instagramPublishError instanceof Error
+            ? instagramPublishError.message
+            : String(instagramPublishError);
+        console.error("[NEWS API] Failed to publish article to Instagram:", instagramError);
+      }
+    }
+
     console.log(`[NEWS API] Article created successfully with ID: ${article.id}`);
-    return NextResponse.json(article, { status: 201 });
+    return NextResponse.json(
+      {
+        ...article,
+        instagramPost,
+        instagramError,
+      },
+      { status: 201 }
+    );
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("[NEWS API] Error creating article:", errorMessage);
