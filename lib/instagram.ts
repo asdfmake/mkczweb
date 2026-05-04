@@ -16,8 +16,8 @@ type InstagramApiResponse = {
 };
 
 function getInstagramConfig() {
-  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
-  const igUserId = process.env.INSTAGRAM_IG_USER_ID;
+  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN?.trim();
+  const igUserId = process.env.INSTAGRAM_IG_USER_ID?.trim();
 
   if (!accessToken) {
     throw new Error("Missing INSTAGRAM_ACCESS_TOKEN");
