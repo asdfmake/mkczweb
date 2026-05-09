@@ -1,7 +1,6 @@
 // src/lib/instagram.ts
 
-const GRAPH_API_VERSION = "v20.0";
-const GRAPH_API_BASE = `https://graph.facebook.com/${GRAPH_API_VERSION}`;
+const GRAPH_API_BASE = `https://graph.instagram.com/v25.0`;
 
 type InstagramApiError = {
   message: string;
@@ -68,9 +67,43 @@ async function createSinglePost(
   caption: string,
   postId: number
 ) {
-  //Create single media post
-  console.log("single post logic here");
-  return {id: "single post creation logic here"}; // implementacija logike za kreiranje single posta
+
+  // Using a temp image for testing
+  imageUrl = "https://picsum.photos/1080/1080?random=1";
+
+  // Creating media object
+  const mediaResponse = await fetch(`${GRAPH_API_BASE}/${igUserId}/media`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      image_url: imageUrl,
+      caption: `${caption}\n\n${process.env.SITE_URL}/vesti/${postId}`,
+    }),
+  });
+  const { id: mediaId, error: mediaError } = await mediaResponse.json() as InstagramApiResponse;
+
+  if (mediaError) {
+    console.error("Error creating media object:", mediaError);
+    throw new Error(`Failed to create media object: ${mediaError.message}`);
+  }
+
+  // Posting media object
+  const publishResponse = await fetch(`${GRAPH_API_BASE}/${igUserId}/media_publish`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      creation_id: mediaId,
+    }),
+  });
+
+  return publishResponse.json() as Promise<InstagramApiResponse>;
+  
 }
   
 async function createCarouselPost(
@@ -92,7 +125,7 @@ async function createCarouselPost(
 
   const mediaIds = await Promise.all(
     imageUrls.map(async (url) => {
-      const mediaResponse = await fetch(`https://graph.instagram.com/v25.0/${igUserId}/media`, {
+      const mediaResponse = await fetch(`${GRAPH_API_BASE}/${igUserId}/media`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +147,7 @@ async function createCarouselPost(
 
   console.log("Created media objects with IDs:", mediaIds);
 
-  const carouselResponse = await fetch(`https://graph.instagram.com/v25.0/${igUserId}/media`, {
+  const carouselResponse = await fetch(`${GRAPH_API_BASE}/${igUserId}/media`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -131,7 +164,7 @@ async function createCarouselPost(
 
   console.log("Created carousel post with ID:", carouselId);
 
-  const publishResponse = await fetch(`https://graph.instagram.com/v25.0/${igUserId}/media_publish`, {
+  const publishResponse = await fetch(`${GRAPH_API_BASE}/${igUserId}/media_publish`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
