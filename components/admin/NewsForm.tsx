@@ -12,6 +12,7 @@ interface ExistingImage {
 interface NewsFormProps {
   mode: "create" | "edit";
   articleId?: number;
+  onRepost?: (articleId: number) => Promise<any>;
   initialData?: {
     header: string;
     text: string;
@@ -38,6 +39,7 @@ interface NewsFormProps {
 export default function NewsForm({
   mode,
   articleId,
+  onRepost,
   initialData,
 }: NewsFormProps) {
   const router = useRouter();
@@ -56,6 +58,7 @@ export default function NewsForm({
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
+  const [repostLoading, setRepostLoading] = useState(false);
   const [error, setError] = useState("");
   const [translatingTitles, setTranslatingTitles] = useState(false);
   const [translatingContent, setTranslatingContent] = useState(false);
@@ -254,6 +257,26 @@ export default function NewsForm({
     }
   }
 
+  async function handleRepost() {
+    if (!onRepost || !articleId) return;
+    
+    setError("");
+    setRepostLoading(true);
+
+    try {
+      await onRepost(articleId);
+      setError(""); // Clear error on success
+      alert("Article successfully reposted to Instagram!");
+      router.refresh();
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Something went wrong";
+      console.error("[NewsForm] Repost error:", errorMsg);
+      setError(errorMsg);
+    } finally {
+      setRepostLoading(false);
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-3xl">
       {/* Date */}
@@ -448,6 +471,16 @@ export default function NewsForm({
               ? "Create Article"
               : "Save Changes"}
         </button>
+        {mode === "edit" && (
+          <button
+            type="button"
+            onClick={handleRepost}
+            disabled={repostLoading}
+            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {repostLoading ? "Posting..." : "Repost to Instagram"}
+          </button>
+        )}
         <button
           type="button"
           onClick={() => router.push("/admin")}

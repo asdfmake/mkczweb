@@ -1,9 +1,70 @@
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { publishNewsToInstagram } from "@/lib/instagram";
 import AdminHeader from "@/components/admin/AdminHeader";
 import NewsForm from "@/components/admin/NewsForm";
 
 export const dynamic = "force-dynamic";
+
+async function verifyAdminAuth() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("admin-token")?.value;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!token || !adminPassword) {
+    throw new Error("Unauthorized: Missing authentication");
+  }
+
+  // Verify token matches admin password hash
+  const encoder = new TextEncoder();
+  const data = encoder.encode(adminPassword);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const expectedToken = hashArray
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  if (token !== expectedToken) {
+    throw new Error("Unauthorized: Invalid token");
+  }
+}
+
+export async function repostToInstagram(articleId: number) {
+  "use server";
+  
+  try {
+    // Verify admin authentication
+    await verifyAdminAuth();
+
+    const article = await prisma.newsArticle.findUnique({
+      where: { id: articleId },
+      include: { images: true },
+    });
+
+    if (!article) {
+      throw new Error("Article not found");
+    }
+
+    if (article.images.length === 0) {
+      throw new Error("Article has no images to post");
+    }
+
+    const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || "http://localhost:3000";
+    const imageUrls = article.images.map(
+      (img) => `${baseUrl}/uploads/${img.filename}`
+    );
+    const caption = `${article.header}\n\n${article.text}`;
+
+    const result = await publishNewsToInstagram(imageUrls, caption, article.id);
+    
+    return { success: true, result };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("[Repost] Error:", errorMessage);
+    throw error;
+  }
+}
 
 export default async function EditArticlePage({
   params,
@@ -42,6 +103,7 @@ export default async function EditArticlePage({
           <NewsForm
             mode="edit"
             articleId={article.id}
+            onRepost={repostToInstagram}
             initialData={{
               header: article.header,
               text: article.text,
