@@ -115,10 +115,7 @@ export async function POST(request: NextRequest) {
           instagramError = "Instagram post skipped: at least one image is required.";
         }
       } catch (instagramPublishError) {
-        instagramError =
-          instagramPublishError instanceof Error
-            ? instagramPublishError.message
-            : String(instagramPublishError);
+        instagramError = instagramPublishError instanceof Error ? instagramPublishError.message : String(instagramPublishError);
         console.error("[NEWS API] Failed to publish article to Instagram:", instagramError);
       }
     }

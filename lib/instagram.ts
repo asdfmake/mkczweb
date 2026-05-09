@@ -57,7 +57,7 @@ export async function publishNewsToInstagram(
   } else if (imageUrls.length > 1 && imageUrls.length <= 10) {
     return await createCarouselPost(igUserId, accessToken, imageUrls, caption, postId);
   } else {
-    throw new Error("Invalid number of images for carousel post");
+    throw new Error("Invalid number of images for carousel post: " + imageUrls.length + ". Instagram allows 1-10 images per post.");
   }
 }
 
@@ -69,6 +69,7 @@ async function createSinglePost(
   postId: number
 ) {
   //Create single media post
+  console.log("single post logic here");
   return {id: "single post creation logic here"}; // implementacija logike za kreiranje single posta
 }
   
