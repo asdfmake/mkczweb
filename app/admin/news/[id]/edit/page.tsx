@@ -30,7 +30,7 @@ async function verifyAdminAuth() {
   }
 }
 
-export async function repostToInstagram(articleId: number) {
+async function repostToInstagram(articleId: number) {
   "use server";
   
   try {
@@ -50,7 +50,7 @@ export async function repostToInstagram(articleId: number) {
       throw new Error("Article has no images to post");
     }
 
-    const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || "http://localhost:3000";
+    const baseUrl = process.env.SITE_URL || "http://localhost:3000";
     const imageUrls = article.images.map(
       (img) => `${baseUrl}/uploads/${img.filename}`
     );
