@@ -68,9 +68,6 @@ async function createSinglePost(
   postId: number
 ) {
 
-  // Using a temp image for testing
-  imageUrl = "https://picsum.photos/1080/1080?random=1";
-
   // Creating media object
   const mediaResponse = await fetch(`${GRAPH_API_BASE}/${igUserId}/media`, {
     method: "POST",
@@ -113,13 +110,6 @@ async function createCarouselPost(
   caption: string,
   postId: number
 ) {
-
-  // Using temp images for testing
-  imageUrls = [
-    "https://picsum.photos/1080/1080?random=1",
-    "https://picsum.photos/1080/1080?random=2",
-    "https://picsum.photos/1080/1080?random=3",
-  ];
 
   console.log("Creating carousel post with images:", imageUrls);
 
