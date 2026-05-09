@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
         const caption = `${header}\n\n${text}`;
 
         if (imageUrls.length > 0) {
-          instagramPost = await publishNewsToInstagram({ imageUrls, caption });
+          instagramPost = await publishNewsToInstagram(imageUrls, caption, article.id);
         } else {
           instagramError = "Instagram post skipped: at least one image is required.";
         }

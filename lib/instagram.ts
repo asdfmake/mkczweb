@@ -15,6 +15,15 @@ type InstagramApiResponse = {
   error?: InstagramApiError;
 };
 
+// usage:   const { accessToken, igUserId } = getInstagramConfig();
+
+  // then: 
+  // const response = await fetch(`${GRAPH_API_BASE}/${igUserId}/media`, {
+  //   method: "POST",
+  //   body,
+  // });
+  //const data = (await response.json()) as InstagramApiResponse;
+  
 function getInstagramConfig() {
   const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN?.trim();
   const igUserId = process.env.INSTAGRAM_IG_USER_ID?.trim();
@@ -30,134 +39,111 @@ function getInstagramConfig() {
   return { accessToken, igUserId };
 }
 
-function getRequiredId(data: InstagramApiResponse, context: string) {
-  if (data.error) {
-    throw new Error(`${context}: ${data.error.message}`);
-  }
+// glavna funkcija postToInstagram, proverava koliko je dobija url slika kao array, i caption, provera da li ima samo jedna slika, ako ima pravi obican post, ako ima vise, carousel
+// pomocne funkcije, create carousel, create single post
+// za captione, salji sta god da je na sajtu upisano i onda na kraju dodaj $ENV.url/vesti/$POST_ID
 
-  if (!data.id) {
-    throw new Error(`${context}: Instagram did not return an id`);
-  }
-
-  return data.id;
-}
-
-export async function createInstagramImageContainer(params: {
-  imageUrl: string;
-  caption?: string;
-  isCarouselItem?: boolean;
-}) {
+export async function publishNewsToInstagram(
+  imageUrls: string[],
+  caption: string,
+  postId: number
+): Promise<InstagramApiResponse> {
   const { accessToken, igUserId } = getInstagramConfig();
 
-  const body = new URLSearchParams({
-    image_url: params.imageUrl,
-    access_token: accessToken,
-  });
+  console.log(imageUrls, caption, postId);
 
-  if (params.caption && !params.isCarouselItem) {
-    body.set("caption", params.caption);
+  if (imageUrls.length === 1) {
+    return await createSinglePost(igUserId, accessToken, imageUrls[0], caption, postId);
+  } else if (imageUrls.length > 1 && imageUrls.length <= 10) {
+    return await createCarouselPost(igUserId, accessToken, imageUrls, caption, postId);
+  } else {
+    throw new Error("Invalid number of images for carousel post");
   }
-
-  if (params.isCarouselItem) {
-    body.set("is_carousel_item", "true");
-  }
-
-  const response = await fetch(`${GRAPH_API_BASE}/${igUserId}/media`, {
-    method: "POST",
-    body,
-  });
-
-  const data = (await response.json()) as InstagramApiResponse;
-
-  return getRequiredId(data, "Failed to create Instagram image container");
 }
 
-export async function createInstagramCarouselContainer(params: {
-  childContainerIds: string[];
-  caption: string;
-}) {
-  const { accessToken, igUserId } = getInstagramConfig();
-
-  const body = new URLSearchParams({
-    media_type: "CAROUSEL",
-    children: params.childContainerIds.join(","),
-    caption: params.caption,
-    access_token: accessToken,
-  });
-
-  const response = await fetch(`${GRAPH_API_BASE}/${igUserId}/media`, {
-    method: "POST",
-    body,
-  });
-
-  const data = (await response.json()) as InstagramApiResponse;
-
-  return getRequiredId(data, "Failed to create Instagram carousel container");
+async function createSinglePost(
+  igUserId: string,
+  accessToken: string,
+  imageUrl: string,
+  caption: string,
+  postId: number
+) {
+  //Create single media post
+  return {id: "single post creation logic here"}; // implementacija logike za kreiranje single posta
 }
+  
+async function createCarouselPost(
+  igUserId: string,
+  accessToken: string,
+  imageUrls: string[],
+  caption: string,
+  postId: number
+) {
 
-export async function publishInstagramContainer(creationId: string) {
-  const { accessToken, igUserId } = getInstagramConfig();
+  // Using temp images for testing
+  imageUrls = [
+    "https://picsum.photos/1080/1080?random=1",
+    "https://picsum.photos/1080/1080?random=2",
+    "https://picsum.photos/1080/1080?random=3",
+  ];
 
-  const body = new URLSearchParams({
-    creation_id: creationId,
-    access_token: accessToken,
-  });
+  console.log("Creating carousel post with images:", imageUrls);
 
-  const response = await fetch(`${GRAPH_API_BASE}/${igUserId}/media_publish`, {
+  const mediaIds = await Promise.all(
+    imageUrls.map(async (url) => {
+      const mediaResponse = await fetch(`https://graph.instagram.com/v25.0/${igUserId}/media`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          image_url: url,
+          is_carousel_item: true,
+        }),
+      });
+
+      const { id } = await mediaResponse.json();
+
+      console.log("Created media object with ID:", id);
+
+      return id;
+    })
+  );
+
+  console.log("Created media objects with IDs:", mediaIds);
+
+  const carouselResponse = await fetch(`https://graph.instagram.com/v25.0/${igUserId}/media`, {
     method: "POST",
-    body,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      caption: `${caption}\n\n${process.env.SITE_URL}/vesti/${postId}`,
+      media_type: "CAROUSEL",
+      children: mediaIds,
+    }),
   });
 
-  const data = (await response.json()) as InstagramApiResponse;
+  const { id: carouselId } = await carouselResponse.json();
 
-  return getRequiredId(data, "Failed to publish Instagram container");
-}
+  console.log("Created carousel post with ID:", carouselId);
 
-export async function publishNewsToInstagram(params: {
-  imageUrls: string[];
-  caption: string;
-}) {
-  if (params.imageUrls.length === 0) {
-    throw new Error("Instagram post requires at least one image");
-  }
-
-  if (params.imageUrls.length === 1) {
-    const containerId = await createInstagramImageContainer({
-      imageUrl: params.imageUrls[0],
-      caption: params.caption,
-    });
-
-    const postId = await publishInstagramContainer(containerId);
-
-    return {
-      type: "single" as const,
-      containerId,
-      postId,
-    };
-  }
-
-  const childContainerIds: string[] = [];
-
-  for (const imageUrl of params.imageUrls) {
-    const childContainerId = await createInstagramImageContainer({
-      imageUrl,
-      isCarouselItem: true,
-    });
-
-    childContainerIds.push(childContainerId);
-  }
-
-  const carouselContainerId = await createInstagramCarouselContainer({
-    childContainerIds,
-    caption: params.caption,
+  const publishResponse = await fetch(`https://graph.instagram.com/v25.0/${igUserId}/media_publish`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      creation_id: carouselId,
+    }),
   });
 
-  const postId = await publishInstagramContainer(carouselContainerId);
+  const publishData = await publishResponse.json();
 
-  return {
-    type: "carousel" as const,
-    childContainerIds,
-    containerId: carouselContainerId,
-    postId,
-  };
+  console.log("Published carousel post:", publishData);
+
+  return publishData;
 }
