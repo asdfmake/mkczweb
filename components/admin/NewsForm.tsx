@@ -12,6 +12,7 @@ interface ExistingImage {
 interface NewsFormProps {
   mode: "create" | "edit";
   articleId?: number;
+  onRepost?: (articleId: number) => Promise<any>;
   initialData?: {
     header: string;
     text: string;
@@ -38,6 +39,7 @@ interface NewsFormProps {
 export default function NewsForm({
   mode,
   articleId,
+  onRepost,
   initialData,
 }: NewsFormProps) {
   const router = useRouter();
@@ -51,10 +53,13 @@ export default function NewsForm({
   const [textSr, setTextSr] = useState(initialData?.text_sr || initialData?.text || "");
   const [textEn, setTextEn] = useState(initialData?.text_en || "");
   const [textRu, setTextRu] = useState(initialData?.text_ru || "");
+  const [postToInstagram, setPostToInstagram] = useState(false);
   
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
+  const [repostLoading, setRepostLoading] = useState(false);
+  const [showRepostConfirm, setShowRepostConfirm] = useState(false);
   const [error, setError] = useState("");
   const [translatingTitles, setTranslatingTitles] = useState(false);
   const [translatingContent, setTranslatingContent] = useState(false);
@@ -195,6 +200,7 @@ export default function NewsForm({
       formData.append("text", textSr);
       formData.append("date", date);
       formData.append("featured", String(featured));
+      formData.append("postToInstagram", String(postToInstagram));
       
       // Add multilingual fields
       formData.append("header_sr", headerSr);
@@ -235,6 +241,11 @@ export default function NewsForm({
         throw new Error(responseData.error || "Failed to save article");
       }
 
+      if (mode === "create" && postToInstagram && responseData.instagramError) {
+        setError(`Article was created, but Instagram posting failed: ${responseData.instagramError}`);
+        return;
+      }
+
       console.log(`[NewsForm] Article saved successfully`);
       router.push("/admin");
       router.refresh();
@@ -244,6 +255,27 @@ export default function NewsForm({
       setError(errorMsg);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleRepost() {
+    if (!onRepost || !articleId) return;
+    
+    setShowRepostConfirm(false);
+    setError("");
+    setRepostLoading(true);
+
+    try {
+      await onRepost(articleId);
+      setError(""); // Clear error on success
+      alert("Article successfully reposted to Instagram!");
+      router.refresh();
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Something went wrong";
+      console.error("[NewsForm] Repost error:", errorMsg);
+      setError(errorMsg);
+    } finally {
+      setRepostLoading(false);
     }
   }
 
@@ -406,6 +438,21 @@ export default function NewsForm({
         onExistingImageRestore={handleExistingImageRestore}
       />
 
+      {mode === "create" && (
+        <div className="flex items-center gap-3 border-t pt-4">
+          <input
+            id="postToInstagram"
+            type="checkbox"
+            checked={postToInstagram}
+            onChange={(e) => setPostToInstagram(e.target.checked)}
+            className="w-4 h-4 accent-red-600 rounded"
+          />
+          <label htmlFor="postToInstagram" className="text-sm text-neutral-700">
+            Add post on Instagram
+          </label>
+        </div>
+      )}
+
       {/* Error */}
       {error && (
         <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm">
@@ -426,6 +473,16 @@ export default function NewsForm({
               ? "Create Article"
               : "Save Changes"}
         </button>
+        {mode === "edit" && (
+          <button
+            type="button"
+            onClick={() => setShowRepostConfirm(true)}
+            disabled={repostLoading}
+            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {repostLoading ? "Posting..." : "Repost to Instagram"}
+          </button>
+        )}
         <button
           type="button"
           onClick={() => router.push("/admin")}
@@ -434,6 +491,38 @@ export default function NewsForm({
           Cancel
         </button>
       </div>
+
+      {showRepostConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+            <h2 className="text-lg font-semibold text-neutral-900">
+              Repost to Instagram?
+            </h2>
+            <p className="mt-3 text-sm leading-6 text-neutral-600">
+              If you made changes to this news article, you must first save
+              changes and then repost to Instagram to see the appropriate
+              changes.
+            </p>
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setShowRepostConfirm(false)}
+                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleRepost}
+                disabled={repostLoading}
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {repostLoading ? "Posting..." : "I understand, repost"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 }

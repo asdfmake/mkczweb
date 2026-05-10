@@ -18,10 +18,15 @@ services:
       dockerfile: Dockerfile
     image: vica-front-image
     container_name: VicaFront
+    env_file:
+      - .env
     environment:
-      ADMIN_PASSWORD: pass
-      DATABASE_URL: postgresql://user:pass@postgres:5432/database
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      DATABASE_URL: ${DATABASE_URL}
       NODE_OPTIONS: --max-old-space-size=1024
+      SITE_URL: ${SITE_URL}
+      INSTAGRAM_ACCESS_TOKEN: ${INSTAGRAM_ACCESS_TOKEN}
+      INSTAGRAM_IG_USER_ID: ${INSTAGRAM_IG_USER_ID}
     ports:
       - "3003:3000"
     volumes:

@@ -8,7 +8,7 @@ interface Member {
 
 interface OrganiSavezaContentProps {
   members: Record<string, Member[]>;
-  categoryTitles: Record<string, { en: string; sr: string }>;
+  categoryTitles: Record<string, { en: string; sr: string; ru: string }>;
   categoryOrder: string[];
   locale: string;
   bodyTitle: string;
@@ -43,7 +43,7 @@ export default function OrganiSavezaPageContent({
           )
           .map(([categoryKey, categoryMembers]) => {
             const categoryTitle =
-              categoryTitles[categoryKey]?.[locale as "en" | "sr"] ||
+              categoryTitles[categoryKey]?.[locale as "en" | "sr" | "ru"] ||
               categoryKey;
 
             return (
