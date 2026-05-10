@@ -102,10 +102,11 @@ export async function POST(request: NextRequest) {
     let instagramPost: Awaited<ReturnType<typeof publishNewsToInstagram>> | null = null;
     let instagramError: string | null = null;
 
+    const baseUrl = process.env.SITE_URL || request.nextUrl.origin;
     if (postToInstagram) {
       try {
         const imageUrls = imageFilenames.map(
-          (filename) => `${request.nextUrl.origin}/uploads/${filename}`
+          (filename) => `${baseUrl}/uploads/${filename}`
         );
         const caption = `${header}\n\n${text}`;
 
