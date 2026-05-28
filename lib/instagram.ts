@@ -38,7 +38,7 @@ function getInstagramConfig() {
   return { accessToken, igUserId };
 }
 
-// glavna funkcija postToInstagram, proverava koliko je dobija url slika kao array, i caption, provera da li ima samo jedna slika, ako ima pravi obican post, ako ima vise, carousel
+// glavna funkcija publishNewsToInstagram, proverava koliko je dobija url slika kao array, i caption, provera da li ima samo jedna slika, ako ima pravi obican post, ako ima vise, carousel
 // pomocne funkcije, create carousel, create single post
 // za captione, salji sta god da je na sajtu upisano i onda na kraju dodaj $ENV.url/vesti/$POST_ID
 
@@ -154,18 +154,32 @@ async function createCarouselPost(
 
   console.log("Created carousel post with ID:", carouselId);
 
-  const publishResponse = await fetch(`${GRAPH_API_BASE}/${igUserId}/media_publish`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({
-      creation_id: carouselId,
-    }),
-  });
+  const publishCarouselOnce = async () => {
+    const publishResponse = await fetch(`${GRAPH_API_BASE}/${igUserId}/media_publish`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        creation_id: carouselId,
+      }),
+    });
 
-  const publishData = await publishResponse.json();
+    return (await publishResponse.json()) as InstagramApiResponse;
+  };
+
+  let publishData = await publishCarouselOnce();
+
+  if (publishData.error) {
+    console.error("Published carousel post returned error:", publishData.error);
+
+    if (publishData.error.code === 9007) {
+      console.warn("Publish failed with code 9007, retrying in 5 seconds...");
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      publishData = await publishCarouselOnce();
+    }
+  }
 
   console.log("Published carousel post:", publishData);
 
