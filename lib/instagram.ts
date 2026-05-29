@@ -53,7 +53,7 @@ export async function publishNewsToInstagram(
 
   if (imageUrls.length === 1) {
     return await createSinglePost(igUserId, accessToken, imageUrls[0], caption, postId);
-  } else if (imageUrls.length > 1 && imageUrls.length <= 10) {
+  } else if (imageUrls.length > 1) {
     return await createCarouselPost(igUserId, accessToken, imageUrls, caption, postId);
   } else {
     throw new Error("Invalid number of images for carousel post: " + imageUrls.length + ". Instagram allows 1-10 images per post.");
@@ -110,6 +110,12 @@ async function createCarouselPost(
   caption: string,
   postId: number
 ) {
+
+  // Add a check if the number of images exceeds Instagram's limit for carousel posts (10 images), if it does, cut to only the first 10 images and log a warning
+  if (imageUrls.length > 10) {
+    console.warn(`Received ${imageUrls.length} images for carousel post, but Instagram allows only 10. Only the first 10 images will be used.`);
+    imageUrls = imageUrls.slice(0, 10);
+  }
 
   console.log("Creating carousel post with images:", imageUrls);
 
