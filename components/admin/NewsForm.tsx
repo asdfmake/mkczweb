@@ -439,18 +439,24 @@ export default function NewsForm({
       />
 
       {mode === "create" && (
-        <div className="flex items-center gap-3 border-t pt-4">
-          <input
-            id="postToInstagram"
-            type="checkbox"
-            checked={postToInstagram}
-            onChange={(e) => setPostToInstagram(e.target.checked)}
-            className="w-4 h-4 accent-red-600 rounded"
-          />
-          <label htmlFor="postToInstagram" className="text-sm text-neutral-700">
-            Add post on Instagram
-          </label>
+        <div>
+          <div className="flex items-center gap-3 border-t pt-4">
+            <input
+              id="postToInstagram"
+              type="checkbox"
+              checked={postToInstagram}
+              onChange={(e) => setPostToInstagram(e.target.checked)}
+              className="w-4 h-4 accent-red-600 rounded"
+            />
+            <label htmlFor="postToInstagram" className="text-sm text-neutral-700">
+              Add post on Instagram
+            </label>
+          </div>
+          <p className="text-sm text-neutral-500 mt-1">
+            Note: if posting article with more than 10 images, only the first 10 will be posted to Instagram due to instagram limitations.
+          </p>
         </div>
+        
       )}
 
       {/* Error */}
@@ -502,6 +508,8 @@ export default function NewsForm({
               If you made changes to this news article, you must first save
               changes and then repost to Instagram to see the appropriate
               changes.
+
+              If reposting an article with more than 10 images, only the first 10 will be posted to Instagram due to platform limitations.
             </p>
             <div className="mt-6 flex justify-end gap-3">
               <button
