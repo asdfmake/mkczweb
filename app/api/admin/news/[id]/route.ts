@@ -4,6 +4,20 @@ import { writeFile, unlink, mkdir } from "fs/promises";
 import path from "path";
 import crypto from "crypto";
 
+function parseDateInput(dateInput: string): Date | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
+    return null;
+  }
+
+  const parsed = new Date(`${dateInput}T00:00:00.000Z`);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function formatDisplayDate(dateInput: string): string {
+  const [year, month, day] = dateInput.split("-");
+  return `${day}.${month}.${year}.`;
+}
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -66,6 +80,16 @@ export async function PUT(
     
     const deleteImageIds = formData.getAll("deleteImageIds") as string[];
 
+    if (date) {
+      const publishedAt = parseDateInput(date);
+      if (!publishedAt) {
+        return NextResponse.json(
+          { error: "Date must be in YYYY-MM-DD format" },
+          { status: 400 }
+        );
+      }
+    }
+
     // Delete specified images
     if (deleteImageIds.length > 0) {
       const imagesToDelete = await prisma.newsImage.findMany({
@@ -116,7 +140,10 @@ export async function PUT(
     const updateData: Record<string, unknown> = {};
     if (header) updateData.header = header;
     if (text) updateData.text = text;
-    if (date) updateData.date = date;
+    if (date) {
+      updateData.date = formatDisplayDate(date);
+      updateData.publishedAt = parseDateInput(date);
+    }
     updateData.featured = featured;
     
     // Add multilingual fields

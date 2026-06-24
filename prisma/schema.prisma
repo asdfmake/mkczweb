@@ -12,6 +12,7 @@ model NewsArticle {
   header    String
   text      String
   date      String
+  publishedAt DateTime  @default(now())
   featured  Boolean     @default(false)
   // Multilingual titles
   header_sr String?

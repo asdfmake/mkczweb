@@ -87,6 +87,14 @@ export default async function EditArticlePage({
     notFound();
   }
 
+  // The 'as' assertion is safe here if we assume publishedAt exists from a migration
+  const articleWithPublishedAt = article as typeof article & {
+    publishedAt?: Date;
+  };
+  const initialDateValue = articleWithPublishedAt.publishedAt
+    ? articleWithPublishedAt.publishedAt.toISOString().slice(0, 10)
+    : article.date;
+
   return (
     <div className="min-h-screen bg-neutral-50">
       <AdminHeader />
@@ -107,7 +115,7 @@ export default async function EditArticlePage({
             initialData={{
               header: article.header,
               text: article.text,
-              date: article.date,
+              date: initialDateValue,
               featured: article.featured,
               images: article.images.map((img) => ({
                 id: img.id,

@@ -95,7 +95,7 @@ export async function getFeaturedNews(locale: string = "sr"): Promise<NewsDetail
     const articles = await prisma.newsArticle.findMany({
       where: { featured: true },
       include: { images: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
       take: 10,
     });
 
@@ -126,7 +126,7 @@ export async function getLatestNews(limit: number = 10, locale: string = "sr"): 
   try {
     const articles = await prisma.newsArticle.findMany({
       include: { images: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
       take: limit,
     });
 
@@ -159,7 +159,7 @@ export async function getLatestFeaturedArticle(locale: string = "sr"): Promise<N
     const article = await prisma.newsArticle.findFirst({
       where: { featured: true },
       include: { images: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
     });
 
     if (!article) return null;
@@ -195,7 +195,7 @@ export async function getNewsPaginated(
     const [articles, totalCount] = await Promise.all([
       prisma.newsArticle.findMany({
         include: { images: true },
-        orderBy: { createdAt: "desc" },
+        orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
         skip: page * pageSize,
         take: pageSize,
       }),
