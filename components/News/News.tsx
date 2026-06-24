@@ -104,7 +104,7 @@ const News = ({ news }: NewsProps) => {
         </div>
 
         <div className="space-y-4 text-gray-700">
-          <p>{news.newsText}</p>
+          <p className="whitespace-pre-wrap">{news.newsText}</p>
         </div>
 
         {images.length > 0 && (
