@@ -43,7 +43,17 @@ export default function NewsForm({
   initialData,
 }: NewsFormProps) {
   const router = useRouter();
-  const [date, setDate] = useState(initialData?.date || "");
+  const initialDate = initialData?.date
+    ? /^\d{4}-\d{2}-\d{2}$/.test(initialData.date)
+      ? initialData.date
+      : (() => {
+          const parsed = new Date(initialData.date);
+          return Number.isNaN(parsed.getTime())
+            ? ""
+            : parsed.toISOString().slice(0, 10);
+        })()
+    : "";
+  const [date, setDate] = useState(initialDate);
   const [featured, setFeatured] = useState(initialData?.featured || false);
   
   // Multilingual fields
@@ -288,10 +298,9 @@ export default function NewsForm({
         </label>
         <input
           id="date"
-          type="text"
+          type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          placeholder="e.g. 18. Februar 2026."
           className="w-full px-4 py-3 rounded-lg border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
           required
         />

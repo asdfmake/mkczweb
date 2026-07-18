@@ -5,11 +5,25 @@ import { publishNewsToInstagram } from "@/lib/instagram";
 import path from "path";
 import crypto from "crypto";
 
+function parseDateInput(dateInput: string): Date | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
+    return null;
+  }
+
+  const parsed = new Date(`${dateInput}T00:00:00.000Z`);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function formatDisplayDate(dateInput: string): string {
+  const [year, month, day] = dateInput.split("-");
+  return `${day}.${month}.${year}.`;
+}
+
 export async function GET() {
   try {
     const articles = await prisma.newsArticle.findMany({
       include: { images: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
     });
 
     return NextResponse.json(articles);
@@ -46,6 +60,16 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const publishedAt = parseDateInput(date);
+    if (!publishedAt) {
+      return NextResponse.json(
+        { error: "Date must be in YYYY-MM-DD format" },
+        { status: 400 }
+      );
+    }
+
+    const displayDate = formatDisplayDate(date);
 
     // Handle image uploads
     const imageFiles = formData.getAll("images") as File[];
@@ -84,7 +108,8 @@ export async function POST(request: NextRequest) {
       data: {
         header,
         text,
-        date,
+        date: displayDate,
+        publishedAt,
         featured,
         header_sr: header_sr || null,
         header_en: header_en || null,

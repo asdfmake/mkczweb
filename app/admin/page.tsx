@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminDashboard() {
   const articles = await prisma.newsArticle.findMany({
     include: { images: true },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
   });
 
   return (
